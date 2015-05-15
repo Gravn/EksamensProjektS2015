@@ -9,7 +9,7 @@ namespace EksamensProjektS2015
 {
     public abstract class GameObject
     {
-        public Vector2 position;
+        protected Vector2 position;
 
         private Vector2 Position
         {

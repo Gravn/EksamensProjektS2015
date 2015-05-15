@@ -7,33 +7,32 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace EksamensProjektS2015
 {
-    class TextBox : GameObject
+    public class TextBox : GameObject
     {
         public string content = "Default";
 
         public SpriteFont font;
 
         public Color fontColor = Color.White;
-        public Color backGroundColor;
+        public Color backGroundColor = Color.White;
 
         public Vector2 size = Vector2.Zero;
         public Texture2D texture;
+
+
 
         public TextBox(Vector2 position,string content,SpriteFont font,Color fontColor,Texture2D texture,Vector2 size):base(position)
         {
             this.content = content;
             this.font = font;
             this.fontColor = fontColor;
-            this.backGroundColor = backGroundColor;
             this.size = size;
             this.texture = texture;
-
         }
 
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
-            position += new Vector2(1, 0);
         }
 
         public void FadeOut()
@@ -52,11 +51,11 @@ namespace EksamensProjektS2015
             {
                 for (int j = 0; j < size.Y; j++)
                 {
-                    sb.Draw(texture, new Rectangle((int)position.X+i,(int)position.Y+ j, 1, 1), Color.White);
+                    sb.Draw(texture, new Rectangle((int)position.X+i,(int)position.Y+ j, 1, 1),backGroundColor);
                 }
             }
 
-            sb.DrawString(font, content, position, fontColor);
+            sb.DrawString(font, content, position+new Vector2((int)size.X/2-font.MeasureString(content).X/2,0), fontColor);
             //base.Draw(sb);
         }
     }
