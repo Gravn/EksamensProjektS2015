@@ -51,15 +51,13 @@ namespace EksamensProjektS2015
             base.Initialize();
 
             IsMouseVisible = true;
-            texts[0] = new TextBox(new Vector2(100, 100), "Navn:", ArialNarrow48, Color.White,red1,new Vector2(150,100));
-            texts[1] = new TextBox(new Vector2(250, 100), name, ArialNarrow48, Color.White, red1, new Vector2(220, 100));
 
-            buttons[0] = new Button(new Vector2(520,100),"Start",ArialNarrow48,Color.White,red1,new Vector2(240,80));
-            buttons[1] = new Button(new Vector2(520, 200), "Om spillet", ArialNarrow48, Color.White, red1, new Vector2(240, 80));
-            buttons[2] = new Button(new Vector2(520, 300), "Highscore", ArialNarrow48, Color.White, red1, new Vector2(240, 80));
-            buttons[3] = new Button(new Vector2(520, 400), "Afslut", ArialNarrow48, Color.White, red1, new Vector2(240, 80));
-            gameObjects.Add(texts[0]);
-            gameObjects.Add(texts[1]);
+
+            buttons[0] = new Button(new Vector2(500,100),"Start",ArialNarrow48,Color.White,red1,new Vector2(280,80));
+            buttons[1] = new Button(new Vector2(500, 220), "Om spillet", ArialNarrow48, Color.White, red1, new Vector2(280, 80));
+            buttons[2] = new Button(new Vector2(500, 340), "Highscore", ArialNarrow48, Color.White, red1, new Vector2(280, 80));
+            buttons[3] = new Button(new Vector2(500, 460), "Afslut", ArialNarrow48, Color.White, red1, new Vector2(280, 80));
+
             gameObjects.Add(buttons[0]);
             gameObjects.Add(buttons[1]);
             gameObjects.Add(buttons[2]);
@@ -105,18 +103,61 @@ namespace EksamensProjektS2015
                 Exit();
             }
 
-            if (menuState == 1)
-            { 
-                
-            }
-
-            texts[1].content = name;
-            HandleKeys();
-
-            if (buttons[0].clicked)
+            if (menuState == 0)
             {
-                buttons[0].content = name;
+                if (buttons[0].clicked)
+                {
+                    texts[0] = new TextBox(new Vector2(100, 100), "Navn:", ArialNarrow48, Color.White, red1, new Vector2(150, 100));
+                    texts[1] = new TextBox(new Vector2(250, 100), name, ArialNarrow48, Color.White, red1, new Vector2(220, 100));
+                    buttons[4] = new Button(new Vector2(100, 220), "Videre", ArialNarrow48, Color.White, red1, new Vector2(220, 100));
+
+                    gameObjects.Add(texts[0]);
+                    gameObjects.Add(texts[1]);
+
+                    gameObjects.Add(buttons[4]);
+
+                    gameObjects.Remove(buttons[0]);
+                    gameObjects.Remove(buttons[1]);
+                    gameObjects.Remove(buttons[2]);
+                    gameObjects.Remove(buttons[3]);
+                    menuState = 1;
+                }
             }
+
+            if (menuState == 1)
+            {
+                if (buttons[4].clicked)
+                {
+                    texts[2] = new TextBox(new Vector2(100, 60), "Velkommen, " +name, ArialNarrow48, Color.White, red1, new Vector2(1080, 240));
+                    buttons[5] = new Button(new Vector2(100+120,60+240+30),"JA",ArialNarrow48,Color.White,red1,new Vector2(80,80));
+                    buttons[6] = new Button(new Vector2(100+1080-120-40, 60+240+30), "Nej", ArialNarrow48, Color.White, red1, new Vector2(80, 80));
+
+                    texts[3] = new TextBox(new Vector2(150, 440), "Vidste du, at ... " + name, ArialNarrow48, Color.White, red1, new Vector2(980, 240));
+
+                    gameObjects.Add(texts[2]);
+                    gameObjects.Add(texts[3]);
+                    gameObjects.Add(buttons[5]);
+                    gameObjects.Add(buttons[6]);
+
+                    gameObjects.Remove(texts[0]);
+                    gameObjects.Remove(texts[1]);
+                    gameObjects.Remove(buttons[4]);
+                    menuState = 2;
+                }
+
+
+                
+                HandleKeys();
+                texts[1].content = name;
+
+            }
+
+            if (menuState == 2)
+            { 
+            
+            }
+
+
 
             for (int i = 0; i < gameObjects.Count; i++)
             {

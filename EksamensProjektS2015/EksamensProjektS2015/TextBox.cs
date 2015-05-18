@@ -11,6 +11,8 @@ namespace EksamensProjektS2015
     {
         public string content = "Default";
 
+        public bool visible = true;
+
         public SpriteFont font;
 
         public Color fontColor = Color.White;
@@ -47,15 +49,19 @@ namespace EksamensProjektS2015
 
         public override void Draw(SpriteBatch sb)
         {
-            for (int i = 0; i < size.X; i++)
+            if (visible)
             {
-                for (int j = 0; j < size.Y; j++)
+                //if square && filled.
+                for (int i = 0; i < size.X; i++)
                 {
-                    sb.Draw(texture, new Rectangle((int)position.X+i,(int)position.Y+ j, 1, 1),backGroundColor);
+                    for (int j = 0; j < size.Y; j++)
+                    {
+                        sb.Draw(texture, new Rectangle((int)position.X + i, (int)position.Y + j, 1, 1), backGroundColor);
+                    }
                 }
-            }
 
-            sb.DrawString(font, content, position+new Vector2((int)size.X/2-font.MeasureString(content).X/2,0), fontColor);
+                sb.DrawString(font, content, position + new Vector2((int)size.X / 2 - font.MeasureString(content).X / 2, 0), fontColor);
+            }
             //base.Draw(sb);
         }
     }

@@ -36,5 +36,11 @@ namespace EksamensProjektS2015
         { 
             
         }
+
+        public GameObject Clone()
+        {
+            GameObject clone = (GameObject)this.MemberwiseClone();
+            return clone; 
+        }
     }
 }
