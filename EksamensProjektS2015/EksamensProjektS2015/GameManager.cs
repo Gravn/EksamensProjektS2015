@@ -6,10 +6,6 @@ using System.Linq;
 
 namespace EksamensProjektS2015
 {
-
-
-
-
     public class GameManager : Game
     {
         public enum Menu
@@ -69,18 +65,20 @@ namespace EksamensProjektS2015
             buttons[1] = new Button(new Vector2(500, 220), "Om spillet", ArialNarrow48, Color.White, red1, new Vector2(280, 80));
             buttons[2] = new Button(new Vector2(500, 340), "Highscore", ArialNarrow48, Color.White, red1, new Vector2(280, 80));
             buttons[3] = new Button(new Vector2(500, 460), "Afslut", ArialNarrow48, Color.White, red1, new Vector2(280, 80));
-            menus[0] = new GameObject[5];
+            
+            menus[0] = new GameObject[4];
             menus[0][0] = buttons[0];
             menus[0][1] = buttons[1];
             menus[0][2] = buttons[2];
             menus[0][3] = buttons[3];
-            //MenuToggle();
+            MenuToggle();
 
             //Name input
             texts[0] = new TextBox(new Vector2(100, 100), "Navn:", ArialNarrow48, Color.White, red1, new Vector2(150, 100));
             texts[1] = new TextBox(new Vector2(250, 100), name, ArialNarrow48, Color.White, red1, new Vector2(220, 100));
-            buttons[4] = new Button(new Vector2(100, 220), "Videre", ArialNarrow48, Color.White, red1, new Vector2(220, 100));
-            menus[1] = new GameObject[5];
+            buttons[4] = new Button(new Vector2(100, 240), "Videre", ArialNarrow48, Color.White, red1, new Vector2(220, 100));
+            
+            menus[1] = new GameObject[3];
             menus[1][0] = texts[0];
             menus[1][1] = texts[1];
             menus[1][2] = buttons[4];
@@ -90,7 +88,8 @@ namespace EksamensProjektS2015
             buttons[5] = new Button(new Vector2(100 + 120, 60 + 240 + 30), "JA", ArialNarrow48, Color.White, red1, new Vector2(80, 80));
             buttons[6] = new Button(new Vector2(100 + 1080 - 120 - 40, 60 + 240 + 30), "Nej", ArialNarrow48, Color.White, red1, new Vector2(80, 80));
             texts[3] = new TextBox(new Vector2(150, 440), "Vidste du, at ... " + name, ArialNarrow48, Color.White, red1, new Vector2(980, 240));
-            menus[2] = new GameObject[5];
+            
+            menus[2] = new GameObject[4];
             menus[2][0] = texts[2];
             menus[2][1] = buttons[5];
             menus[2][2] = buttons[6];
@@ -143,14 +142,28 @@ namespace EksamensProjektS2015
             {
                 if(buttons[0].clicked)
                 {
+                    //Start
                     MenuToggle();
                     menuState = Menu.Name;
                     MenuToggle();
                 }
 
+                    //About
                 if(buttons[1].clicked)
                 {
-                    buttons[0].visible = false;
+
+                }
+
+                //Highscore
+                if (buttons[2].clicked)
+                {
+
+                }
+
+                //Exit
+                if (buttons[3].clicked)
+                {
+                    Exit();
                 }
             }
 
