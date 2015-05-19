@@ -32,8 +32,7 @@ namespace EksamensProjektS2015
 
                 if (Mouse.GetState().LeftButton == ButtonState.Released && clicked)
                 {
-                    Click();
-                    clicked = false;
+                    clicked = true;
                 }
             }
             else

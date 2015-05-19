@@ -6,28 +6,47 @@ using System.Linq;
 
 namespace EksamensProjektS2015
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
+
+
+
+
     public class GameManager : Game
     {
-        public int menuState = 0;
+        public enum Menu
+        {
+            Main = 0,
+            Name = 1,
+            Choice = 2,
+            Consequence = 3,
+            Highscore = 4,
+            About = 5
+        };
+
+        public Menu menuState = Menu.Main;
+        public bool[] menuActive = {true,false,false,false,false};
+        public GameObject[][] menus = new GameObject[10][];
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
         public static SpriteFont ArialNarrow48;
+
         public Texture2D red1;
+
         public TextBox[] texts = new TextBox[10];
         public Button[] buttons = new Button[10];
-        public static List<GameObject> gameObjects = new List<GameObject>();
+
+        private static List<GameObject> gameObjects = new List<GameObject>();
 
         public string name = "";
 
-        private static List<GameObject> GameObjects
+        public static List<GameObject> GameObjects
         {
             get { return gameObjects; }
             set { gameObjects = value; }
         }
+
+
 
         public GameManager()
             : base()
@@ -36,15 +55,8 @@ namespace EksamensProjektS2015
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
             Content.RootDirectory = "Content";
-
         }
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -52,23 +64,58 @@ namespace EksamensProjektS2015
 
             IsMouseVisible = true;
 
-
+            //Main Menu
             buttons[0] = new Button(new Vector2(500,100),"Start",ArialNarrow48,Color.White,red1,new Vector2(280,80));
             buttons[1] = new Button(new Vector2(500, 220), "Om spillet", ArialNarrow48, Color.White, red1, new Vector2(280, 80));
             buttons[2] = new Button(new Vector2(500, 340), "Highscore", ArialNarrow48, Color.White, red1, new Vector2(280, 80));
             buttons[3] = new Button(new Vector2(500, 460), "Afslut", ArialNarrow48, Color.White, red1, new Vector2(280, 80));
+            menus[0] = new GameObject[5];
+            menus[0][0] = buttons[0];
+            menus[0][1] = buttons[1];
+            menus[0][2] = buttons[2];
+            menus[0][3] = buttons[3];
+            //MenuToggle();
 
-            gameObjects.Add(buttons[0]);
-            gameObjects.Add(buttons[1]);
-            gameObjects.Add(buttons[2]);
-            gameObjects.Add(buttons[3]);
+            //Name input
+            texts[0] = new TextBox(new Vector2(100, 100), "Navn:", ArialNarrow48, Color.White, red1, new Vector2(150, 100));
+            texts[1] = new TextBox(new Vector2(250, 100), name, ArialNarrow48, Color.White, red1, new Vector2(220, 100));
+            buttons[4] = new Button(new Vector2(100, 220), "Videre", ArialNarrow48, Color.White, red1, new Vector2(220, 100));
+            menus[1] = new GameObject[5];
+            menus[1][0] = texts[0];
+            menus[1][1] = texts[1];
+            menus[1][2] = buttons[4];
+
+            //Choice            
+            texts[2] = new TextBox(new Vector2(100, 60), "Velkommen, " + name, ArialNarrow48, Color.White, red1, new Vector2(1080, 240));
+            buttons[5] = new Button(new Vector2(100 + 120, 60 + 240 + 30), "JA", ArialNarrow48, Color.White, red1, new Vector2(80, 80));
+            buttons[6] = new Button(new Vector2(100 + 1080 - 120 - 40, 60 + 240 + 30), "Nej", ArialNarrow48, Color.White, red1, new Vector2(80, 80));
+            texts[3] = new TextBox(new Vector2(150, 440), "Vidste du, at ... " + name, ArialNarrow48, Color.White, red1, new Vector2(980, 240));
+            menus[2] = new GameObject[5];
+            menus[2][0] = texts[2];
+            menus[2][1] = buttons[5];
+            menus[2][2] = buttons[6];
+            menus[2][3] = texts[3];
+
+
+            //Consequence
 
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
+        public void MenuToggle()
+        {
+            for (int i = 0; i < menus[(int)menuState].Length; i++)
+            {
+                if (gameObjects.Contains(menus[(int)menuState][i]))
+                {
+                    gameObjects.Remove(menus[(int)menuState][i]);
+                }
+                else
+                {
+                    gameObjects.Add(menus[(int)menuState][i]);
+                }
+            }
+        }
+
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used tos draw textures.
@@ -79,85 +126,47 @@ namespace EksamensProjektS2015
             // TODO: use this.Content to load your game content here
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        /// 
-
-        float deltaTime;
         protected override void Update(GameTime gameTime)
         {
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
 
-            if (menuState == 0)
+            if (menuState == Menu.Main)
             {
-                if (buttons[0].clicked)
+                if(buttons[0].clicked)
                 {
-                    texts[0] = new TextBox(new Vector2(100, 100), "Navn:", ArialNarrow48, Color.White, red1, new Vector2(150, 100));
-                    texts[1] = new TextBox(new Vector2(250, 100), name, ArialNarrow48, Color.White, red1, new Vector2(220, 100));
-                    buttons[4] = new Button(new Vector2(100, 220), "Videre", ArialNarrow48, Color.White, red1, new Vector2(220, 100));
+                    MenuToggle();
+                    menuState = Menu.Name;
+                    MenuToggle();
+                }
 
-                    gameObjects.Add(texts[0]);
-                    gameObjects.Add(texts[1]);
-
-                    gameObjects.Add(buttons[4]);
-
-                    gameObjects.Remove(buttons[0]);
-                    gameObjects.Remove(buttons[1]);
-                    gameObjects.Remove(buttons[2]);
-                    gameObjects.Remove(buttons[3]);
-                    menuState = 1;
+                if(buttons[1].clicked)
+                {
+                    buttons[0].visible = false;
                 }
             }
 
-            if (menuState == 1)
+            if (menuState.Equals(Menu.Name))
             {
-                if (buttons[4].clicked)
-                {
-                    texts[2] = new TextBox(new Vector2(100, 60), "Velkommen, " +name, ArialNarrow48, Color.White, red1, new Vector2(1080, 240));
-                    buttons[5] = new Button(new Vector2(100+120,60+240+30),"JA",ArialNarrow48,Color.White,red1,new Vector2(80,80));
-                    buttons[6] = new Button(new Vector2(100+1080-120-40, 60+240+30), "Nej", ArialNarrow48, Color.White, red1, new Vector2(80, 80));
-
-                    texts[3] = new TextBox(new Vector2(150, 440), "Vidste du, at ... " + name, ArialNarrow48, Color.White, red1, new Vector2(980, 240));
-
-                    gameObjects.Add(texts[2]);
-                    gameObjects.Add(texts[3]);
-                    gameObjects.Add(buttons[5]);
-                    gameObjects.Add(buttons[6]);
-
-                    gameObjects.Remove(texts[0]);
-                    gameObjects.Remove(texts[1]);
-                    gameObjects.Remove(buttons[4]);
-                    menuState = 2;
-                }
-
-
-                
+               
                 HandleKeys();
                 texts[1].content = name;
 
+                if (buttons[4].clicked)
+                {
+                    MenuToggle();
+                    menuState = Menu.Choice;
+                    MenuToggle();
+                }
             }
-
-            if (menuState == 2)
-            { 
-            
-            }
-
-
 
             for (int i = 0; i < gameObjects.Count; i++)
             {

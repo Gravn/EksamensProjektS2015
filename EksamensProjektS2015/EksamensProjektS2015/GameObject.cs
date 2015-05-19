@@ -24,7 +24,7 @@ namespace EksamensProjektS2015
 
         public virtual void Update(float deltaTime)
         { 
-            
+               
         }
 
         public virtual void Draw(SpriteBatch sb)
@@ -33,8 +33,8 @@ namespace EksamensProjektS2015
         }
 
         public void Destroy(GameObject obj)
-        { 
-            
+        {
+            GameManager.GameObjects.Remove(obj);   
         }
 
         public GameObject Clone()
