@@ -19,7 +19,6 @@ namespace EksamensProjektS2015
         };
 
         public Menu menuState = Menu.Main;
-        public bool[] menuActive = {true,false,false,false,false};
         public GameObject[][] menus = new GameObject[10][];
 
         GraphicsDeviceManager graphics;
@@ -95,8 +94,11 @@ namespace EksamensProjektS2015
             menus[2][2] = buttons[6];
             menus[2][3] = texts[3];
 
-
             //Consequence
+
+            //About
+
+            //HighScore
 
         }
 
@@ -147,19 +149,21 @@ namespace EksamensProjektS2015
                     menuState = Menu.Name;
                     MenuToggle();
                 }
-
                     //About
                 if(buttons[1].clicked)
                 {
+                    MenuToggle();
+                    menuState = Menu.About;
+                    MenuToggle();
 
                 }
-
                 //Highscore
                 if (buttons[2].clicked)
                 {
-
+                    MenuToggle();
+                    menuState = Menu.Highscore;
+                    MenuToggle();
                 }
-
                 //Exit
                 if (buttons[3].clicked)
                 {
@@ -167,9 +171,18 @@ namespace EksamensProjektS2015
                 }
             }
 
+            if (menuState.Equals(Menu.About))
+            {
+
+            }
+
+            if (menuState.Equals(Menu.Highscore))
+            { 
+                
+            }
+
             if (menuState.Equals(Menu.Name))
             {
-               
                 HandleKeys();
                 texts[1].content = name;
 
@@ -181,6 +194,9 @@ namespace EksamensProjektS2015
                 }
             }
 
+            
+
+            
             for (int i = 0; i < gameObjects.Count; i++)
             {
                 gameObjects[i].Update(deltaTime);

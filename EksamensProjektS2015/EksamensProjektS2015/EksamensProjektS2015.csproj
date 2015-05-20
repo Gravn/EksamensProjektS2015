@@ -63,6 +63,7 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Content\ArialNarrow48.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
