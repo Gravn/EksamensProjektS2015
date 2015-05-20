@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
+//using Input
 
 namespace EksamensProjektS2015
 {
@@ -99,7 +100,7 @@ namespace EksamensProjektS2015
             //About
 
             //HighScore
-
+            
         }
 
         public void MenuToggle()
@@ -253,7 +254,8 @@ namespace EksamensProjektS2015
             }
             else
             {
-                name += key.ToString();
+                name += key.ToString(); //Input.Keyboard.KeyChar.ToChar(key);
+                
             }
         }
 

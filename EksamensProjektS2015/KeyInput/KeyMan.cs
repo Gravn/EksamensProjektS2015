@@ -16,7 +16,6 @@ namespace KeyInput
             None = 0
         };
         
-
         public static char? ToChar(Keys key, Modifiers modifiers = Modifiers.None)
         {
             if (key == Keys.A) { return ((modifiers & Modifiers.Shift) == Modifiers.Shift) ? 'A' : 'a'; }
