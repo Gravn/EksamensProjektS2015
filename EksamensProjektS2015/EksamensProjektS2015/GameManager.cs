@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
-//using Input
+using Input;
 
 namespace EksamensProjektS2015
 {
@@ -195,9 +195,6 @@ namespace EksamensProjektS2015
                 }
             }
 
-            
-
-            
             for (int i = 0; i < gameObjects.Count; i++)
             {
                 gameObjects[i].Update(deltaTime);
@@ -254,13 +251,13 @@ namespace EksamensProjektS2015
             }
             else
             {
-                name += key.ToString(); //Input.Keyboard.KeyChar.ToChar(key);
+                name += Input.Keyboard.KeyChar.ToChar(key);
                 
             }
         }
 
         public void OnKeyUp(Keys key)
-        { 
+        {
             
         }
 
