@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
 
-namespace Input.Keyboard
+namespace Input
 {
-    public static class KeyChar
-    {
-        public enum Modifiers
+
+    public enum Modifiers
         {
             Control = 1,
             Shift = 2,
@@ -16,6 +15,8 @@ namespace Input.Keyboard
             None = 0
         };
 
+    public static class TypingKeyboard
+    {
         public static char? ToChar(Keys key, Modifiers modifiers = Modifiers.None)
         {
             if (key == Keys.A) { return ((modifiers & Modifiers.Shift) == Modifiers.Shift) ? 'A' : 'a'; }
@@ -115,6 +116,89 @@ namespace Input.Keyboard
         public static bool ControlDown(Modifiers modi)
         {
             return modi == Modifiers.Control;
+        }
+
+        public KeyboardState previous;
+        public void HandleKeys()
+        {
+            KeyboardState currentState = Keyboard.GetState();
+
+            Modifiers modifiers = Modifiers.None;
+            if (currentState.IsKeyDown(Keys.LeftControl) || currentState.IsKeyDown(Keys.RightControl))
+            {
+                modifiers |= Modifiers.Control;
+            }
+
+            if (currentState.IsKeyDown(Keys.LeftShift) || currentState.IsKeyDown(Keys.RightShift))
+            {
+                modifiers |= Modifiers.Shift;
+            }
+
+            if (currentState.IsKeyDown(Keys.LeftAlt) || currentState.IsKeyDown(Keys.RightAlt))
+            {
+                modifiers |= Modifiers.Alt;
+            }
+
+            foreach (Keys key in Enum.GetValues(typeof(Keys)))
+            {
+                if (currentState.IsKeyDown(key) && previous.IsKeyUp(key))
+                { 
+                    OnKeyPressed(this, new KeyboardEventArgs(key,modifiers,currentState));
+                    
+                }
+            }
+        }
+
+        public void OnKeyPressed(object sender, KeyboardEventArgs args)
+        { 
+            
+        }
+
+        public void OnKeyReleased(object sender, KeyboardEventArgs args)
+        {
+            if (KeyReleased != null) 
+            { 
+                KeyReleased(sender, args); 
+            }
+        }
+
+        public void OnKeyTyped(object sender, KeyboardEventArgs args)
+        {
+            if (KeyTyped != null)
+            {
+                KeyTyped(sender, args);
+            }
+        }
+
+        public void OnKeyTyped(object sender, KeyboardEventArgs args)
+        {
+ 
+        }
+
+        public static event EventHandler<KeyboardEventArgs> KeyPressed;
+        public static event EventHandler<KeyboardEventArgs> KeyReleased;
+        public static event EventHandler<KeyboardEventArgs> KeyTyped;
+
+        
+
+    }
+
+    public class KeyboardEventArgs
+    {
+        public KeyboardState state {get; protected set;}
+
+        public Modifiers modifiers{get; protected set;}
+
+        public Keys key{get;set;}
+
+        public char? character {get;set;}
+
+        public KeyboardEventArgs(Keys key,Modifiers modifiers,KeyboardState currentState)
+        {
+            this.character = TypingKeyboard.ToChar(key,modifiers);
+            this.state = currentState;
+            this.modifiers = modifiers;
+            this.key = key;
         }
     }
 }
