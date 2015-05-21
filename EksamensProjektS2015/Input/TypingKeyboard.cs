@@ -139,8 +139,9 @@ namespace Input
         }
 
         public KeyboardEvents()
-        { 
-            
+        {
+            InitialDelay = 800;
+            RepeatDelay = 50;
         }
 
         public static void HandleKeys(GameTime gameTime)

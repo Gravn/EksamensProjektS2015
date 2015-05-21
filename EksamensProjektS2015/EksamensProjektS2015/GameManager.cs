@@ -185,12 +185,11 @@ namespace EksamensProjektS2015
 
             if (menuState.Equals(Menu.Highscore))
             { 
-                
+                    
             }
 
             if (menuState.Equals(Menu.Name))
             {
-
                 if (Keyboard.GetState().GetPressedKeys().Length>0)
                 {
                     KeyboardEvents.KeyTyped += KeyTyped;
