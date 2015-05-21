@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Input">
-      <HintPath>..\Input\bin\Debug\Input.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\Input.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework, Version=3.3.0.2238, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -62,6 +62,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Arrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Red1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
