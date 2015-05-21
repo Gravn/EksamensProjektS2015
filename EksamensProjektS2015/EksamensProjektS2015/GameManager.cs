@@ -28,9 +28,13 @@ namespace EksamensProjektS2015
         public static SpriteFont ArialNarrow48;
 
         public Texture2D red1;
+        public Texture2D arrow;
 
         public TextBox[] texts = new TextBox[10];
         public Button[] buttons = new Button[10];
+
+        //private TimeLine TL;
+        private int dayCounter = 40;
 
         private static List<GameObject> gameObjects = new List<GameObject>();
 
@@ -41,7 +45,6 @@ namespace EksamensProjektS2015
             get { return gameObjects; }
             set { gameObjects = value; }
         }
-
 
 
         public GameManager()
@@ -125,6 +128,9 @@ namespace EksamensProjektS2015
 
             ArialNarrow48 = Content.Load<SpriteFont>("ArialNarrow48");
             red1 = Content.Load<Texture2D>("Red1");
+
+            arrow = Content.Load<Texture2D>("Arrow");
+            //TL = new TimeLine(new Vector2(10, 10), dayCounter);
             // TODO: use this.Content to load your game content here
         }
 
@@ -146,6 +152,7 @@ namespace EksamensProjektS2015
                 if(buttons[0].clicked)
                 {
                     //Start
+                    dayCounter += 100;
                     MenuToggle();
                     menuState = Menu.Name;
                     MenuToggle();
@@ -200,6 +207,7 @@ namespace EksamensProjektS2015
                 gameObjects[i].Update(deltaTime);
             }
                 // TODO: Add your update logic here
+            //TL.Update(deltaTime);
                 base.Update(gameTime);
         }
 
@@ -273,6 +281,9 @@ namespace EksamensProjektS2015
             {
                 gameObjects[i].Draw(spriteBatch);
             }
+
+            spriteBatch.Draw(arrow, new Rectangle(10, dayCounter, 16, 16), Color.White);
+
             spriteBatch.End();
             
             // TODO: Add your drawing code here
