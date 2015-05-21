@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 
 namespace Input
 {
@@ -117,9 +118,38 @@ namespace Input
         {
             return modi == Modifiers.Control;
         }
+    }
 
+    public class KeyboardEvents
+    {
+        
+        public static int InitialDelay { get; set; }
+        public static int RepeatDelay { get; set; }
+        
         public KeyboardState previous;
-        public void HandleKeys()
+        public Keys lastKey;
+        public TimeSpan lastPress;
+        public bool isInitial;
+
+        static KeyboardEvents()
+        {
+            InitialDelay = 800;
+            RepeatDelay = 50;
+            //KeyTyped += KeyTypedHandler;
+        }
+
+        public KeyboardEvents()
+        { 
+            
+        }
+
+        public static void HandleKeys(GameTime gameTime)
+        {
+            KeyboardEvents ke = new KeyboardEvents();
+            ke.NonStaticHandleKeys(gameTime);
+        }
+
+        public void NonStaticHandleKeys(GameTime gameTime)
         {
             KeyboardState currentState = Keyboard.GetState();
 
@@ -143,15 +173,41 @@ namespace Input
             {
                 if (currentState.IsKeyDown(key) && previous.IsKeyUp(key))
                 { 
-                    OnKeyPressed(this, new KeyboardEventArgs(key,modifiers,currentState));
-                    
+                    OnKeyPressed(this, new KeyboardEventArgs(gameTime.TotalGameTime, key,modifiers, currentState));
+                    OnKeyTyped(this, new KeyboardEventArgs(gameTime.TotalGameTime,key, modifiers, currentState));
+
+                    lastKey = key;
+                    lastPress = gameTime.TotalGameTime;
+                    isInitial = true;
                 }
             }
+
+            foreach (Keys key in Enum.GetValues(typeof(Keys)))
+            {
+                if (currentState.IsKeyUp(key) && previous.IsKeyDown(key))
+                {
+                    OnKeyReleased(this, new KeyboardEventArgs(gameTime.TotalGameTime, key, modifiers, currentState));
+                }
+            }
+
+            double elapsedTime = (gameTime.TotalGameTime - lastPress).TotalMilliseconds;
+
+            if (currentState.IsKeyDown(lastKey) && ((isInitial && elapsedTime > InitialDelay) || (!isInitial && elapsedTime > RepeatDelay)))
+            {
+                    OnKeyTyped(this, new KeyboardEventArgs(gameTime.TotalGameTime, lastKey,modifiers,currentState));
+                    lastPress = gameTime.TotalGameTime;
+                    isInitial = false;
+            }
+
+            previous = currentState;
         }
 
         public void OnKeyPressed(object sender, KeyboardEventArgs args)
-        { 
-            
+        {
+            if (KeyPressed != null)
+            {
+                KeyPressed(sender, args);
+            }
         }
 
         public void OnKeyReleased(object sender, KeyboardEventArgs args)
@@ -170,16 +226,9 @@ namespace Input
             }
         }
 
-        public void OnKeyTyped(object sender, KeyboardEventArgs args)
-        {
- 
-        }
-
         public static event EventHandler<KeyboardEventArgs> KeyPressed;
         public static event EventHandler<KeyboardEventArgs> KeyReleased;
         public static event EventHandler<KeyboardEventArgs> KeyTyped;
-
-        
 
     }
 
@@ -193,7 +242,7 @@ namespace Input
 
         public char? character {get;set;}
 
-        public KeyboardEventArgs(Keys key,Modifiers modifiers,KeyboardState currentState)
+        public KeyboardEventArgs(TimeSpan time,Keys key,Modifiers modifiers,KeyboardState currentState)
         {
             this.character = TypingKeyboard.ToChar(key,modifiers);
             this.state = currentState;

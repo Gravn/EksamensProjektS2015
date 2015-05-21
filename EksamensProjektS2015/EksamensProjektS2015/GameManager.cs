@@ -42,8 +42,6 @@ namespace EksamensProjektS2015
             set { gameObjects = value; }
         }
 
-
-
         public GameManager()
             : base()
         {
@@ -184,7 +182,13 @@ namespace EksamensProjektS2015
 
             if (menuState.Equals(Menu.Name))
             {
-                HandleKeys();
+
+                if (Keyboard.GetState().GetPressedKeys().Length>0)
+                {
+                    KeyboardEvents.KeyTyped += KeyTyped;
+                }
+
+                KeyboardEvents.HandleKeys(gameTime);
                 texts[1].content = name;
 
                 if (buttons[4].clicked)
@@ -201,6 +205,19 @@ namespace EksamensProjektS2015
             }
                 // TODO: Add your update logic here
                 base.Update(gameTime);
+        }
+
+        void KeyTyped(object sender, KeyboardEventArgs e)
+        {
+            if (e.character.HasValue)
+            {
+                name += e.character.Value;
+            }
+
+            if (e.key == Keys.Back && name.Length > 0)
+            {
+                name = name.Substring(0, name.Length - 1);
+            }
         }
 
         Keys[] lastPressedKeys = new Keys[10];
@@ -251,8 +268,7 @@ namespace EksamensProjektS2015
             }
             else
             {
-                name += Input.Keyboard.KeyChar.ToChar(key);
-                
+                name += Input.TypingKeyboard.ToChar(key);
             }
         }
 
