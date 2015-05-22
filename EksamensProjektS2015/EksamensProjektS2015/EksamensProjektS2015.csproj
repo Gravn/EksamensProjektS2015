@@ -51,8 +51,9 @@
     <Compile Include="TimeLine.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Input">
-      <HintPath>..\..\..\..\Desktop\Input.dll</HintPath>
+    <Reference Include="Input, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Input\bin\Debug\Input.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework, Version=3.3.0.2238, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -75,6 +76,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Content\Arial48.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Content\ArialNarrow48.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

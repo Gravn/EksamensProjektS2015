@@ -24,6 +24,7 @@ namespace EksamensProjektS2015
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        KeyboardEvents textInput = new KeyboardEvents();
 
         public static SpriteFont ArialNarrow48;
 
@@ -60,6 +61,7 @@ namespace EksamensProjektS2015
             // TODO: Add your initialization logic here
             base.Initialize();
 
+            KeyboardEvents.KeyTyped += KeyTyped;
             IsMouseVisible = true;
 
             //Main Menu
@@ -190,20 +192,25 @@ namespace EksamensProjektS2015
 
             if (menuState.Equals(Menu.Name))
             {
-                if (Keyboard.GetState().GetPressedKeys().Length>0)
-                {
-                    KeyboardEvents.KeyTyped += KeyTyped;
-                }
-
-                KeyboardEvents.HandleKeys(gameTime);
+                textInput.HandleKeyUpdate(gameTime);
                 texts[1].content = name;
 
                 if (buttons[4].clicked)
                 {
+                    //if name conditions not met: show error msg
+                    //else
                     MenuToggle();
+                    texts[2].content = "Velkommen, "+name;
                     menuState = Menu.Choice;
                     MenuToggle();
                 }
+            }
+
+            if(menuState.Equals(Menu.Choice))
+            {
+                //JA
+
+                //Nej
             }
 
             for (int i = 0; i < gameObjects.Count; i++)
@@ -221,68 +228,11 @@ namespace EksamensProjektS2015
             {
                 name += e.character.Value;
             }
-
+            
             if (e.key == Keys.Back && name.Length > 0)
             {
                 name = name.Substring(0, name.Length - 1);
             }
-        }
-
-        Keys[] lastPressedKeys = new Keys[10];
-        
-        public void HandleKeys()
-        {
-            KeyboardState kbState = Keyboard.GetState();
-            Keys[] pressedKeys = kbState.GetPressedKeys();
-
-            //check if any of the previous update's keys are no longer pressed
-            foreach (Keys key in lastPressedKeys)
-            {
-                if (!pressedKeys.Contains(key))
-                {
-                    OnKeyUp(key);
-                }
-            }
-
-            //check if the currently pressed keys were already pressed
-            foreach (Keys key in pressedKeys)
-            {
-                if (!lastPressedKeys.Contains(key))
-                {
-                    OnKeyDown(key);
-                }
-            }
-
-            //save the currently pressed keys so we can compare on the next update
-            lastPressedKeys = pressedKeys;
-        }
-
-        public void OnKeyDown(Keys key)
-        {
-            if (key == Keys.Back && name.Length>0)
-            {
-                char[] tempname = new char[name.Length-1];
-                for (int i = 0; i < name.Length - 1; i++)
-                {
-                    tempname[i] = name[i];
-                }
-
-                name = "";
-
-                for (int i = 0; i < tempname.Length; i++)
-                {
-                    name += tempname[i];
-                }
-            }
-            else
-            {
-                name += Input.TypingKeyboard.ToChar(key);
-            }
-        }
-
-        public void OnKeyUp(Keys key)
-        {
-            
         }
 
         /// <summary>
