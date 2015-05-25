@@ -12,12 +12,13 @@ namespace EksamensProjektS2015
     {
         public Rectangle bounds;
 
-        public Button(Vector2 position,string content,SpriteFont font,Color fontColor,Texture2D texture,Vector2 size):base(position,content,font,fontColor,texture,size)
+        public Button(Vector2 position,string content,SpriteFont font,Color fontColor,Texture2D texture,Vector2 size,bool fill):base(position,content,font,fontColor,texture,size,fill)
         {
             
         }
 
         public bool clicked = false;
+        public bool pressed = false;
 
         public override void Update(float deltaTime)
         {
@@ -27,17 +28,19 @@ namespace EksamensProjektS2015
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
                     MouseDown();
-                    clicked = true;
+                    pressed = true;
                 }
 
-                if (Mouse.GetState().LeftButton == ButtonState.Released && clicked)
+                if (Mouse.GetState().LeftButton == ButtonState.Released && pressed)
                 {
+                    pressed = false;
                     clicked = true;
                 }
             }
             else
             {
                 Normal();
+                pressed = false;
                 clicked = false;
             }
 
@@ -47,21 +50,19 @@ namespace EksamensProjektS2015
         public void Hover()
         {
             backGroundColor = Color.LightGray;
+            //content = "Hover: P:" + pressed + " c:" + clicked;
         }
 
         public void Normal()
         {
             backGroundColor = Color.White;
+            //content = "Normal: P:"+pressed+" c:"+clicked;
         }
 
         public void MouseDown()
         {
             backGroundColor = Color.Gray;
-        }
-
-        public bool Click()
-        {
-            return true;
+            //content = "Pressed: P:"+pressed+" c:"+clicked;
         }
 
     }
