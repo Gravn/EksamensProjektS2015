@@ -8,7 +8,15 @@ using Microsoft.Xna.Framework;
 namespace Input
 {
 
-    public enum Modifiers
+    /// <summary>
+    /// 
+    /// Modifiers
+    /// 
+    /// Read and assisnged 
+    /// 
+    /// </summary>
+
+    public enum Modifiers 
         {
             Control = 1,
             Shift = 2,
