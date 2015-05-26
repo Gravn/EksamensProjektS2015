@@ -87,6 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Content\Arial12.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Content\Arial48.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

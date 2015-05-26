@@ -12,23 +12,26 @@ namespace Input
     /// 
     /// Modifiers
     /// 
-    /// Read and assisnged 
+    /// Modifiers bliver læst og ændret på binært. Det vil sige at Control og 
+    /// Shift kan holdes inde på samme tid, og give værdien 3(0011)
+    /// og samtidig blive læst som en kombination.   
     /// 
     /// </summary>
 
     public enum Modifiers 
         {
-            Control = 1,
-            Shift = 2,
-            Alt = 4,
-            None = 0
+            Control = 1,//0001
+            Shift = 2,  //0010
+            Alt = 4,    //0100
+            None = 0    //0000
         };
 
     public static class TypingKeyboard
     {
         public static char? ToChar(Keys key, Modifiers modifiers = Modifiers.None)
         {
-            if (key == Keys.A) { return ((modifiers & Modifiers.Shift) == Modifiers.Shift) ? 'A' : 'a'; }
+            //Return kigger på modifiers og sammenligner dem binært. Shift er holdt nede hvis 2's plads i første byte er 1.
+            if (key == Keys.A) { return ((modifiers & Modifiers.Shift) == Modifiers.Shift) ? 'A' : 'a'; } 
             if (key == Keys.B) { return ((modifiers & Modifiers.Shift) == Modifiers.Shift) ? 'B' : 'b'; }
             if (key == Keys.C) { return ((modifiers & Modifiers.Shift) == Modifiers.Shift) ? 'C' : 'c'; }
             if (key == Keys.D) { return ((modifiers & Modifiers.Shift) == Modifiers.Shift) ? 'D' : 'd'; }
