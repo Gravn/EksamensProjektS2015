@@ -46,7 +46,14 @@ namespace Input
             if (key == Keys.X) { return ((modifiers & Modifiers.Shift) == Modifiers.Shift) ? 'X' : 'x'; }
             if (key == Keys.Y) { return ((modifiers & Modifiers.Shift) == Modifiers.Shift) ? 'Y' : 'y'; }
             if (key == Keys.Z) { return ((modifiers & Modifiers.Shift) == Modifiers.Shift) ? 'Z' : 'z'; }
-
+            //Æ
+            if (key == Keys.OemTilde) { return ((modifiers & Modifiers.Shift) == Modifiers.Shift) ? 'Æ' : 'æ'; }
+            //Ø
+            if (key == Keys.OemQuotes) { return ((modifiers & Modifiers.Shift) == Modifiers.Shift) ? 'Ø' : 'ø'; }
+            //Å
+            if (key == Keys.OemCloseBrackets){ return ((modifiers & Modifiers.Shift) == Modifiers.Shift) ? 'Å' : 'å'; }
+            
+            
             if ((key == Keys.D0 && !ShiftDown(modifiers)) || key == Keys.NumPad0) { return '0'; }
             if ((key == Keys.D1 && !ShiftDown(modifiers)) || key == Keys.NumPad1) { return '1'; }
             if ((key == Keys.D2 && !ShiftDown(modifiers)) || key == Keys.NumPad2) { return '2'; }
@@ -70,8 +77,6 @@ namespace Input
             if (key == Keys.D9 && ShiftDown(modifiers)) { return '('; }
 
             if (key == Keys.Space) { return ' '; }
-            if (key == Keys.Tab) { return '\t'; }
-            if (key == Keys.Enter) { return '\n'; }
 
             if (key == Keys.Add) { return '+'; }
             if (key == Keys.Decimal) { return '.'; }
@@ -82,8 +87,8 @@ namespace Input
             if (key == Keys.OemComma && ShiftDown(modifiers)) { return '<'; }
             if (key == Keys.OemOpenBrackets && !ShiftDown(modifiers)) { return '['; }
             if (key == Keys.OemOpenBrackets && ShiftDown(modifiers)) { return '{'; }
-            if (key == Keys.OemCloseBrackets && !ShiftDown(modifiers)) { return ']'; }
-            if (key == Keys.OemCloseBrackets && ShiftDown(modifiers)) { return '}'; }
+            //if (key == Keys.OemCloseBrackets && !ShiftDown(modifiers)) { return ']'; }
+            //if (key == Keys.OemCloseBrackets && ShiftDown(modifiers)) { return '}'; }
             if (key == Keys.OemPeriod && !ShiftDown(modifiers)) { return '.'; }
             if (key == Keys.OemPeriod && ShiftDown(modifiers)) { return '>'; }
             if (key == Keys.OemPipe && !ShiftDown(modifiers)) { return '\\'; }
@@ -94,12 +99,12 @@ namespace Input
             if (key == Keys.OemMinus && ShiftDown(modifiers)) { return '_'; }
             if (key == Keys.OemQuestion && !ShiftDown(modifiers)) { return '/'; }
             if (key == Keys.OemQuestion && ShiftDown(modifiers)) { return '?'; }
-            if (key == Keys.OemQuotes && !ShiftDown(modifiers)) { return '\''; }
-            if (key == Keys.OemQuotes && ShiftDown(modifiers)) { return '"'; }
+            //if (key == Keys.OemQuotes && !ShiftDown(modifiers)) { return '\''; }
+            //if (key == Keys.OemQuotes && ShiftDown(modifiers)) { return '"'; }
             if (key == Keys.OemSemicolon && !ShiftDown(modifiers)) { return ';'; }
             if (key == Keys.OemSemicolon && ShiftDown(modifiers)) { return ':'; }
-            if (key == Keys.OemTilde && !ShiftDown(modifiers)) { return '`'; }
-            if (key == Keys.OemTilde && ShiftDown(modifiers)) { return '~'; }
+            //if (key == Keys.OemTilde && !ShiftDown(modifiers)) { return '''; }
+            //if (key == Keys.OemTilde && ShiftDown(modifiers)) { return '~'; }
             if (key == Keys.Subtract) { return '-'; }
             return null;
         }
@@ -123,33 +128,21 @@ namespace Input
     public class KeyboardEvents
     {
         
-        public static int InitialDelay { get; set; }
-        public static int RepeatDelay { get; set; }
+        public int InitialDelay { get; set; }
+        public int RepeatDelay { get; set; }
         
         public KeyboardState previous;
         public Keys lastKey;
         public TimeSpan lastPress;
         public bool isInitial;
 
-        static KeyboardEvents()
-        {
-            InitialDelay = 800;
-            RepeatDelay = 50;
-            //KeyTyped += KeyTypedHandler;
-        }
-
         public KeyboardEvents()
-        { 
-            
-        }
-
-        public static void HandleKeys(GameTime gameTime)
         {
-            KeyboardEvents ke = new KeyboardEvents();
-            ke.NonStaticHandleKeys(gameTime);
+            InitialDelay = 600;
+            RepeatDelay = 50;
         }
 
-        public void NonStaticHandleKeys(GameTime gameTime)
+        public void HandleKeyUpdate(GameTime gameTime)
         {
             KeyboardState currentState = Keyboard.GetState();
 

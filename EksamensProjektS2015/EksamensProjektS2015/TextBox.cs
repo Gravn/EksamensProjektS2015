@@ -18,18 +18,21 @@ namespace EksamensProjektS2015
         public Color fontColor = Color.White;
         public Color backGroundColor = Color.White;
 
+        public bool fill = true;
         public Vector2 size = Vector2.Zero;
         public Texture2D texture;
 
 
 
-        public TextBox(Vector2 position,string content,SpriteFont font,Color fontColor,Texture2D texture,Vector2 size):base(position)
+        public TextBox(Vector2 position,string content,SpriteFont font,Color fontColor,Texture2D texture,Vector2 size,bool fill):base(position)
         {
             this.content = content;
             this.font = font;
             this.fontColor = fontColor;
             this.size = size;
             this.texture = texture;
+            this.fill = fill;
+
         }
 
         public override void Update(float deltaTime)
@@ -51,16 +54,22 @@ namespace EksamensProjektS2015
         {
             if (visible)
             {
-                //if square && filled.
-                for (int i = 0; i < size.X; i++)
+                if (fill)
                 {
-                    for (int j = 0; j < size.Y; j++)
+                    for (int i = 0; i < size.X; i++)
                     {
-                        sb.Draw(texture, new Rectangle((int)position.X + i, (int)position.Y + j, 1, 1), backGroundColor);
+                        for (int j = 0; j < size.Y; j++)
+                        {
+                            sb.Draw(texture, new Rectangle((int)position.X + i, (int)position.Y + j, 1, 1), backGroundColor);
+                        }
                     }
                 }
+                else
+                {
+                    sb.Draw(texture, new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height), backGroundColor);
+                }
 
-                sb.DrawString(font, content, position + new Vector2((int)size.X / 2 - font.MeasureString(content).X / 2, 0), fontColor);
+                sb.DrawString(font, content, position + new Vector2((int)size.X / 2 - font.MeasureString(content).X / 2+1, (int)size.Y/2-font.MeasureString(content).Y/2+2), fontColor,0f,new Vector2(0,0),1.0f,SpriteEffects.None,0);
             }
             //base.Draw(sb);
         }
