@@ -94,10 +94,10 @@ namespace EksamensProjektS2015
             menus[1][2] = buttons[4];
 
             //Choice            
-            texts[2] = new TextBox(new Vector2(100, 30), "Du er lige startet med at arbejde på virksomheden ARBEJDSPLADS. Du har fået dit eget kontor at arbejde på.\nPå dit kontor står firmaets printer, da kontoret blev brugt som printerrum før.\nDu har efter noget tid i firmaet, fundet det generende for dit arbejde at den står og larmer. \nDu er stadig ny på arbejdspladsen, så du skal tage stilling til, om det er værd at tage op med chefen, eller bare at leve med det.\n\nDu har nu 2 valgmuligheder." + name,Arial12, Color.Black, red1, new Vector2(1080,180),true);
-            buttons[5] = new Button(new Vector2(100 + 120, 240), "Pas dit arbejde.", Arial12, Color.Black, Main_Medium_Normal, new Vector2(180, 80),false);
-            buttons[6] = new Button(new Vector2(100 + 120, 340), "Konfronter chefen", Arial12, Color.Black,Main_Medium_Normal, new Vector2(180, 80),false);
-            texts[3] = new TextBox(new Vector2(200, 440), "Vidste du at printere og kopimaskiner skal ud af arbejdslokalet, hvis de bliver brugt jævnligt i løbet af en dag." + name,Arial12, Color.White, red1, new Vector2(980, 240),true);
+            texts[2] = new TextBox(new Vector2(220, 30), "Du er lige startet med at arbejde på virksomheden ARBEJDSPLADS.\nDu har fået dit eget kontor at arbejde på.\nPå dit kontor står firmaets printer, da kontoret blev brugt som printerrum før.\nDu har efter noget tid i firmaet, fundet det generende for dit arbejde at den står og larmer. \nDu er stadig ny på arbejdspladsen, så du skal tage stilling til, om det er værd at tage op med chefen, eller bare at leve med det.\n\nDu har nu 2 valgmuligheder." + name,Arial12, Color.Black, red1, new Vector2(840,195),true);
+            buttons[5] = new Button(new Vector2(240, 245), "Pas dit arbejde.", Arial12, Color.Black, Main_Medium_Normal, new Vector2(800, 100),true);
+            buttons[6] = new Button(new Vector2(240, 375), "Konfronter chefen", Arial12, Color.Black,Main_Medium_Normal, new Vector2(800, 100),true);
+            texts[3] = new TextBox(new Vector2(220, 495), "Vidste du at printere og kopimaskiner skal ud af arbejdslokalet, hvis de bliver brugt jævnligt i løbet af en dag." + name,Arial12, Color.White, red1, new Vector2(840, 195),true);
             
             menus[2] = new GameObject[4];
             menus[2][0] = texts[2];
