@@ -11,7 +11,7 @@ namespace EksamensProjektS2015
     {
         protected Vector2 position;
 
-        private Vector2 Position
+        public Vector2 Position
         {
             get { return position; }
             set { position = value; }
