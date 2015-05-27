@@ -122,7 +122,6 @@ namespace EksamensProjektS2015
             menus[1][1] = texts[1];
             menus[1][2] = buttons[4];
 
-<<<<<<< HEAD
             //Choice
 
             menus[2] = new GameObject[4];
@@ -143,7 +142,6 @@ namespace EksamensProjektS2015
             //menus[2][4] = texts[3];
             //menus[2][5] = new TextBox(new Vector2(140, 460+220), "Konsekvens" + name, Arial12, Color.Black, content_textBox, new Vector2(920, 220), true);
             //menus[2][6] = new Button(new Vector2(140, 460+220+100), "Videre", Arial12, Color.Black, valg_button[0], new Vector2(920, 100), false);
-=======
             SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "valg", "ID", 1);
             while (reader.Read())
             {
@@ -157,7 +155,6 @@ namespace EksamensProjektS2015
             menus[2][1] = buttons[5] = new Button(new Vector2(100 + 120, 60 + 240 + 30), "JA", ArialNarrow48, Color.White, red1, new Vector2(80, 80), true);
             menus[2][2] = buttons[6] = new Button(new Vector2(100 + 1080 - 120 - 40, 60 + 240 + 30), "Nej", ArialNarrow48, Color.White, red1, new Vector2(80, 80), true);
             menus[2][3] = texts[3] = new TextBox(new Vector2(150, 440), "Vidste du, at " + text_fakta, ArialNarrow48, Color.White, red1, new Vector2(980, 240), true);
->>>>>>> 44c17d2f7693262b8162db9091836a08b3fefb9d
 
             //Consequence
             menus[3] = new GameObject[1];
@@ -348,11 +345,7 @@ namespace EksamensProjektS2015
                     }
                 }*/
                 //JA
-<<<<<<< HEAD
-                if (buttons[0].clicked)
-=======
-                if ((menus[2][1] as Button).Clicked)
->>>>>>> 44c17d2f7693262b8162db9091836a08b3fefb9d
+                if (buttons[0].Clicked)
                 {
                     //move = true;
                     MenuToggle();
@@ -361,11 +354,7 @@ namespace EksamensProjektS2015
                 }
 
                 //Nej
-<<<<<<< HEAD
-                if (buttons[1].clicked)
-=======
                 if ((menus[2][2] as Button).Clicked)
->>>>>>> 44c17d2f7693262b8162db9091836a08b3fefb9d
                 {
                     MenuToggle();
                     menuState = Menu.Consequence;
