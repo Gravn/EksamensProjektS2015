@@ -33,6 +33,7 @@ namespace EksamensProjektS2015
         KeyboardEvents textInput = new KeyboardEvents();
 
         public static SpriteFont ArialNarrow48;
+        public static SpriteFont Arial12;
         public static SpriteFont CopperPlateGothicLight48;
         public static SpriteFont CopperPlateGothicLight36;
 
@@ -186,6 +187,7 @@ namespace EksamensProjektS2015
             CopperPlateGothicLight48 = Content.Load<SpriteFont>("CopperPlate Gothic Light 48");
             CopperPlateGothicLight36 = Content.Load<SpriteFont>("CopperPlate Gothic Light 36");
             ArialNarrow48 = Content.Load<SpriteFont>("ArialNarrow48");
+            Arial12 = Content.Load<SpriteFont>("Arial12");
             
             red1 = Content.Load<Texture2D>("Red1");
 
@@ -248,8 +250,6 @@ namespace EksamensProjektS2015
                     Exit();
                 }
             }
-
-            
 
             if (menuState.Equals(Menu.Highscore))
             {

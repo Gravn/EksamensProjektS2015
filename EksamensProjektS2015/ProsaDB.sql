@@ -1,0 +1,1 @@
+Create table Consequence ( ID integer primary key, ChoiceID integer, InformationBox_con varchar,  Answer_A_con varchar, Answer_B_con varchar, FOREIGN KEY (ID) REFERENCES Choice(ID))
