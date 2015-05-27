@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Database
 {
-    public static class Database
+    public static class Functions
     {
         /*public static void UpdateTable<T>(SQLiteConnection dbConn, SQLiteCommand dbComm,string tableName, string[] attNames, ref T[] attvalues)
         {

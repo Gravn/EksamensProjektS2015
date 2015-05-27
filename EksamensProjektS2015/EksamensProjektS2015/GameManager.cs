@@ -3,7 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Data.SQLite;
 using Input;
+using Database;
 
 namespace EksamensProjektS2015
 {
@@ -21,6 +24,9 @@ namespace EksamensProjektS2015
 
         public Menu menuState = Menu.Main;
         public GameObject[][] menus = new GameObject[10][];
+
+        private SQLiteCommand dbComm;
+        private SQLiteConnection dbConn;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -41,6 +47,11 @@ namespace EksamensProjektS2015
 
         public TextBox[] texts = new TextBox[10];
         public Button[] buttons = new Button[10];
+
+        delegate void GetFunctions();
+        private GetFunctions[] buttonFuctions;
+
+        private string text_situation = "", text_fakta = "";
 
         //private TimeLine TL;
         private int dayCounter = 40;
@@ -69,8 +80,23 @@ namespace EksamensProjektS2015
             // TODO: Add your initialization logic here
             base.Initialize();
 
+            dbConn = new SQLiteConnection("Data Source=dbProsa.db;Version=3");
+            dbComm = new SQLiteCommand();
+            dbConn.Open();
+
+            //Database.Functions.CreateDatabase("dbProsa");
+
+            //Database.Functions.ManualFunction(dbConn, dbComm, "CREATE TABLE IF NOT EXISTS 'valg' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Fakta' TEXT,'Spoergsmaal' TEXT, 'Konsekvens_A' INTEGER,'Konsekvens_B' INTEGER)");
+
+            //Database.Functions.ManualFunction(dbConn, dbComm, "INSERT INTO 'valg' ('Fakta', 'Spoergsmaal', 'Konsekvens_A', 'Konsekvens_B') VALUES ('Prosa vil hjælpe dig, hvis du udsættes for sexchikane på arbejdspladsen.', 'Din chef tager på dig. \nHvad vil du gøre?', 0, 1)");
+
             KeyboardEvents.KeyTyped += KeyTyped;
             IsMouseVisible = true;
+
+            buttonFuctions = new GetFunctions[]
+            {
+                MenuToggle
+            };
 
             //Main Menu
             buttons[0] = new Button(new Vector2(460, 100), "Start", CopperPlateGothicLight48, Color.Black, Start_Normal, new Vector2(320, 110),false);
@@ -96,6 +122,7 @@ namespace EksamensProjektS2015
             menus[1][1] = texts[1];
             menus[1][2] = buttons[4];
 
+<<<<<<< HEAD
             //Choice
 
             menus[2] = new GameObject[4];
@@ -116,6 +143,21 @@ namespace EksamensProjektS2015
             //menus[2][4] = texts[3];
             //menus[2][5] = new TextBox(new Vector2(140, 460+220), "Konsekvens" + name, Arial12, Color.Black, content_textBox, new Vector2(920, 220), true);
             //menus[2][6] = new Button(new Vector2(140, 460+220+100), "Videre", Arial12, Color.Black, valg_button[0], new Vector2(920, 100), false);
+=======
+            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "valg", "ID", 1);
+            while (reader.Read())
+            {
+                text_situation = (string)("" + reader["Spoergsmaal"]).Replace("\\n", "\n");
+                text_fakta = (string)("" + reader["Fakta"]).Replace("\\n", "\n");
+            }
+
+            //Choice            
+            menus[2] = new GameObject[4];
+            menus[2][0] = texts[2] = new TextBox(new Vector2(100, 60), "Velkommen, " + text_situation, ArialNarrow48, Color.White, red1, new Vector2(1080, 240), true);
+            menus[2][1] = buttons[5] = new Button(new Vector2(100 + 120, 60 + 240 + 30), "JA", ArialNarrow48, Color.White, red1, new Vector2(80, 80), true);
+            menus[2][2] = buttons[6] = new Button(new Vector2(100 + 1080 - 120 - 40, 60 + 240 + 30), "Nej", ArialNarrow48, Color.White, red1, new Vector2(80, 80), true);
+            menus[2][3] = texts[3] = new TextBox(new Vector2(150, 440), "Vidste du, at " + text_fakta, ArialNarrow48, Color.White, red1, new Vector2(980, 240), true);
+>>>>>>> 44c17d2f7693262b8162db9091836a08b3fefb9d
 
             //Consequence
             menus[3] = new GameObject[1];
@@ -131,7 +173,20 @@ namespace EksamensProjektS2015
             menus[5][0] = new Button(new Vector2(640, 360), "Really Nothing to see here, move along(back)", ArialNarrow48, Color.White, red1, new Vector2(80, 80), true);
 
         }
+        /// <summary>
+        /// Navigates from questions to consequences, based on the user's answers
+        /// </summary>
+        /// <param name="btn"></param>
+        public void MakeChoise(Button btn, int situationID)
+        {
+            for (int i = 0; i < 2; i++ )
+            {
+                if(btn.Clicked)
+                {
 
+                }
+            }
+        }
         public void MenuToggle()
         {
             for (int i = 0; i < menus[(int)menuState].Length; i++)
@@ -140,7 +195,7 @@ namespace EksamensProjektS2015
                 {
                     if (menus[(int)menuState][i] is Button)
                     {
-                        (menus[(int)menuState][i] as Button).clicked = false;
+                        (menus[(int)menuState][i] as Button).Clicked = false;
                     }
                     gameObjects.Remove(menus[(int)menuState][i]);
                 }
@@ -150,7 +205,6 @@ namespace EksamensProjektS2015
                 }
             }
         }
-
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used tos draw textures.
@@ -217,7 +271,7 @@ namespace EksamensProjektS2015
             if (menuState == Menu.Main)
             {
                 //Start
-                if(buttons[0].clicked)
+                if(buttons[0].Clicked)
                 {
                     dayCounter += 100;
                     MenuToggle();
@@ -226,7 +280,7 @@ namespace EksamensProjektS2015
                 }
 
                 //About
-                if(buttons[1].clicked)
+                if(buttons[1].Clicked)
                 {
                     MenuToggle();
                     menuState = Menu.About;
@@ -234,7 +288,7 @@ namespace EksamensProjektS2015
                 }
 
                 //Highscore
-                if (buttons[2].clicked)
+                if (buttons[2].Clicked)
                 {
                     MenuToggle();
                     menuState = Menu.Highscore;
@@ -242,7 +296,7 @@ namespace EksamensProjektS2015
                 }
 
                 //Exit
-                if (buttons[3].clicked)
+                if (buttons[3].Clicked)
                 {
                     Exit();
                 }
@@ -250,7 +304,7 @@ namespace EksamensProjektS2015
 
             if (menuState.Equals(Menu.Highscore))
             {
-                if ((menus[4][0] as Button).clicked)
+                if ((menus[4][0] as Button).Clicked)
                 {
                     MenuToggle();
                     menuState = Menu.Main;
@@ -260,7 +314,7 @@ namespace EksamensProjektS2015
 
             if (menuState.Equals(Menu.About))
             {
-                if ((menus[5][0] as Button).clicked)
+                if ((menus[5][0] as Button).Clicked)
                 {
                     MenuToggle();
                     menuState = Menu.Main;
@@ -273,7 +327,7 @@ namespace EksamensProjektS2015
                 //textInput.HandleKeyUpdate(gameTime);
                 //texts[1].content = name;
 
-                if (buttons[4].clicked)
+                if (buttons[4].Clicked)
                 {
                     MenuToggle();
                     menuState = Menu.Choice;
@@ -283,8 +337,22 @@ namespace EksamensProjektS2015
 
             if(menuState.Equals(Menu.Choice))
             {
+                /*for (int i = 0; i < menus.Length; i++ )
+                {
+                    for (int j = 0; j < menus[i].Length; j++)
+                    {
+                        if((menus[i][j] as Button).Clicked)
+                        {
+                            buttonFuctions[j]();
+                        }
+                    }
+                }*/
                 //JA
+<<<<<<< HEAD
                 if (buttons[0].clicked)
+=======
+                if ((menus[2][1] as Button).Clicked)
+>>>>>>> 44c17d2f7693262b8162db9091836a08b3fefb9d
                 {
                     //move = true;
                     MenuToggle();
@@ -293,7 +361,11 @@ namespace EksamensProjektS2015
                 }
 
                 //Nej
+<<<<<<< HEAD
                 if (buttons[1].clicked)
+=======
+                if ((menus[2][2] as Button).Clicked)
+>>>>>>> 44c17d2f7693262b8162db9091836a08b3fefb9d
                 {
                     MenuToggle();
                     menuState = Menu.Consequence;
@@ -303,7 +375,7 @@ namespace EksamensProjektS2015
 
             if (menuState.Equals(Menu.Consequence))
             {
-                if ((menus[3][0] as Button).clicked)
+                if ((menus[3][0] as Button).Clicked)
                 {
                     MenuToggle();
                     menuState = Menu.Choice;

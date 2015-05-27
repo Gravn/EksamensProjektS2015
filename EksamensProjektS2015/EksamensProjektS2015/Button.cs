@@ -17,8 +17,20 @@ namespace EksamensProjektS2015
             
         }
 
-        public bool clicked = false;
-        public bool pressed = false;
+        private bool clicked = false;
+
+        public bool Clicked
+        {
+            get { return clicked; }
+            set { clicked = value; }
+        }
+        private bool pressed = false;
+
+        public bool Pressed
+        {
+            get { return pressed; }
+            set { pressed = value; }
+        }
 
         public override void Update(float deltaTime)
         {
