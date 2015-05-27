@@ -36,6 +36,8 @@ namespace EksamensProjektS2015
         public Texture2D Start_Normal;
         public Texture2D Main_Medium_Normal;
         public Texture2D bg_Noise;
+        public Texture2D content_textBox;
+        public Texture2D[] valg_button = new Texture2D[5];
 
         public TextBox[] texts = new TextBox[10];
         public Button[] buttons = new Button[10];
@@ -72,8 +74,8 @@ namespace EksamensProjektS2015
 
             //Main Menu
             buttons[0] = new Button(new Vector2(460, 100), "Start", CopperPlateGothicLight48, Color.Black, Start_Normal, new Vector2(320, 110),false);
-            buttons[1] = new Button(new Vector2(470, 270), "Om spillet", CopperPlateGothicLight36, Color.Black, Main_Medium_Normal, new Vector2(300, 75), false);
-            buttons[2] = new Button(new Vector2(470, 370), "Highscore", CopperPlateGothicLight36, Color.Black, Main_Medium_Normal, new Vector2(300, 75), false);
+            buttons[1] = new Button(new Vector2(470, 270), "Om spillet", CopperPlateGothicLight36, Color.Black,valg_button[0], new Vector2(300, 75), false);
+            buttons[2] = new Button(new Vector2(470, 370), "Highscore", CopperPlateGothicLight36, Color.Black,content_textBox, new Vector2(300, 75), false);
             buttons[3] = new Button(new Vector2(470, 530), "Afslut", CopperPlateGothicLight36, Color.Black, red1, new Vector2(300, 75), true);
             
             menus[0] = new GameObject[4];
@@ -81,6 +83,7 @@ namespace EksamensProjektS2015
             menus[0][1] = buttons[1];
             menus[0][2] = buttons[2];
             menus[0][3] = buttons[3];
+
             MenuToggle();
 
             //Name input
@@ -93,17 +96,26 @@ namespace EksamensProjektS2015
             menus[1][1] = texts[1];
             menus[1][2] = buttons[4];
 
-            //Choice            
-            texts[2] = new TextBox(new Vector2(100, 30), "Du er lige startet med at arbejde på virksomheden ARBEJDSPLADS. Du har fået dit eget kontor at arbejde på.\nPå dit kontor står firmaets printer, da kontoret blev brugt som printerrum før.\nDu har efter noget tid i firmaet, fundet det generende for dit arbejde at den står og larmer. \nDu er stadig ny på arbejdspladsen, så du skal tage stilling til, om det er værd at tage op med chefen, eller bare at leve med det.\n\nDu har nu 2 valgmuligheder." + name,Arial12, Color.Black, red1, new Vector2(1080,180),true);
-            buttons[5] = new Button(new Vector2(100 + 120, 240), "Pas dit arbejde.", Arial12, Color.Black, Main_Medium_Normal, new Vector2(180, 80),false);
-            buttons[6] = new Button(new Vector2(100 + 120, 340), "Konfronter chefen", Arial12, Color.Black,Main_Medium_Normal, new Vector2(180, 80),false);
-            texts[3] = new TextBox(new Vector2(200, 440), "Vidste du at printere og kopimaskiner skal ud af arbejdslokalet, hvis de bliver brugt jævnligt i løbet af en dag." + name,Arial12, Color.White, red1, new Vector2(980, 240),true);
-            
+            //Choice
+
             menus[2] = new GameObject[4];
-            menus[2][0] = texts[2];
-            menus[2][1] = buttons[5];
-            menus[2][2] = buttons[6];
-            menus[2][3] = texts[3];
+            menus[2][0] = buttons[0];
+            menus[2][1] = buttons[1];
+            menus[2][2] = buttons[2];
+            menus[2][3] = buttons[3];
+            //texts[2] = new TextBox(new Vector2(140, 40), "Textbox" + name,Arial12, Color.Black, content_textBox, new Vector2(920,220),true);
+            //buttons[5] = new Button(new Vector2(140, 260), "", Arial12, Color.Black,valg_button[0], new Vector2(920,100),false);
+            //buttons[6] = new Button(new Vector2(140, 360), "Button", Arial12, Color.Black,valg_button[0], new Vector2(920,100),false);
+            //texts[3] = new TextBox(new Vector2(140, 460), "Textbox" + name,Arial12, Color.White,content_textBox, new Vector2(920, 220),true);
+            
+            //menus[2] = new GameObject[7];
+            //menus[2][0] = texts[2];
+            //menus[2][1] = new TextBox(new Vector2(140, 40-220), "" + name, Arial12, Color.Black, content_textBox, new Vector2(920, 220), true);
+            //menus[2][2] = buttons[5];
+            //menus[2][3] = buttons[6];
+            //menus[2][4] = texts[3];
+            //menus[2][5] = new TextBox(new Vector2(140, 460+220), "Konsekvens" + name, Arial12, Color.Black, content_textBox, new Vector2(920, 220), true);
+            //menus[2][6] = new Button(new Vector2(140, 460+220+100), "Videre", Arial12, Color.Black, valg_button[0], new Vector2(920, 100), false);
 
             //Consequence
             menus[3] = new GameObject[1];
@@ -150,6 +162,7 @@ namespace EksamensProjektS2015
             Arial12 = Content.Load<SpriteFont>("Arial12");
             
             red1 = Content.Load<Texture2D>("Red1");
+            
 
             arrow = Content.Load<Texture2D>("Arrow");
 
@@ -157,6 +170,8 @@ namespace EksamensProjektS2015
             Start_Normal = Content.Load<Texture2D>("Btn_Normal_Start");
             Main_Medium_Normal = Content.Load<Texture2D>("Btn_Normal_Main_Medium");
 
+            content_textBox = Content.Load<Texture2D>("Textbox1");
+            valg_button[0] = Content.Load<Texture2D>("Button");
             
             //TL = new TimeLine(new Vector2(10, 10), dayCounter);
             // TODO: use this.Content to load your game content here
@@ -167,9 +182,33 @@ namespace EksamensProjektS2015
             // TODO: Unload any non ContentManager content here
         }
 
+
+        public float vScroll = 0;
+        public bool move = false;
         protected override void Update(GameTime gameTime)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            dayCounter++;
+            if (dayCounter >= 620)
+            {
+                dayCounter = 100;
+            }
+
+            if (vScroll > -720 && move == true)
+            {
+                vScroll -= 10 * deltaTime;
+
+                for (int i = 0; i < menus[2].Length; i++)
+                {
+                    menus[2][i].Position -= new Vector2(0, 10 * deltaTime);
+                }
+            }
+            else
+            {
+                move = false;
+            }
+            
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
@@ -180,7 +219,6 @@ namespace EksamensProjektS2015
                 //Start
                 if(buttons[0].clicked)
                 {
-
                     dayCounter += 100;
                     MenuToggle();
                     menuState = Menu.Name;
@@ -193,7 +231,6 @@ namespace EksamensProjektS2015
                     MenuToggle();
                     menuState = Menu.About;
                     MenuToggle();
-
                 }
 
                 //Highscore
@@ -233,15 +270,12 @@ namespace EksamensProjektS2015
 
             if (menuState.Equals(Menu.Name))
             {
-                textInput.HandleKeyUpdate(gameTime);
-                texts[1].content = name;
+                //textInput.HandleKeyUpdate(gameTime);
+                //texts[1].content = name;
 
                 if (buttons[4].clicked)
                 {
-                    //if name conditions not met: show error msg
-                    //else
                     MenuToggle();
-                    //texts[2].content = "Velkommen, "+name;
                     menuState = Menu.Choice;
                     MenuToggle();
                 }
@@ -250,14 +284,16 @@ namespace EksamensProjektS2015
             if(menuState.Equals(Menu.Choice))
             {
                 //JA
-                if ((menus[2][1] as Button).clicked)
+                if (buttons[0].clicked)
                 {
+                    //move = true;
                     MenuToggle();
                     menuState = Menu.Consequence;
                     MenuToggle();
                 }
+
                 //Nej
-                if ((menus[2][2] as Button).clicked)
+                if (buttons[1].clicked)
                 {
                     MenuToggle();
                     menuState = Menu.Consequence;
@@ -273,7 +309,7 @@ namespace EksamensProjektS2015
                     menuState = Menu.Choice;
                     
                     //temp code.
-                    dayCounter+=10;
+
                     
                     MenuToggle();
                 }
@@ -321,7 +357,6 @@ namespace EksamensProjektS2015
             spriteBatch.End();
             
             // TODO: Add your drawing code here
-
             base.Draw(gameTime);
         }
     }
