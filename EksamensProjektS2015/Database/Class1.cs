@@ -249,7 +249,7 @@ namespace Database
         /// <param name="tIdName"></param>
         /// <param name="tId"></param>
         /// <returns></returns>
-        public static SQLiteDataReader TableSelectRow(SQLiteConnection dbConn, SQLiteCommand dbComm, string tName, string tIdName, int tId)
+        public static SQLiteDataReader TablebSelectRow(SQLiteConnection dbConn, SQLiteCommand dbComm, string tName, string tIdName, int tId)
         {
             string sql = "select * from " + tName + " where " + tIdName + "=" + tId;
             dbComm = new SQLiteCommand(sql, dbConn);

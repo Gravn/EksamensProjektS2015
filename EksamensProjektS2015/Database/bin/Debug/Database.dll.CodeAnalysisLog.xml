@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio 11.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="11.0">
+ <Targets>
+  <Target Name="C:\Users\Gravn\Documents\EksamensProjektS2015\EksamensProjektS2015\Database\bin\Debug\Database.dll">
+   <Modules>
+    <Module Name="database.dll">
+     <Namespaces>
+      <Namespace Name="Database">
+       <Types>
+        <Type Name="Functions" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#AddTableAttribute(System.Data.SQLite.SQLiteConnection,System.Data.SQLite.SQLiteCommand,System.String,System.String)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2015-05-28 08:17:56Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="c:\Users\Gravn\Documents\EksamensProjektS2015\EksamensProjektS2015\Database" File="Class1.cs" Line="212">The query string passed to 'SQLiteCommand.SQLiteCommand(string, SQLiteConnection)' in 'Functions.AddTableAttribute(SQLiteConnection, SQLiteCommand, string, string)' could contain the following variables 'tName', 'tAttribute'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#AlterTableName(System.Data.SQLite.SQLiteConnection,System.Data.SQLite.SQLiteCommand,System.String,System.String)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2015-05-28 08:17:56Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="c:\Users\Gravn\Documents\EksamensProjektS2015\EksamensProjektS2015\Database" File="Class1.cs" Line="199">The query string passed to 'SQLiteCommand.SQLiteCommand(string, SQLiteConnection)' in 'Functions.AlterTableName(SQLiteConnection, SQLiteCommand, string, string)' could contain the following variables 'currentName', 'newName'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#CreateTable(System.Data.SQLite.SQLiteConnection,System.Data.SQLite.SQLiteCommand,System.String,System.String[])" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2015-05-28 08:17:56Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="c:\Users\Gravn\Documents\EksamensProjektS2015\EksamensProjektS2015\Database" File="Class1.cs" Line="73">The query string passed to 'SQLiteCommand.SQLiteCommand(string, SQLiteConnection)' in 'Functions.CreateTable(SQLiteConnection, SQLiteCommand, string, string[])' could contain the following variables 'tName', 'tValues[i]', 'tValues[i]'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#DropTable(System.Data.SQLite.SQLiteConnection,System.Data.SQLite.SQLiteCommand,System.String)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2015-05-28 08:17:56Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="c:\Users\Gravn\Documents\EksamensProjektS2015\EksamensProjektS2015\Database" File="Class1.cs" Line="85">The query string passed to 'SQLiteCommand.SQLiteCommand(string, SQLiteConnection)' in 'Functions.DropTable(SQLiteConnection, SQLiteCommand, string)' could contain the following variables 'tName'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#EmptyRow(System.Data.SQLite.SQLiteConnection,System.Data.SQLite.SQLiteCommand,System.String,System.String,System.Int32)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2015-05-28 08:17:56Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="c:\Users\Gravn\Documents\EksamensProjektS2015\EksamensProjektS2015\Database" File="Class1.cs" Line="186">The query string passed to 'SQLiteCommand.SQLiteCommand(string, SQLiteConnection)' in 'Functions.EmptyRow(SQLiteConnection, SQLiteCommand, string, string, int)' could contain the following variables 'tName', 'tIdName', 'tId'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#EmptyRow(System.Data.SQLite.SQLiteConnection,System.Data.SQLite.SQLiteCommand,System.String,System.String,System.String)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2015-05-28 08:17:56Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="c:\Users\Gravn\Documents\EksamensProjektS2015\EksamensProjektS2015\Database" File="Class1.cs" Line="172">The query string passed to 'SQLiteCommand.SQLiteCommand(string, SQLiteConnection)' in 'Functions.EmptyRow(SQLiteConnection, SQLiteCommand, string, string, string)' could contain the following variables 'tName', 'tIdName', 'tId'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#EmptyTable(System.Data.SQLite.SQLiteConnection,System.Data.SQLite.SQLiteCommand,System.String)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2015-05-28 08:17:56Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="c:\Users\Gravn\Documents\EksamensProjektS2015\EksamensProjektS2015\Database" File="Class1.cs" Line="158">The query string passed to 'SQLiteCommand.SQLiteCommand(string, SQLiteConnection)' in 'Functions.EmptyTable(SQLiteConnection, SQLiteCommand, string)' could contain the following variables 'tName'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#InsertValues(System.Data.SQLite.SQLiteConnection,System.Data.SQLite.SQLiteCommand,System.String,System.String[])" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2015-05-28 08:17:56Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="c:\Users\Gravn\Documents\EksamensProjektS2015\EksamensProjektS2015\Database" File="Class1.cs" Line="104">The query string passed to 'SQLiteCommand.SQLiteCommand(string, SQLiteConnection)' in 'Functions.InsertValues(SQLiteConnection, SQLiteCommand, string, string[])' could contain the following variables 'tName', 'tValues[i]', 'tValues[i]'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ManualFunction(System.Data.SQLite.SQLiteConnection,System.Data.SQLite.SQLiteCommand,System.String)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2015-05-28 08:17:56Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="c:\Users\Gravn\Documents\EksamensProjektS2015\EksamensProjektS2015\Database" File="Class1.cs" Line="37">The query string passed to 'SQLiteCommand.SQLiteCommand(string, SQLiteConnection)' in 'Functions.ManualFunction(SQLiteConnection, SQLiteCommand, string)' could contain the following variables 'sql'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#TablebSelectRow(System.Data.SQLite.SQLiteConnection,System.Data.SQLite.SQLiteCommand,System.String,System.String,System.Int32)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2015-05-28 08:17:56Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="c:\Users\Gravn\Documents\EksamensProjektS2015\EksamensProjektS2015\Database" File="Class1.cs" Line="255">The query string passed to 'SQLiteCommand.SQLiteCommand(string, SQLiteConnection)' in 'Functions.TablebSelectRow(SQLiteConnection, SQLiteCommand, string, string, int)' could contain the following variables 'tName', 'tIdName', 'tId'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#TableSelectAll(System.Data.SQLite.SQLiteConnection,System.Data.SQLite.SQLiteCommand,System.String)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2015-05-28 08:17:56Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="c:\Users\Gravn\Documents\EksamensProjektS2015\EksamensProjektS2015\Database" File="Class1.cs" Line="225">The query string passed to 'SQLiteCommand.SQLiteCommand(string, SQLiteConnection)' in 'Functions.TableSelectAll(SQLiteConnection, SQLiteCommand, string)' could contain the following variables 'tName'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#TableSelectRow(System.Data.SQLite.SQLiteConnection,System.Data.SQLite.SQLiteCommand,System.String,System.String,System.String)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2015-05-28 08:17:56Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="c:\Users\Gravn\Documents\EksamensProjektS2015\EksamensProjektS2015\Database" File="Class1.cs" Line="240">The query string passed to 'SQLiteCommand.SQLiteCommand(string, SQLiteConnection)' in 'Functions.TableSelectRow(SQLiteConnection, SQLiteCommand, string, string, string)' could contain the following variables 'tName', 'tIdName', 'tId'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#UpdateTable(System.Data.SQLite.SQLiteConnection,System.Data.SQLite.SQLiteCommand,System.String,System.String,System.Int32,System.String[])" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2015-05-28 08:17:56Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="c:\Users\Gravn\Documents\EksamensProjektS2015\EksamensProjektS2015\Database" File="Class1.cs" Line="125">The query string passed to 'SQLiteCommand.SQLiteCommand(string, SQLiteConnection)' in 'Functions.UpdateTable(SQLiteConnection, SQLiteCommand, string, string, int, string[])' could contain the following variables 'tName', 'tValues[i]', 'tValues[i]', 'tIdName', 'tId'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#UpdateTable(System.Data.SQLite.SQLiteConnection,System.Data.SQLite.SQLiteCommand,System.String,System.String,System.String,System.String[])" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2015-05-28 08:17:56Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="c:\Users\Gravn\Documents\EksamensProjektS2015\EksamensProjektS2015\Database" File="Class1.cs" Line="146">The query string passed to 'SQLiteCommand.SQLiteCommand(string, SQLiteConnection)' in 'Functions.UpdateTable(SQLiteConnection, SQLiteCommand, string, string, string, string[])' could contain the following variables 'tName', 'tValues[i]', 'tValues[i]', 'tIdName', 'tId'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+ </Targets>
+ <Rules>
+  <Rule TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100">
+   <Name>Review SQL queries for security vulnerabilities</Name>
+   <Description>A SQL command string built from user input is vulnerable to SQL injection attacks. Microsoft SQL Server and other database servers support stored procedures and parameterized SQL queries, which reduce the risk of injection attacks.</Description>
+   <Resolution Name="WithNonLiterals">The query string passed to {0} in {1} could contain the following variables {2}. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Resolution>
+   <Owner>RuleOwner</Owner>
+   <Url>http://msdn.microsoft.com/library/ms182310(VS.100).aspx</Url>
+   <Email />
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="dataflowrules.dll" Version="11.0.0.0" />
+  </Rule>
+ </Rules>
+ <Localized>
+  <String Key="Category">Category</String>
+  <String Key="Certainty">Certainty</String>
+  <String Key="CollapseAll">Collapse All</String>
+  <String Key="CheckId">Check Id</String>
+  <String Key="Error">Error</String>
+  <String Key="Errors">error(s)</String>
+  <String Key="ExpandAll">Expand All</String>
+  <String Key="Help">Help</String>
+  <String Key="Line">Line</String>
+  <String Key="Messages">message(s)</String>
+  <String Key="LocationNotStoredInPdb">[Location not stored in Pdb]</String>
+  <String Key="Project">Project</String>
+  <String Key="Resolution">Resolution</String>
+  <String Key="Rule">Rule</String>
+  <String Key="RuleFile">Rule File</String>
+  <String Key="RuleDescription">Rule Description</String>
+  <String Key="Source">Source</String>
+  <String Key="Status">Status</String>
+  <String Key="Target">Target</String>
+  <String Key="Warning">Warning</String>
+  <String Key="Warnings">warning(s)</String>
+  <String Key="ReportTitle">Code Analysis Report</String>
+ </Localized>
+</FxCopReport>
