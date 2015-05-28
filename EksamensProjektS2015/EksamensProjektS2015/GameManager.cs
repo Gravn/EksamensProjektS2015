@@ -43,6 +43,7 @@ namespace EksamensProjektS2015
         public Texture2D bg_Noise;
         public Texture2D valg_button, valg_textbox, valg_divider;
         public Texture2D SidePanel_left,SidePanel_Right;
+        public Texture2D Title;
 
         public TextBox[] texts = new TextBox[10];
         public Button[] buttons = new Button[10];
@@ -97,16 +98,17 @@ namespace EksamensProjektS2015
             };
 
             //Main Menu
-            buttons[0] = new Button(new Vector2(460, 100), "Start", CopperPlateGothicLight48, Color.Black, Start_Normal, new Vector2(320, 110),false);
-            buttons[1] = new Button(new Vector2(470, 270), "Om spillet", CopperPlateGothicLight36, Color.Black, Main_Medium_Normal, new Vector2(300, 75), false);
-            buttons[2] = new Button(new Vector2(470, 370), "Highscore", CopperPlateGothicLight36, Color.Black, Main_Medium_Normal, new Vector2(300, 75), false);
-            buttons[3] = new Button(new Vector2(470, 530), "Afslut", CopperPlateGothicLight36, Color.Black, Main_Medium_Normal, new Vector2(300, 75), false);
+            buttons[0] = new Button(new Vector2(180, 200), "Start", CopperPlateGothicLight48, Color.Black,valg_button, new Vector2(920,100),false);
+            buttons[1] = new Button(new Vector2(180, 320), "Om spillet", CopperPlateGothicLight36, Color.Black, valg_button, new Vector2(920, 100), false);
+            buttons[2] = new Button(new Vector2(180, 440), "Highscore", CopperPlateGothicLight36, Color.Black, valg_button, new Vector2(920, 100), false);
+            buttons[3] = new Button(new Vector2(180, 560), "Afslut", CopperPlateGothicLight36, Color.Black, valg_button, new Vector2(920, 100), false);
             
-            menus[0] = new GameObject[4];
+            menus[0] = new GameObject[5];
             menus[0][0] = buttons[0];
             menus[0][1] = buttons[1];
             menus[0][2] = buttons[2];
             menus[0][3] = buttons[3];
+            menus[0][4] = new TextBox(new Vector2(0,20), "", ArialNarrow48, Color.White, Title, new Vector2(150, 100), false);
 
             MenuToggle();
 
@@ -214,6 +216,8 @@ namespace EksamensProjektS2015
             ArialNarrow48 = Content.Load<SpriteFont>("ArialNarrow48");
             Arial12 = Content.Load<SpriteFont>("Arial12");
 
+            Title = Content.Load<Texture2D>("Title");
+
             SidePanel_left = Content.Load<Texture2D>("SidePanel_Left");
             SidePanel_Right = Content.Load<Texture2D>("SidePanel_Right");
             arrow = Content.Load<Texture2D>("Arrow");
@@ -250,7 +254,7 @@ namespace EksamensProjektS2015
             {
                 if (move == true)
                 {
-                    menus[2][i].Position -= new Vector2(0, 400 * deltaTime);
+                    //menus[2][i].Position -= new Vector2(0, 400 * deltaTime);
                     vScroll += 600 * deltaTime;
 
                     for (int i = 0; i < 11; i++)
