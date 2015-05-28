@@ -13,6 +13,7 @@ namespace TestProject
         public void ButtonClick()
         {
             EksamensProjektS2015.Button b = new EksamensProjektS2015.Button();
+            
 
             b.Clicked = false;
 
