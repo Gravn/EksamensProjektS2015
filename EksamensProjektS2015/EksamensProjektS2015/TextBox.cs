@@ -35,6 +35,10 @@ namespace EksamensProjektS2015
 
         }
 
+        public TextBox()
+        {
+        }
+
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);

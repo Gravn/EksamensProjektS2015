@@ -44,6 +44,7 @@ namespace EksamensProjektS2015
         public Texture2D bg_Noise;
         public Texture2D content_textBox;
         public Texture2D[] valg_button = new Texture2D[5];
+        public Texture2D SidePanel_left,SidePanel_Right;
 
         public TextBox[] texts = new TextBox[10];
         public Button[] buttons = new Button[10];
@@ -52,7 +53,7 @@ namespace EksamensProjektS2015
         delegate void GetFunctions();
         private GetFunctions[] buttonFuctions;
 
-        private string text_situation = "", text_fakta = "";
+        private string text_situation = "", text_fakta = "",text_A= "",text_B = "";
 
         //private TimeLine TL;
         private int dayCounter = 40;
@@ -81,7 +82,7 @@ namespace EksamensProjektS2015
             // TODO: Add your initialization logic here
             base.Initialize();
 
-            dbConn = new SQLiteConnection("Data Source=dbProsa.db;Version=3");
+            dbConn = new SQLiteConnection("Data Source=dbProsa_27-5-15.db;Version=3");
             dbComm = new SQLiteCommand();
             dbConn.Open();
 
@@ -99,9 +100,9 @@ namespace EksamensProjektS2015
 
             //Main Menu
             buttons[0] = new Button(new Vector2(460, 100), "Start", CopperPlateGothicLight48, Color.Black, Start_Normal, new Vector2(320, 110),false);
-            buttons[1] = new Button(new Vector2(470, 270), "Om spillet", CopperPlateGothicLight36, Color.Black,valg_button[0], new Vector2(300, 75), false);
-            buttons[2] = new Button(new Vector2(470, 370), "Highscore", CopperPlateGothicLight36, Color.Black,content_textBox, new Vector2(300, 75), false);
-            buttons[3] = new Button(new Vector2(470, 530), "Afslut", CopperPlateGothicLight36, Color.Black, red1, new Vector2(300, 75), true);
+            buttons[1] = new Button(new Vector2(470, 270), "Om spillet", CopperPlateGothicLight36, Color.Black, Main_Medium_Normal, new Vector2(300, 75), false);
+            buttons[2] = new Button(new Vector2(470, 370), "Highscore", CopperPlateGothicLight36, Color.Black, Main_Medium_Normal, new Vector2(300, 75), false);
+            buttons[3] = new Button(new Vector2(470, 530), "Afslut", CopperPlateGothicLight36, Color.Black, Main_Medium_Normal, new Vector2(300, 75), false);
             
             menus[0] = new GameObject[4];
             menus[0][0] = buttons[0];
@@ -122,24 +123,28 @@ namespace EksamensProjektS2015
             menus[1][2] = buttons[4];
 
 
-            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "valg", "ID", 1);
+            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm,"valg","ID","1");
             while (reader.Read())
             {
-                text_situation = (string)("" + reader["Spoergsmaal"]).Replace("\\n", "\n");
-                text_fakta = (string)("" + reader["Fakta"]).Replace("\\n", "\n");
+                text_situation = (string)("" + reader["SpgTekst"]).Replace("\\n", "\n");
+                text_fakta = (string)("" + reader["FaktaTekst"]).Replace("\\n", "\n");
+                
+
             }
 
-            //Choice            
-            menus[2] = new GameObject[4];
-            menus[2][0] = texts[2] = new TextBox(new Vector2(100, 60), "Velkommen, " + text_situation, ArialNarrow48, Color.White, red1, new Vector2(1080, 240), true);
-            menus[2][1] = buttons[5] = new Button(new Vector2(100 + 120, 60 + 240 + 30), "JA", ArialNarrow48, Color.White, red1, new Vector2(80, 80), true);
-            menus[2][2] = buttons[6] = new Button(new Vector2(100 + 1080 - 120 - 40, 60 + 240 + 30), "Nej", ArialNarrow48, Color.White, red1, new Vector2(80, 80), true);
-            menus[2][3] = texts[3] = new TextBox(new Vector2(150, 440), "Vidste du, at " + text_fakta, ArialNarrow48, Color.White, red1, new Vector2(980, 240), true);
+            //Choice
+            menus[2] = new GameObject[7];
+            menus[2][0] = texts[2] = new TextBox(new Vector2(180, 40), "" + text_situation, Arial12, Color.White, content_textBox, new Vector2(920, 220), false);
+            menus[2][1] = buttons[5] = new Button(new Vector2(180,40+220), "Ja" + text_A, ArialNarrow48, Color.White, valg_button[0], new Vector2(920, 100), false);
+            menus[2][2] = buttons[6] = new Button(new Vector2(180,40+220+100), "Nej" + text_B, ArialNarrow48, Color.White, valg_button[0], new Vector2(920,100), false);
+            menus[2][3] = texts[3] = new TextBox(new Vector2(180, 40+220+100+100), "" + text_fakta, Arial12, Color.White, content_textBox, new Vector2(920, 220), false);
 
             //Consequence
-            menus[3] = new GameObject[1];
-            menus[3][0] = new Button(new Vector2(640, 360), "Konsekvens.", ArialNarrow48, Color.White, red1, new Vector2(80, 80), true);
-           
+            //load konsekvens fra db.
+
+            menus[2][4] = new TextBox(new Vector2(180, 40 + 220 + 100 + 100+220), "Det var smart.", Arial12, Color.White, content_textBox, new Vector2(920, 220), false);
+            menus[2][5] = new Button(new Vector2(180,40+220+100+100+220+220), "Videre", Arial12, Color.White, valg_button[0], new Vector2(920, 100), false);
+            menus[2][6] = new TextBox(new Vector2(180, 40 + 220 + 100 + 100 + 220+220+100), "Vidste du, at", Arial12, Color.White, content_textBox, new Vector2(920, 220), false);
 
             //HighScore
             menus[4] = new GameObject[1];
@@ -154,7 +159,7 @@ namespace EksamensProjektS2015
         /// Navigates from questions to consequences, based on the user's answers
         /// </summary>
         /// <param name="btn"></param>
-        public void MakeChoise(Button btn, int situationID)
+        public void MakeChoice(Button btn, int situationID)
         {
             for (int i = 0; i < 2; i++ )
             {
@@ -205,8 +210,9 @@ namespace EksamensProjektS2015
             Arial12 = Content.Load<SpriteFont>("Arial12");
             
             red1 = Content.Load<Texture2D>("Red1");
-            
 
+            SidePanel_left = Content.Load<Texture2D>("SidePanel_Left");
+            SidePanel_Right = Content.Load<Texture2D>("SidePanel_Right");
             arrow = Content.Load<Texture2D>("Arrow");
 
             bg_Noise = Content.Load<Texture2D>("bg_LightGreyNoise");
@@ -225,25 +231,24 @@ namespace EksamensProjektS2015
             // TODO: Unload any non ContentManager content here
         }
 
-
         public float vScroll = 0;
         public bool move = false;
         protected override void Update(GameTime gameTime)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             dayCounter++;
-            if (dayCounter >= 620)
+            if (dayCounter >= 680)
             {
                 dayCounter = 100;
             }
 
-            if (vScroll > -720 && move == true)
+            if (vScroll > -680 && move == true)
             {
-                vScroll -= 10 * deltaTime;
+                vScroll -= 400*deltaTime;
 
                 for (int i = 0; i < menus[2].Length; i++)
                 {
-                    menus[2][i].Position -= new Vector2(0, 10 * deltaTime);
+                    menus[2][i].Position -= new Vector2(0, 400*deltaTime);
                 }
             }
             else
@@ -251,7 +256,6 @@ namespace EksamensProjektS2015
                 move = false;
             }
             
-
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
@@ -343,20 +347,24 @@ namespace EksamensProjektS2015
             if(menuState.Equals(Menu.Choice))
             {
                 //JA
-                if (buttons[0].Clicked)
+                if ((menus[2][1] as Button).Clicked)
                 {
-                    //move = true;
-                    MenuToggle();
-                    menuState = Menu.Consequence;
-                    MenuToggle();
+                    move = true;
+                    //MenuToggle();
+                    //menuState = Menu.Consequence;
+                    //MenuToggle();
                 }
 
                 //Nej
                 if ((menus[2][2] as Button).Clicked)
                 {
-                    MenuToggle();
-                    menuState = Menu.Consequence;
-                    MenuToggle();
+                    move = true;
+
+                }
+                
+                if ((menus[2][5] as Button).Clicked)
+                {
+                    move = true;
                 }
             }
 
@@ -366,10 +374,7 @@ namespace EksamensProjektS2015
                 {
                     MenuToggle();
                     menuState = Menu.Choice;
-                    
                     //temp code.
-
-                    
                     MenuToggle();
                 }
             }
