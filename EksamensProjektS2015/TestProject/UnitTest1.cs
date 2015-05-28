@@ -20,18 +20,5 @@ namespace TestProject
 
             Assert.AreEqual(true, result);
         }
-
-        [TestMethod]
-        public void ButtonClick()
-        {
-            EksamensProjektS2015.Button b = new EksamensProjektS2015.Button();
-
-            b.Pressed = false;
-
-            bool result = b.Clicked;
-
-            Assert.AreEqual(true, result);
-        }
-
     }
 }

@@ -248,7 +248,7 @@ namespace EksamensProjektS2015
 
                 for (int i = 0; i < menus[2].Length; i++)
                 {
-                    menus[2][i].Position -= new Vector2(0, 400*deltaTime);
+                    menus[2][i].Position -= new Vector2(0, 400 * deltaTime);
                 }
             }
             else
