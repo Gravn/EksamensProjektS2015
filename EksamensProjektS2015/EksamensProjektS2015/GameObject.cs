@@ -22,6 +22,11 @@ namespace EksamensProjektS2015
             this.position = position;   
         }
 
+        public GameObject()
+        {
+            
+        }
+
         public virtual void Update(float deltaTime)
         { 
                

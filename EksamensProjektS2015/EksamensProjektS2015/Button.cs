@@ -17,6 +17,12 @@ namespace EksamensProjektS2015
             
         }
 
+        public Button()
+        {
+
+        }
+
+
         private bool clicked = false;
 
         public bool Clicked
