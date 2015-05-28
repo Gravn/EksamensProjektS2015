@@ -49,6 +49,7 @@ namespace EksamensProjektS2015
         public TextBox[] texts = new TextBox[10];
         public Button[] buttons = new Button[10];
 
+        // Delegates to simplify menu code later in the script
         delegate void GetFunctions();
         private GetFunctions[] buttonFuctions;
 
@@ -86,9 +87,7 @@ namespace EksamensProjektS2015
             dbConn.Open();
 
             //Database.Functions.CreateDatabase("dbProsa");
-
             //Database.Functions.ManualFunction(dbConn, dbComm, "CREATE TABLE IF NOT EXISTS 'valg' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Fakta' TEXT,'Spoergsmaal' TEXT, 'Konsekvens_A' INTEGER,'Konsekvens_B' INTEGER)");
-
             //Database.Functions.ManualFunction(dbConn, dbComm, "INSERT INTO 'valg' ('Fakta', 'Spoergsmaal', 'Konsekvens_A', 'Konsekvens_B') VALUES ('Prosa vil hjælpe dig, hvis du udsættes for sexchikane på arbejdspladsen.', 'Din chef tager på dig. \nHvad vil du gøre?', 0, 1)");
 
             KeyboardEvents.KeyTyped += KeyTyped;
@@ -175,21 +174,33 @@ namespace EksamensProjektS2015
         }
         public void MenuToggle()
         {
+            // Get all objects in menus
             for (int i = 0; i < menus[(int)menuState].Length; i++)
             {
+                // Checks if the object exists in the gameobjects list
                 if (gameObjects.Contains(menus[(int)menuState][i]))
                 {
+                    // Insure the object is a button
                     if (menus[(int)menuState][i] is Button)
                     {
+                        // Set the 'clicked' bool for the button to false
                         (menus[(int)menuState][i] as Button).Clicked = false;
                     }
+                    // Remove the button from the gameobjects list
                     gameObjects.Remove(menus[(int)menuState][i]);
                 }
                 else
                 {
+                    // Otherwise add the button
                     gameObjects.Add(menus[(int)menuState][i]);
                 }
             }
+        }
+        public void MenuNavigation(Menu menu)
+        {
+            MenuToggle();
+            menuState = menu;
+            MenuToggle();
         }
         protected override void LoadContent()
         {
@@ -252,7 +263,23 @@ namespace EksamensProjektS2015
             {
                 Exit();
             }
-
+            // Check all buttons' states in the menu
+            /*for (int i = 0; i < menus.Length; i++)
+            {
+                if (menuState == (Menu)(i))
+                {
+                    for (int j = 0; j < menus[i].Length; j++)
+                    {
+                        if (menus[i][j] is Button)
+                        {
+                            if((menus[i][j] as Button).Clicked)
+                            {
+                                
+                            }
+                        }
+                    }
+                }
+            }*/
             if (menuState == Menu.Main)
             {
                 //Start
@@ -322,16 +349,6 @@ namespace EksamensProjektS2015
 
             if(menuState.Equals(Menu.Choice))
             {
-                /*for (int i = 0; i < menus.Length; i++ )
-                {
-                    for (int j = 0; j < menus[i].Length; j++)
-                    {
-                        if((menus[i][j] as Button).Clicked)
-                        {
-                            buttonFuctions[j]();
-                        }
-                    }
-                }*/
                 //JA
                 if ((menus[2][1] as Button).Clicked)
                 {
