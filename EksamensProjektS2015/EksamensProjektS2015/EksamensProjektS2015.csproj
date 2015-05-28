@@ -89,6 +89,12 @@
     <Content Include="Content\Red1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\SidePanel_Left.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\SidePanel_Right.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Textbox1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
