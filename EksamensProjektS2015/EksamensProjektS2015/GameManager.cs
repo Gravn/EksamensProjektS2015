@@ -247,7 +247,7 @@ namespace EksamensProjektS2015
         }
         public float Lerp(float from, float to, float time)
         {
-            return (to - from) * 0.1f * time;
+            return (to - from) * time;
         }
         protected override void LoadContent()
         {
