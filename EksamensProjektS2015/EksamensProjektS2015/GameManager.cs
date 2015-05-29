@@ -86,10 +86,10 @@ namespace EksamensProjektS2015
                 text_situation = (string)("" + reader["SpgTekst"]);
                 (menus[2][0] as TextBox).Content = text_situation; 
 
-                text_fakta = (string)("" + reader["FaktaTekst"]).Replace("\\n", "\n");
+                text_fakta = "" + reader["FaktaTekst"];
                 (menus[2][3] as TextBox).Content = text_fakta;
 
-                text_konFaktaTekst = (string)("" + reader["KonFaktaTekst"]).Replace("\\n", "\n");
+                text_konFaktaTekst = "" + reader["KonFaktaTekst"];
                 (menus[2][8] as TextBox).Content = text_konFaktaTekst;
 
             }
@@ -97,14 +97,14 @@ namespace EksamensProjektS2015
             reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", i);
             while (reader.Read())
             {
-                text_A = (string)(""+currentValg+":" + reader["svarValg"]).Replace("\\n,", ",\n");
+                text_A = "" + reader["svarValg"];
                 (menus[2][1] as Button).Content = text_A;
             }
 
             reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", i+1);
             while (reader.Read())
             {
-                text_B = (string)(""+currentValg+":" + reader["svarValg"]).Replace("\\n,", ",\n");
+                text_B = ""+reader["svarValg"];
                 (menus[2][2] as Button).Content = text_B;
             }
         }
@@ -114,7 +114,7 @@ namespace EksamensProjektS2015
             SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", i);
             while (reader.Read())
             {
-                text_konTekst = (string)(""+currentValg+":" + reader["konTekst"]).Replace("\\n,", ",\n");
+                text_konTekst = "" + reader["konTekst"];
                 (menus[2][6] as TextBox).Content = text_konTekst;
             }
         }
@@ -124,7 +124,7 @@ namespace EksamensProjektS2015
             // TODO: Add your initialization logic here
             base.Initialize();
 
-            dbConn = new SQLiteConnection("Data Source=dbProsa_27-5-15.db;Version=3");
+            dbConn = new SQLiteConnection("Data Source=Content/dbProsa_27-5-15.db;Version=3");
             dbComm = new SQLiteCommand();
             dbConn.Open();
 
