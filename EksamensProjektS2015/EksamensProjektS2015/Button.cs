@@ -19,7 +19,7 @@ namespace EksamensProjektS2015
 
         public Button()
         {
-
+        
         }
 
 
