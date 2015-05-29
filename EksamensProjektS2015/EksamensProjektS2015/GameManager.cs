@@ -245,6 +245,10 @@ namespace EksamensProjektS2015
             menuState = menu;
             MenuToggle();
         }
+        public float Lerp(float from, float to, float time)
+        {
+            return (to - from) * 0.1f * time;
+        }
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used tos draw textures.
@@ -298,7 +302,7 @@ namespace EksamensProjektS2015
 
                     for (int i = 0; i < 11; i++)
                     {
-                        menus[2][i].Position -= new Vector2(0, 600 * deltaTime);
+                        menus[2][i].Position -= new Vector2(0, 600 * deltaTime);//Lerp(menus[2][i].Position.Y, 600, deltaTime);
                         if (menus[2][i].Position.Y < -220)
                         {
                             menus[2][i].Position += new Vector2(0, 1440);

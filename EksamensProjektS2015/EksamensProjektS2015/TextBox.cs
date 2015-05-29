@@ -38,7 +38,9 @@ namespace EksamensProjektS2015
             this.fill = fill;
 
         }
-
+        /// <summary>
+        /// Empty constructor for testing
+        /// </summary>
         public TextBox()
         {
         }
