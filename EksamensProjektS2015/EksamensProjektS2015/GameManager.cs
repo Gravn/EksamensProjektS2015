@@ -43,6 +43,7 @@ namespace EksamensProjektS2015
         public Texture2D bg_Noise;
         public Texture2D valg_button, valg_textbox, valg_divider;
         public Texture2D SidePanel_left,SidePanel_Right;
+        public Texture2D Title;
 
         public TextBox[] texts = new TextBox[10];
         public Button[] buttons = new Button[10];
@@ -51,7 +52,8 @@ namespace EksamensProjektS2015
         delegate void GetFunctions();
         private GetFunctions[] buttonFuctions;
 
-        private string text_situation = "", text_fakta = "",text_A= "",text_B = "";
+        private string text_situation = "", text_fakta = "",text_A= "",text_B = "",text_konFaktaTekst = "",text_konTekst;
+        public int currentValg = 1;
 
         //private TimeLine TL;
         private int dayCounter = 40;
@@ -73,6 +75,48 @@ namespace EksamensProjektS2015
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
             Content.RootDirectory = "Content";
+        }
+
+        public void ReadValgContent(int i)
+        {
+            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "valg", "ID", i);
+
+            while (reader.Read())
+            {
+                text_situation = (string)("" + reader["SpgTekst"]);
+                (menus[2][0] as TextBox).Content = text_situation; 
+
+                text_fakta = (string)("" + reader["FaktaTekst"]).Replace("\\n", "\n");
+                (menus[2][3] as TextBox).Content = text_fakta;
+
+                text_konFaktaTekst = (string)("" + reader["KonFaktaTekst"]).Replace("\\n", "\n");
+                (menus[2][8] as TextBox).Content = text_konFaktaTekst;
+
+            }
+
+            reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", i);
+            while (reader.Read())
+            {
+                text_A = (string)(""+currentValg+":" + reader["svarValg"]).Replace("\\n,", ",\n");
+                (menus[2][1] as Button).Content = text_A;
+            }
+
+            reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", i+1);
+            while (reader.Read())
+            {
+                text_B = (string)(""+currentValg+":" + reader["svarValg"]).Replace("\\n,", ",\n");
+                (menus[2][2] as Button).Content = text_B;
+            }
+        }
+
+        public void ReadSvarContent(int i)
+        {
+            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", i);
+            while (reader.Read())
+            {
+                text_konTekst = (string)(""+currentValg+":" + reader["konTekst"]).Replace("\\n,", ",\n");
+                (menus[2][6] as TextBox).Content = text_konTekst;
+            }
         }
 
         protected override void Initialize()
@@ -97,16 +141,17 @@ namespace EksamensProjektS2015
             };
 
             //Main Menu
-            buttons[0] = new Button(new Vector2(460, 100), "Start", CopperPlateGothicLight48, Color.Black, Start_Normal, new Vector2(320, 110),false);
-            buttons[1] = new Button(new Vector2(470, 270), "Om spillet", CopperPlateGothicLight36, Color.Black, Main_Medium_Normal, new Vector2(300, 75), false);
-            buttons[2] = new Button(new Vector2(470, 370), "Highscore", CopperPlateGothicLight36, Color.Black, Main_Medium_Normal, new Vector2(300, 75), false);
-            buttons[3] = new Button(new Vector2(470, 530), "Afslut", CopperPlateGothicLight36, Color.Black, Main_Medium_Normal, new Vector2(300, 75), false);
+            buttons[0] = new Button(new Vector2(180, 200), "Start", CopperPlateGothicLight48, Color.Black,valg_button, new Vector2(920,100),false);
+            buttons[1] = new Button(new Vector2(180, 320), "Om spillet", CopperPlateGothicLight36, Color.Black, valg_button, new Vector2(920, 100), false);
+            buttons[2] = new Button(new Vector2(180, 440), "Highscore", CopperPlateGothicLight36, Color.Black, valg_button, new Vector2(920, 100), false);
+            buttons[3] = new Button(new Vector2(180, 560), "Afslut", CopperPlateGothicLight36, Color.Black, valg_button, new Vector2(920, 100), false);
             
-            menus[0] = new GameObject[4];
+            menus[0] = new GameObject[5];
             menus[0][0] = buttons[0];
             menus[0][1] = buttons[1];
             menus[0][2] = buttons[2];
             menus[0][3] = buttons[3];
+            menus[0][4] = new TextBox(new Vector2(0,20), "", ArialNarrow48, Color.White, Title, new Vector2(150, 100), false);
 
             MenuToggle();
 
@@ -120,20 +165,14 @@ namespace EksamensProjektS2015
             menus[1][1] = texts[1];
             menus[1][2] = buttons[4];
 
-            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm,"valg","ID","1");
-            while (reader.Read())
-            {
-                text_situation = (string)("" + reader["SpgTekst"]).Replace("\\n", "\n");
-                text_fakta = (string)("" + reader["FaktaTekst"]).Replace("\\n", "\n");
-                
 
-            }
+
 
             //Choice
             menus[2] = new GameObject[13];
             menus[2][0] = texts[2] = new TextBox(new Vector2(180, 40), "" + text_situation, Arial12, Color.White,valg_textbox, new Vector2(920, 220), false);
-            menus[2][1] = buttons[5] = new Button(new Vector2(180,40+220), "Ja" + text_A, ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
-            menus[2][2] = buttons[6] = new Button(new Vector2(180,40+220+100), "Nej" + text_B, ArialNarrow48, Color.Black, valg_button, new Vector2(920,100), false);
+            menus[2][1] = buttons[5] = new Button(new Vector2(180,40+220), "" + text_A, ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
+            menus[2][2] = buttons[6] = new Button(new Vector2(180,40+220+100), "" + text_B, ArialNarrow48, Color.Black, valg_button, new Vector2(920,100), false);
             menus[2][3] = texts[3] = new TextBox(new Vector2(180, 40+220+100+100), "" + text_fakta, Arial12, Color.White, valg_textbox, new Vector2(920, 220), false);
 
             //Consequence
@@ -141,9 +180,9 @@ namespace EksamensProjektS2015
             menus[2][4] = new TextBox(new Vector2(180, 720 + 220+40), "", Arial12, Color.White, valg_divider, Vector2.Zero, false);
             menus[2][5] = new TextBox(new Vector2(180, 720 + 220 +160), "", Arial12, Color.White, valg_divider, Vector2.Zero, false);
 
-            menus[2][6] = new TextBox(new Vector2(180,40+720), "Det var smart.", Arial12, Color.White, valg_textbox, new Vector2(920, 220), false);
-            menus[2][7] = new Button(new Vector2(180,40+720+220+50), "Videre", Arial12, Color.Black, valg_button, new Vector2(920, 100), false);
-            menus[2][8] = new TextBox(new Vector2(180, 40+720+220+50+100+50), "Vidste du, at", Arial12, Color.White, valg_textbox, new Vector2(920, 220), false);
+            menus[2][6] = new TextBox(new Vector2(180,40+720), "" + text_konTekst , Arial12, Color.White, valg_textbox, new Vector2(920, 220), false);
+            menus[2][7] = new Button(new Vector2(180,40+720+220+50), "Videre", ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
+            menus[2][8] = new TextBox(new Vector2(180, 40+720+220+50+100+50), ""+text_konFaktaTekst, Arial12, Color.White, valg_textbox, new Vector2(920, 220), false);
             
             menus[2][9] = new TextBox(new Vector2(180, -40), "", Arial12, Color.White, valg_divider, Vector2.Zero, false);
             menus[2][10] = new TextBox(new Vector2(180, 720 - 40), "", Arial12, Color.White, valg_divider, Vector2.Zero, false);
@@ -159,6 +198,8 @@ namespace EksamensProjektS2015
             menus[5] = new GameObject[1];
             menus[5][0] = new Button(new Vector2(640, 360), "Really Nothing to see here, move along(back)", ArialNarrow48, Color.White,Main_Medium_Normal, new Vector2(80, 80), true);
 
+            ReadValgContent(1);
+            ReadSvarContent(1);   
         }
         /// <summary>
         /// Navigates from questions to consequences, based on the user's answers
@@ -217,6 +258,8 @@ namespace EksamensProjektS2015
             CopperPlateGothicLight36 = Content.Load<SpriteFont>("CopperPlate Gothic Light 36");
             ArialNarrow48 = Content.Load<SpriteFont>("ArialNarrow48");
             Arial12 = Content.Load<SpriteFont>("Arial12");
+
+            Title = Content.Load<Texture2D>("Title");
 
             SidePanel_left = Content.Load<Texture2D>("SidePanel_Left");
             SidePanel_Right = Content.Load<Texture2D>("SidePanel_Right");
@@ -350,8 +393,8 @@ namespace EksamensProjektS2015
 
             if (menuState.Equals(Menu.Name))
             {
-                //textInput.HandleKeyUpdate(gameTime);
-                //texts[1].content = name;
+                textInput.HandleKeyUpdate(gameTime);
+                texts[1].Content = name;
 
                 if (buttons[4].Clicked)
                 {
@@ -366,8 +409,10 @@ namespace EksamensProjektS2015
                 //JA
                 if ((menus[2][1] as Button).Clicked)
                 {
+                    ReadSvarContent(currentValg);
+
                     move = true;
-                    
+
                     //MenuToggle();
                     //menuState = Menu.Consequence;
                     //MenuToggle();
@@ -376,12 +421,20 @@ namespace EksamensProjektS2015
                 //Nej
                 if ((menus[2][2] as Button).Clicked)
                 {
+                    ReadSvarContent(currentValg+1);
                     move = true;
 
                 }
                 
+
+                //videre
                 if ((menus[2][7] as Button).Clicked)
                 {
+                    
+                    ReadValgContent(currentValg);
+                    currentValg++;
+                    //ReadValgContent(currentValg);
+                    
                     move = true;
                 }
             }
