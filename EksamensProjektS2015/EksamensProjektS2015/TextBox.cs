@@ -9,7 +9,15 @@ namespace EksamensProjektS2015
 {
     public class TextBox : GameObject
     {
-        public string content = "Default";
+        
+        
+        private string content = "Default";
+
+        public string Content
+        {
+            get { return content; }
+            set { content = value; }
+        }
 
         public bool visible = true;
 
