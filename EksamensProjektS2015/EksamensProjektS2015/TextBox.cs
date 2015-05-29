@@ -9,8 +9,6 @@ namespace EksamensProjektS2015
 {
     public class TextBox : GameObject
     {
-        
-        
         private string content = "Default";
 
         public string Content
@@ -29,8 +27,6 @@ namespace EksamensProjektS2015
         public bool fill = true;
         public Vector2 size = Vector2.Zero;
         public Texture2D texture;
-
-
 
         public TextBox(Vector2 position,string content,SpriteFont font,Color fontColor,Texture2D texture,Vector2 size,bool fill):base(position)
         {

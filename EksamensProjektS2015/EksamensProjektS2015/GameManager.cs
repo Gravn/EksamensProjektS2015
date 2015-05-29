@@ -83,7 +83,7 @@ namespace EksamensProjektS2015
 
             while (reader.Read())
             {
-                text_situation = (string)("" + reader["SpgTekst"]).Replace("\\n", "\n");
+                text_situation = (string)("" + reader["SpgTekst"]);
                 (menus[2][0] as TextBox).Content = text_situation; 
 
                 text_fakta = (string)("" + reader["FaktaTekst"]).Replace("\\n", "\n");
