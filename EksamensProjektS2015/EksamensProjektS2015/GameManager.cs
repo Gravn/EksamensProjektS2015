@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SQLite;
+using System.Diagnostics;
 using Input;
 using Database;
 
@@ -77,46 +78,70 @@ namespace EksamensProjektS2015
             Content.RootDirectory = "Content";
         }
 
-        public void ReadValgContent(int i)
+        int row = 0;
+        string[] svarValg = new string[2];
+        string[] konTekst = new string[2];
+
+
+        //loads the next choice content.
+        public void ReadValgContent()
         {
-            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "valg", "ID", i);
+            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "valg", "ID", currentValg);
 
             while (reader.Read())
             {
+                //read  and assign dilemma text
                 text_situation = (string)("" + reader["SpgTekst"]);
                 (menus[2][0] as TextBox).Content = text_situation; 
 
+                //read dilemma and assign fact text
                 text_fakta = "" + reader["FaktaTekst"];
                 (menus[2][3] as TextBox).Content = text_fakta;
 
+                //read Kontekst, assign later when textbox is out of sight.
                 text_konFaktaTekst = "" + reader["KonFaktaTekst"];
-                (menus[2][8] as TextBox).Content = text_konFaktaTekst;
+
 
             }
 
-            reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", i);
+            //button content.
+            reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", currentValg);
+
+
+            //read and put into array.
             while (reader.Read())
             {
-                text_A = "" + reader["svarValg"];
-                (menus[2][1] as Button).Content = text_A;
+                svarValg[row] = reader["svarValg"].ToString();
+                row++;
             }
+            row = 0;
 
-            reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", i+1);
-            while (reader.Read())
-            {
-                text_B = ""+reader["svarValg"];
-                (menus[2][2] as Button).Content = text_B;
-            }
+            //rassign from array when done reading.
+            (menus[2][1] as Button).Content= svarValg[0];
+            (menus[2][2] as Button).Content = svarValg[1];
+
         }
 
-        public void ReadSvarContent(int i)
+        
+        public void ReadSvarContent(int index)
         {
-            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", i);
+            //This reads the consequences
+            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", currentValg);
             while (reader.Read())
             {
-                text_konTekst = "" + reader["konTekst"];
-                (menus[2][6] as TextBox).Content = text_konTekst;
+                konTekst[row] = reader["konTekst"].ToString();
+                row++;
+
             }
+            row = 0;
+
+            //assign consequence fact text, now that we´ve scrolled past.
+            //Read at ReadValgContent()
+            (menus[2][8] as TextBox).Content = text_konFaktaTekst;
+
+            //Assign the correct consequence text.
+            (menus[2][6] as TextBox).Content = konTekst[index];
+
         }
 
         protected override void Initialize()
@@ -165,9 +190,6 @@ namespace EksamensProjektS2015
             menus[1][1] = texts[1];
             menus[1][2] = buttons[4];
 
-
-
-
             //Choice
             menus[2] = new GameObject[13];
             menus[2][0] = texts[2] = new TextBox(new Vector2(180, 40), "" + text_situation, Arial12, Color.White,valg_textbox, new Vector2(920, 220), false);
@@ -198,8 +220,7 @@ namespace EksamensProjektS2015
             menus[5] = new GameObject[1];
             menus[5][0] = new Button(new Vector2(640, 360), "Really Nothing to see here, move along(back)", ArialNarrow48, Color.White,Main_Medium_Normal, new Vector2(80, 80), true);
 
-            ReadValgContent(1);
-            ReadSvarContent(1);   
+            ReadValgContent();   
         }
         /// <summary>
         /// Navigates from questions to consequences, based on the user's answers
@@ -342,7 +363,6 @@ namespace EksamensProjektS2015
                 //Start
                 if(buttons[0].Clicked)
                 {
-                    dayCounter += 100;
                     MenuToggle();
                     menuState = Menu.Name;
                     MenuToggle();
@@ -409,7 +429,7 @@ namespace EksamensProjektS2015
                 //JA
                 if ((menus[2][1] as Button).Clicked)
                 {
-                    ReadSvarContent(currentValg);
+                    ReadSvarContent(0);
 
                     move = true;
 
@@ -421,20 +441,18 @@ namespace EksamensProjektS2015
                 //Nej
                 if ((menus[2][2] as Button).Clicked)
                 {
-                    ReadSvarContent(currentValg+1);
+                    ReadSvarContent(1);
                     move = true;
 
                 }
-                
 
                 //videre
                 if ((menus[2][7] as Button).Clicked)
                 {
-                    
-                    ReadValgContent(currentValg);
                     currentValg++;
+                    ReadValgContent();
                     //ReadValgContent(currentValg);
-                    
+                    (menus[2][7] as Button).Clicked = false;
                     move = true;
                 }
             }
@@ -486,6 +504,7 @@ namespace EksamensProjektS2015
                 gameObjects[i].Draw(spriteBatch);
             }
 
+            spriteBatch.DrawString(Arial12,""+currentValg,Vector2.Zero,Color.White);
             spriteBatch.End();
             
             // TODO: Add your drawing code here
