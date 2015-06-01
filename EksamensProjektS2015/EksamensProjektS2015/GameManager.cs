@@ -116,9 +116,9 @@ namespace EksamensProjektS2015
             //Name input
             menus[1] = new GameObject[4];
             menus[1][0] = new TextBox(new Vector2(100, 100), "Navn:", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(150, 100), false);
-            menus[1][1] = new TextBox(new Vector2(250, 100), name, ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(220, 100), false);
-            menus[1][2] = new Button(new Vector2(100, 240), "Videre", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(220, 100), false);
-            menus[1][3] = new Button(new Vector2(100, 540), "Tilbage", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(220, 100), false);
+            menus[1][1] = new TextBox(new Vector2(250, 100), name, ArialNarrow48, Color.White,0, Main_Medium_Normal, new Vector2(220, 100), false);
+            menus[1][2] = new Button(new Vector2(100, 240), "Videre", ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(220, 100), false);
+            menus[1][3] = new Button(new Vector2(100, 540), "Tilbage", ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(220, 100), false);
 
             //Choice
             menus[2] = new GameObject[18];
@@ -146,18 +146,20 @@ namespace EksamensProjektS2015
             menus[2][16] = new TextBox(new Vector2(0,500),"Din Løn:",ErasMediumITC14,Color.White,null,new Vector2(170,0),false);
             menus[2][17] = new Button(new Vector2(1100,650), "Menu" + text_B, ArialNarrow48, Color.Black,Main_Medium_Normal, new Vector2(180,180),false);
             //HighScore
-            menus[3] = new GameObject[1];
-            menus[3][0] = new Button(new Vector2(180,360), "Nothing to see here, move along(back)", ArialNarrow48, Color.White,Main_Medium_Normal, new Vector2(920,100), true);
+            menus[3] = new GameObject[2];
+            menus[3][0] = new Button(new Vector2(180,460), "Tilbage", ArialNarrow48, Color.Black,valg_button, new Vector2(920,100), false);
+            menus[3][1] = new TextBox(new Vector2(180, 40), "|      ID      |      Navn      |         Score        |       Dato       |", ErasMediumITC14, Color.White, valg_divider, new Vector2(920, 80), false);
+
 
             //About
             menus[4] = new GameObject[1];
-            menus[4][0] = new Button(new Vector2(180, 360), "Really Nothing to see here, move along(back)", ArialNarrow48, Color.White,Main_Medium_Normal, new Vector2(920,100), true);
+            menus[4][0] = new Button(new Vector2(180, 360), "Tilbage", ArialNarrow48, Color.Black,Main_Medium_Normal, new Vector2(920,100),false);
 
             //ContinouePromt
             menus[5] = new GameObject[2];
-            menus[5][0] = new Button(new Vector2(180, 160), "Fortsæt", ArialNarrow48, Color.White, valg_button, new Vector2(920, 100), false);
+            menus[5][0] = new Button(new Vector2(180, 160), "Fortsæt", ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
 
-            menus[5][1] = new Button(new Vector2(180, 260), "Nyt Spil", ArialNarrow48, Color.White, valg_button, new Vector2(920, 100), false);
+            menus[5][1] = new Button(new Vector2(180, 260), "Nyt Spil", ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
 
 
 
