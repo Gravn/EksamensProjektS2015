@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SQLite;
+using System.Diagnostics;
 using Input;
 using Database;
 
@@ -17,11 +18,12 @@ namespace EksamensProjektS2015
             Main = 0,
             Name = 1,
             Choice = 2,
-            Consequence = 3,
-            Highscore = 4,
-            About = 5
+            Highscore = 3,
+            About = 4,
+            ContinuePromt =5
         };
 
+        #region variables
         public Menu menuState = Menu.Main;
         public GameObject[][] menus = new GameObject[10][];
 
@@ -33,7 +35,7 @@ namespace EksamensProjektS2015
         KeyboardEvents textInput = new KeyboardEvents();
 
         public static SpriteFont ArialNarrow48;
-        public static SpriteFont Arial12;
+        public static SpriteFont ErasMediumITC14;
         public static SpriteFont CopperPlateGothicLight48;
         public static SpriteFont CopperPlateGothicLight36;
 
@@ -44,9 +46,11 @@ namespace EksamensProjektS2015
         public Texture2D valg_button, valg_textbox, valg_divider;
         public Texture2D SidePanel_left,SidePanel_Right;
         public Texture2D Title;
+        public Texture2D Rival_Silhouette;
 
-        public TextBox[] texts = new TextBox[10];
-        public Button[] buttons = new Button[10];
+        private int row = 0;
+        private string[] svarValg = new string[2];
+        private string[] konTekst = new string[2];
 
         // Delegates to simplify menu code later in the script
         delegate void GetFunctions();
@@ -67,6 +71,7 @@ namespace EksamensProjektS2015
             get { return gameObjects; }
             set { gameObjects = value; }
         }
+        #endregion
 
         public GameManager()
             : base()
@@ -77,54 +82,12 @@ namespace EksamensProjektS2015
             Content.RootDirectory = "Content";
         }
 
-        public void ReadValgContent(int i)
-        {
-            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "valg", "ID", i);
-
-            while (reader.Read())
-            {
-                text_situation = (string)("" + reader["SpgTekst"]);
-                (menus[2][0] as TextBox).Content = text_situation; 
-
-                text_fakta = "" + reader["FaktaTekst"];
-                (menus[2][3] as TextBox).Content = text_fakta;
-
-                text_konFaktaTekst = "" + reader["KonFaktaTekst"];
-                (menus[2][8] as TextBox).Content = text_konFaktaTekst;
-
-            }
-
-            reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", i);
-            while (reader.Read())
-            {
-                text_A = "" + reader["svarValg"];
-                (menus[2][1] as Button).Content = text_A;
-            }
-
-            reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", i+1);
-            while (reader.Read())
-            {
-                text_B = ""+reader["svarValg"];
-                (menus[2][2] as Button).Content = text_B;
-            }
-        }
-
-        public void ReadSvarContent(int i)
-        {
-            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", i);
-            while (reader.Read())
-            {
-                text_konTekst = "" + reader["konTekst"];
-                (menus[2][6] as TextBox).Content = text_konTekst;
-            }
-        }
-
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
             base.Initialize();
 
-            dbConn = new SQLiteConnection("Data Source=Content/dbProsa_27-5-15.db;Version=3");
+            dbConn = new SQLiteConnection("Data Source=Content/TextContent.db;Version=3");
             dbComm = new SQLiteCommand();
             dbConn.Open();
 
@@ -141,114 +104,66 @@ namespace EksamensProjektS2015
             };
 
             //Main Menu
-            buttons[0] = new Button(new Vector2(180, 200), "Start", CopperPlateGothicLight48, Color.Black,valg_button, new Vector2(920,100),false);
-            buttons[1] = new Button(new Vector2(180, 320), "Om spillet", CopperPlateGothicLight36, Color.Black, valg_button, new Vector2(920, 100), false);
-            buttons[2] = new Button(new Vector2(180, 440), "Highscore", CopperPlateGothicLight36, Color.Black, valg_button, new Vector2(920, 100), false);
-            buttons[3] = new Button(new Vector2(180, 560), "Afslut", CopperPlateGothicLight36, Color.Black, valg_button, new Vector2(920, 100), false);
-            
             menus[0] = new GameObject[5];
-            menus[0][0] = buttons[0];
-            menus[0][1] = buttons[1];
-            menus[0][2] = buttons[2];
-            menus[0][3] = buttons[3];
+            menus[0][0] = new Button(new Vector2(180, 200), "Start", CopperPlateGothicLight48, Color.Black, valg_button, new Vector2(920, 100), false);
+            menus[0][1] = new Button(new Vector2(180, 320), "Om spillet", CopperPlateGothicLight36, Color.Black, valg_button, new Vector2(920, 100), false);
+            menus[0][2] = new Button(new Vector2(180, 440), "Highscore", CopperPlateGothicLight36, Color.Black, valg_button, new Vector2(920, 100), false);
+            menus[0][3] = new Button(new Vector2(180, 560), "Afslut", CopperPlateGothicLight36, Color.Black, valg_button, new Vector2(920, 100), false);
             menus[0][4] = new TextBox(new Vector2(0,20), "", ArialNarrow48, Color.White, Title, new Vector2(150, 100), false);
 
             MenuToggle();
 
             //Name input
-            texts[0] = new TextBox(new Vector2(100, 100), "Navn:", ArialNarrow48, Color.White,Main_Medium_Normal, new Vector2(150, 100),true);
-            texts[1] = new TextBox(new Vector2(250, 100), name, ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(220, 100),true);
-            buttons[4] = new Button(new Vector2(100, 240), "Videre", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(220, 100),true);
-            
-            menus[1] = new GameObject[3];
-            menus[1][0] = texts[0];
-            menus[1][1] = texts[1];
-            menus[1][2] = buttons[4];
-
-
-
+            menus[1] = new GameObject[4];
+            menus[1][0] = new TextBox(new Vector2(100, 100), "Navn:", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(150, 100), false);
+            menus[1][1] = new TextBox(new Vector2(250, 100), name, ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(220, 100), false);
+            menus[1][2] = new Button(new Vector2(100, 240), "Videre", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(220, 100), false);
+            menus[1][3] = new Button(new Vector2(100, 540), "Tilbage", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(220, 100), false);
 
             //Choice
-            menus[2] = new GameObject[13];
-            menus[2][0] = texts[2] = new TextBox(new Vector2(180, 40), "" + text_situation, Arial12, Color.White,valg_textbox, new Vector2(920, 220), false);
-            menus[2][1] = buttons[5] = new Button(new Vector2(180,40+220), "" + text_A, ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
-            menus[2][2] = buttons[6] = new Button(new Vector2(180,40+220+100), "" + text_B, ArialNarrow48, Color.Black, valg_button, new Vector2(920,100), false);
-            menus[2][3] = texts[3] = new TextBox(new Vector2(180, 40+220+100+100), "" + text_fakta, Arial12, Color.White, valg_textbox, new Vector2(920, 220), false);
+            menus[2] = new GameObject[18];
+            menus[2][0] =  new TextBox(new Vector2(180, 40), "" + text_situation, ErasMediumITC14, Color.White,valg_textbox, new Vector2(920, 220), false);
+            menus[2][1] = new Button(new Vector2(180,40+220), "" + text_A, ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
+            menus[2][2] = new Button(new Vector2(180,40+220+100), "" + text_B, ArialNarrow48, Color.Black, valg_button, new Vector2(920,100), false);
+            menus[2][3] = new TextBox(new Vector2(180, 40+220+100+100), "" + text_fakta, ErasMediumITC14, Color.White, valg_textbox, new Vector2(920, 220), false);
 
             //Consequence
-            //load konsekvens from db.
-            menus[2][4] = new TextBox(new Vector2(180, 720 + 220+40), "", Arial12, Color.White, valg_divider, Vector2.Zero, false);
-            menus[2][5] = new TextBox(new Vector2(180, 720 + 220 +160), "", Arial12, Color.White, valg_divider, Vector2.Zero, false);
+            menus[2][4] = new TextBox(new Vector2(180, 720 + 220+40), "", ErasMediumITC14, Color.White, valg_divider, Vector2.Zero, false);
+            menus[2][5] = new TextBox(new Vector2(180, 720 + 220 +160), "", ErasMediumITC14, Color.White, valg_divider, Vector2.Zero, false);
 
-            menus[2][6] = new TextBox(new Vector2(180,40+720), "" + text_konTekst , Arial12, Color.White, valg_textbox, new Vector2(920, 220), false);
+            menus[2][6] = new TextBox(new Vector2(180,40+720), "" + text_konTekst , ErasMediumITC14, Color.White, valg_textbox, new Vector2(920, 220), false);
             menus[2][7] = new Button(new Vector2(180,40+720+220+50), "Videre", ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
-            menus[2][8] = new TextBox(new Vector2(180, 40+720+220+50+100+50), ""+text_konFaktaTekst, Arial12, Color.White, valg_textbox, new Vector2(920, 220), false);
+            menus[2][8] = new TextBox(new Vector2(180, 40+720+220+50+100+50), ""+text_konFaktaTekst, ErasMediumITC14, Color.White, valg_textbox, new Vector2(920, 220), false);
             
-            menus[2][9] = new TextBox(new Vector2(180, -40), "", Arial12, Color.White, valg_divider, Vector2.Zero, false);
-            menus[2][10] = new TextBox(new Vector2(180, 720 - 40), "", Arial12, Color.White, valg_divider, Vector2.Zero, false);
+            menus[2][9] = new TextBox(new Vector2(180, -40), "", ErasMediumITC14, Color.White, valg_divider, Vector2.Zero, false);
+            menus[2][10] = new TextBox(new Vector2(180, 720 - 40), "", ErasMediumITC14, Color.White, valg_divider, Vector2.Zero, false);
             
-            menus[2][11] = new TextBox(new Vector2(0, 0), "" , Arial12, Color.White, SidePanel_left, Vector2.Zero, false);
-            menus[2][12] = new TextBox(new Vector2(1100, 0), "", Arial12, Color.White, SidePanel_Right, Vector2.Zero, false);
-
+            menus[2][11] = new TextBox(new Vector2(0, 0), "" , ErasMediumITC14, Color.White, SidePanel_left, Vector2.Zero, false);
+            menus[2][12] = new TextBox(new Vector2(1100, 0), "", ErasMediumITC14, Color.White, SidePanel_Right, Vector2.Zero, false);
+            menus[2][13] = new TextBox(new Vector2(5, 150), "", ErasMediumITC14, Color.White, Rival_Silhouette, Vector2.Zero, false);
+            menus[2][14] = new TextBox(new Vector2(5, 300), "Karl Åge\nLøn: 35.000kr\nErfaring: 2 år", ErasMediumITC14, Color.White, null, new Vector2(170, 70), false);
+            menus[2][15] = new TextBox(new Vector2(1100, dayCounter), "01/06/2015\n02/05/2015\n03/06/2015\n04/06/2015\n05/06/2015\n06/06/2015\n05/07/2015\n08/06/2015\n09/06/2015\n", ErasMediumITC14, Color.White, null, new Vector2(170, 300), false);
+            menus[2][16] = new TextBox(new Vector2(0,500),"Din Løn:",ErasMediumITC14,Color.White,null,new Vector2(170,0),false);
+            menus[2][17] = new Button(new Vector2(1100,650), "Menu" + text_B, ArialNarrow48, Color.Black,Main_Medium_Normal, new Vector2(180,180),false);
             //HighScore
-            menus[4] = new GameObject[1];
-            menus[4][0] = new Button(new Vector2(640,360), "Nothing to see here, move along(back)", ArialNarrow48, Color.White,Main_Medium_Normal, new Vector2(80, 80), true);
+            menus[3] = new GameObject[1];
+            menus[3][0] = new Button(new Vector2(180,360), "Nothing to see here, move along(back)", ArialNarrow48, Color.White,Main_Medium_Normal, new Vector2(920,100), true);
 
             //About
-            menus[5] = new GameObject[1];
-            menus[5][0] = new Button(new Vector2(640, 360), "Really Nothing to see here, move along(back)", ArialNarrow48, Color.White,Main_Medium_Normal, new Vector2(80, 80), true);
+            menus[4] = new GameObject[1];
+            menus[4][0] = new Button(new Vector2(180, 360), "Really Nothing to see here, move along(back)", ArialNarrow48, Color.White,Main_Medium_Normal, new Vector2(920,100), true);
 
-            ReadValgContent(1);
-            ReadSvarContent(1);   
-        }
-        /// <summary>
-        /// Navigates from questions to consequences, based on the user's answers
-        /// </summary>
-        /// <param name="btn"></param>
-        public void MakeChoice(Button btn, int situationID)
-        {
-            for (int i = 0; i < 2; i++ )
-            {
-                if(btn.Clicked)
-                {
+            //ContinouePromt
+            menus[5] = new GameObject[2];
+            menus[5][0] = new Button(new Vector2(180, 160), "Fortsæt", ArialNarrow48, Color.White, valg_button, new Vector2(920, 100), false);
 
-                }
-            }
+            menus[5][1] = new Button(new Vector2(180, 260), "Nyt Spil", ArialNarrow48, Color.White, valg_button, new Vector2(920, 100), false);
+
+
+
+            ReadValgContent();   
         }
-        public void MenuToggle()
-        {
-            // Get all objects in menus
-            for (int i = 0; i < menus[(int)menuState].Length; i++)
-            {
-                // Checks if the object exists in the gameobjects list
-                if (gameObjects.Contains(menus[(int)menuState][i]))
-                {
-                    // Insure the object is a button
-                    if (menus[(int)menuState][i] is Button)
-                    {
-                        // Set the 'clicked' bool for the button to false
-                        (menus[(int)menuState][i] as Button).Clicked = false;
-                    }
-                    // Remove the button from the gameobjects list
-                    gameObjects.Remove(menus[(int)menuState][i]);
-                }
-                else
-                {
-                    // Otherwise add the button
-                    gameObjects.Add(menus[(int)menuState][i]);
-                }
-            }
-        }
-        public void MenuNavigation(Menu menu)
-        {
-            MenuToggle();
-            menuState = menu;
-            MenuToggle();
-        }
-        public float Lerp(float from, float to, float time)
-        {
-            return (to - from) * time;
-        }
+<<<<<<< HEAD
         private float GetTopPosition()
         {
             float[] topElements = new float[menus[2].Length];
@@ -258,6 +173,9 @@ namespace EksamensProjektS2015
             }
             return topElements.Min();
         }
+=======
+        
+>>>>>>> f7073037e3441accc3bb62c07dc9a755a878b594
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used tos draw textures.
@@ -266,7 +184,7 @@ namespace EksamensProjektS2015
             CopperPlateGothicLight48 = Content.Load<SpriteFont>("CopperPlate Gothic Light 48");
             CopperPlateGothicLight36 = Content.Load<SpriteFont>("CopperPlate Gothic Light 36");
             ArialNarrow48 = Content.Load<SpriteFont>("ArialNarrow48");
-            Arial12 = Content.Load<SpriteFont>("Arial12");
+            ErasMediumITC14 = Content.Load<SpriteFont>("Eras Medium ITC");
 
             Title = Content.Load<Texture2D>("Title");
 
@@ -281,6 +199,7 @@ namespace EksamensProjektS2015
             valg_textbox = Content.Load<Texture2D>("Panel_Textbox");
             valg_button = Content.Load<Texture2D>("Panel_Button_normal");
             valg_divider = Content.Load<Texture2D>("Divider");
+            Rival_Silhouette = Content.Load<Texture2D>("Silhouette");
             
             //TL = new TimeLine(new Vector2(10, 10), dayCounter);
             // TODO: use this.Content to load your game content here
@@ -295,8 +214,13 @@ namespace EksamensProjektS2015
         public bool move = false;
         protected override void Update(GameTime gameTime)
         {
+            if (currentValg != 1)
+            {
+                (menus[0][0] as Button).Content = "Fortsæt/Nyt Spil";
+            }
+
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            dayCounter++;
+            //dayCounter++;
             if (dayCounter >= 680)
             {
                 dayCounter = 100;
@@ -337,6 +261,8 @@ namespace EksamensProjektS2015
             {
                 Exit();
             }
+
+            
             // Check all buttons' states in the menu
             /*for (int i = 0; i < menus.Length; i++)
             {
@@ -357,16 +283,24 @@ namespace EksamensProjektS2015
             if (menuState == Menu.Main)
             {
                 //Start
-                if(buttons[0].Clicked)
+                if((menus[0][0] as Button).Clicked)
                 {
-                    dayCounter += 100;
-                    MenuToggle();
-                    menuState = Menu.Name;
-                    MenuToggle();
+                    
+                        MenuToggle();
+                        if (currentValg == 1)
+                        {
+                            menuState = Menu.Name;
+                        }
+                        else
+                        {
+                            menuState = Menu.ContinuePromt;
+                        }
+                        MenuToggle();
+
                 }
 
                 //About
-                if(buttons[1].Clicked)
+                if ((menus[0][1] as Button).Clicked)
                 {
                     MenuToggle();
                     menuState = Menu.About;
@@ -374,7 +308,7 @@ namespace EksamensProjektS2015
                 }
 
                 //Highscore
-                if (buttons[2].Clicked)
+                if ((menus[0][2] as Button).Clicked)
                 {
                     MenuToggle();
                     menuState = Menu.Highscore;
@@ -382,7 +316,7 @@ namespace EksamensProjektS2015
                 }
 
                 //Exit
-                if (buttons[3].Clicked)
+                if ((menus[0][3] as Button).Clicked)
                 {
                     Exit();
                 }
@@ -390,7 +324,7 @@ namespace EksamensProjektS2015
 
             if (menuState.Equals(Menu.Highscore))
             {
-                if ((menus[4][0] as Button).Clicked)
+                if ((menus[3][0] as Button).Clicked)
                 {
                     MenuToggle();
                     menuState = Menu.Main;
@@ -400,7 +334,7 @@ namespace EksamensProjektS2015
 
             if (menuState.Equals(Menu.About))
             {
-                if ((menus[5][0] as Button).Clicked)
+                if ((menus[4][0] as Button).Clicked)
                 {
                     MenuToggle();
                     menuState = Menu.Main;
@@ -410,15 +344,25 @@ namespace EksamensProjektS2015
 
             if (menuState.Equals(Menu.Name))
             {
+                currentValg = 1;
                 textInput.HandleKeyUpdate(gameTime);
-                texts[1].Content = name;
+                (menus[1][1] as TextBox).Content = name;
 
-                if (buttons[4].Clicked)
+                if ((menus[1][2] as Button).Clicked)
                 {
                     MenuToggle();
                     menuState = Menu.Choice;
                     MenuToggle();
                 }
+
+                if ((menus[1][3] as Button).Clicked)
+                {
+                    MenuToggle();
+                    menuState = Menu.Main;
+                    MenuToggle();
+                }
+
+
             }
 
             if(menuState.Equals(Menu.Choice))
@@ -426,7 +370,7 @@ namespace EksamensProjektS2015
                 //JA
                 if ((menus[2][1] as Button).Clicked)
                 {
-                    ReadSvarContent(currentValg);
+                    ReadSvarContent(0);
 
                     move = true;
 
@@ -438,29 +382,44 @@ namespace EksamensProjektS2015
                 //Nej
                 if ((menus[2][2] as Button).Clicked)
                 {
-                    ReadSvarContent(currentValg+1);
+                    ReadSvarContent(1);
                     move = true;
 
                 }
-                
 
                 //videre
                 if ((menus[2][7] as Button).Clicked)
                 {
-                    
-                    ReadValgContent(currentValg);
+                    menus[2][15].Position -= new Vector2(0,24);
                     currentValg++;
+                    ReadValgContent();
                     //ReadValgContent(currentValg);
-                    
+                    (menus[2][7] as Button).Clicked = false;
                     move = true;
+                }
+
+                if ((menus[2][17] as Button).Clicked)
+                {
+                    MenuToggle();
+                    menuState = Menu.Main;
+                    MenuToggle();
                 }
             }
 
-            if (menuState.Equals(Menu.Consequence))
+            if (menuState.Equals(Menu.ContinuePromt))
             {
-                if ((menus[3][0] as Button).Clicked)
+                if ((menus[5][0] as Button).Clicked)
                 {
-                    move = true;
+                    MenuToggle();
+                    menuState = Menu.Choice;
+                    MenuToggle();
+                }
+
+                if ((menus[5][1] as Button).Clicked)
+                {
+                    MenuToggle();
+                    menuState = Menu.Name;
+                    MenuToggle();
                 }
             }
 
@@ -473,19 +432,6 @@ namespace EksamensProjektS2015
                 base.Update(gameTime);
         }
 
-        void KeyTyped(object sender, KeyboardEventArgs e)
-        {
-            if (e.character.HasValue)
-            {
-                name += e.character.Value;
-            }
-            
-            if (e.key == Keys.Back && name.Length > 0)
-            {
-                name = name.Substring(0, name.Length - 1);
-            }
-        }
-
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -496,17 +442,140 @@ namespace EksamensProjektS2015
             spriteBatch.Begin();
 
             spriteBatch.Draw(bg_Noise, new Rectangle(0, 0, bg_Noise.Width, bg_Noise.Height), Color.White);
-            spriteBatch.Draw(arrow, new Rectangle(10, dayCounter, 16, 16), Color.White);
+
 
             for (int i = 0; i < gameObjects.Count; i++)
             {
                 gameObjects[i].Draw(spriteBatch);
             }
+            spriteBatch.Draw(arrow, new Rectangle(1110, 124, 16, 16), Color.White);
 
+#if DEBUG
+            spriteBatch.DrawString(ErasMediumITC14,""+currentValg,Vector2.Zero,Color.White);
+#endif
             spriteBatch.End();
-            
+
             // TODO: Add your drawing code here
             base.Draw(gameTime);
+        }
+
+        void KeyTyped(object sender, KeyboardEventArgs e)
+        {
+            if (e.character.HasValue)
+            {
+                name += e.character.Value;
+            }
+
+            if (e.key == Keys.Back && name.Length > 0)
+            {
+                name = name.Substring(0, name.Length - 1);
+            }
+        }
+        
+        //loads the next choice content.
+        public void ReadValgContent()
+        {
+            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "valg", "ID", currentValg);
+
+            while (reader.Read())
+            {
+                //read  and assign dilemma text
+                text_situation = (string)("" + reader["SpgTekst"]);
+                (menus[2][0] as TextBox).Content = text_situation;
+
+                //read dilemma and assign fact text
+                text_fakta = "" + reader["FaktaTekst"];
+                (menus[2][3] as TextBox).Content = text_fakta;
+
+                //read Kontekst, assign later when textbox is out of sight.
+                text_konFaktaTekst = "" + reader["KonFaktaTekst"];
+            }
+
+            //button content.
+            reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", currentValg);
+
+            //read and put into array.
+            while (reader.Read())
+            {
+                svarValg[row] = reader["svarValg"].ToString();
+                row++;
+            }
+            row = 0;
+
+            //rassign from array when done reading.
+            (menus[2][1] as Button).Content = svarValg[0];
+            (menus[2][2] as Button).Content = svarValg[1];
+
+        }
+
+        public void ReadSvarContent(int index)
+        {
+            //This reads the consequences
+            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", currentValg);
+            while (reader.Read())
+            {
+                konTekst[row] = reader["konTekst"].ToString();
+                row++;
+
+            }
+            row = 0;
+
+            //assign consequence fact text, now that we´ve scrolled past.
+            //Read at ReadValgContent()
+            (menus[2][8] as TextBox).Content = text_konFaktaTekst;
+
+            //Assign the correct consequence text.
+            (menus[2][6] as TextBox).Content = konTekst[index];
+
+        }
+
+        /// <summary>
+        /// Navigates from questions to consequences, based on the user's answers
+        /// </summary>
+        /// <param name="btn"></param>
+        public void MakeChoice(Button btn, int situationID)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                if (btn.Clicked)
+                {
+
+                }
+            }
+        }
+        public void MenuToggle()
+        {
+            // Get all objects in menus
+            for (int i = 0; i < menus[(int)menuState].Length; i++)
+            {
+                // Checks if the object exists in the gameobjects list
+                if (gameObjects.Contains(menus[(int)menuState][i]))
+                {
+                    // Insure the object is a button
+                    if (menus[(int)menuState][i] is Button)
+                    {
+                        // Set the 'clicked' bool for the button to false
+                        (menus[(int)menuState][i] as Button).Clicked = false;
+                    }
+                    // Remove the button from the gameobjects list
+                    gameObjects.Remove(menus[(int)menuState][i]);
+                }
+                else
+                {
+                    // Otherwise add the button
+                    gameObjects.Add(menus[(int)menuState][i]);
+                }
+            }
+        }
+        public void MenuNavigation(Menu menu)
+        {
+            MenuToggle();
+            menuState = menu;
+            MenuToggle();
+        }
+        public float Lerp(float from, float to, float time)
+        {
+            return (to - from) * time;
         }
     }
 }
