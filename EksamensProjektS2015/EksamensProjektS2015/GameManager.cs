@@ -165,7 +165,6 @@ namespace EksamensProjektS2015
 
             ReadValgContent();   
         }
-<<<<<<< HEAD
         private float GetTopPosition()
         {
             float[] topElements = new float[menus[2].Length];
@@ -175,9 +174,6 @@ namespace EksamensProjektS2015
             }
             return topElements.Min();
         }
-=======
-        
->>>>>>> f7073037e3441accc3bb62c07dc9a755a878b594
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used tos draw textures.
