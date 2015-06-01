@@ -118,9 +118,9 @@ namespace EksamensProjektS2015
             //Name input
             menus[1] = new GameObject[4];
             menus[1][0] = new TextBox(new Vector2(100, 100), "Navn:", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(150, 100), false);
-            menus[1][1] = new TextBox(new Vector2(250, 100), name, ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(220, 100), false);
-            menus[1][2] = new Button(new Vector2(100, 240), "Videre", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(220, 100), false);
-            menus[1][3] = new Button(new Vector2(100, 540), "Tilbage", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(220, 100), false);
+            menus[1][1] = new TextBox(new Vector2(250, 100), name, ArialNarrow48, Color.White,0, Main_Medium_Normal, new Vector2(220, 100), false);
+            menus[1][2] = new Button(new Vector2(100, 240), "Videre", ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(220, 100), false);
+            menus[1][3] = new Button(new Vector2(100, 540), "Tilbage", ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(220, 100), false);
 
             //Choice
             menus[2] = new GameObject[19];
@@ -151,6 +151,7 @@ namespace EksamensProjektS2015
 
 
             //HighScore
+<<<<<<< HEAD
             menus[3] = new GameObject[1];
             menus[3][0] = new Button(new Vector2(180, 360), "Nothing to see here, move along(back)", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(920, 100), true);
 
@@ -160,17 +161,39 @@ namespace EksamensProjektS2015
             menus[4][1] = new TextBox(new Vector2(600, 200), "Om Spillet.\n\n Du er blevet ansat sammen med Karl Åge, i en lille IT virksomhed som arbejder med support og IT løsninger til andre IT firmaer. \n Virksomheden har eksisteret i 2 år, og salget går fremad.\n\n Du står nu med et arbejde men uden en fagforening og en a kasse, og bliver nu udsat for den hårdeste arbejdsmåned i dit liv.\n Med de mest mærkværdige udfordringer en person kunne tænkes at blive udsat for, i løbet af arbejdslivet. \n\n Det er nu din opgave at klare dig gennem arbejdet, UDEN hjælp fra en fagforening, \n for at se hvordan arbejdet kunne se ud, hvis du stod uden en. \n\nDu vil på samme tid skulle kæmpe mod din kollega, og se hvem der kan få sin løn højest, sammen med de mærkværdige udfordringer.", ErasMediumITC14, Color.White, null, new Vector2(170, 0), false);
             menus[4][2] = new TextBox(new Vector2(350, 360), " ", ErasMediumITC14, Color.White, InGameScreenshot640x353, new Vector2(640, 353), false);
 
+=======
+            menus[3] = new GameObject[2];
+            menus[3][0] = new Button(new Vector2(180,460), "Tilbage", ArialNarrow48, Color.Black,valg_button, new Vector2(920,100), false);
+            menus[3][1] = new TextBox(new Vector2(180, 40), "|      ID      |      Navn      |         Score        |       Dato       |", ErasMediumITC14, Color.White, valg_divider, new Vector2(920, 80), false);
+
+
+            //About
+            menus[4] = new GameObject[1];
+            menus[4][0] = new Button(new Vector2(180, 360), "Tilbage", ArialNarrow48, Color.Black,Main_Medium_Normal, new Vector2(920,100),false);
+>>>>>>> 164f5d683e747766290d8c22c0d0474508822fbc
 
             //ContinouePromt
             menus[5] = new GameObject[2];
-            menus[5][0] = new Button(new Vector2(180, 160), "Fortsæt", ArialNarrow48, Color.White, valg_button, new Vector2(920, 100), false);
+            menus[5][0] = new Button(new Vector2(180, 160), "Fortsæt", ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
 
-            menus[5][1] = new Button(new Vector2(180, 260), "Nyt Spil", ArialNarrow48, Color.White, valg_button, new Vector2(920, 100), false);
+            menus[5][1] = new Button(new Vector2(180, 260), "Nyt Spil", ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
 
 
             ReadValgContent();
         }
+<<<<<<< HEAD
 
+=======
+        private float GetTopPosition()
+        {
+            float[] topElements = new float[menus[2].Length];
+            for (int i = 0; i < menus[2].Length; i++)
+            {
+                topElements[i] = (menus[2][i] as TextBox).Position.Y + (menus[2][i] as TextBox).size.Y;
+            }
+            return topElements.Min();
+        }
+>>>>>>> 164f5d683e747766290d8c22c0d0474508822fbc
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used tos draw textures.
@@ -232,7 +255,7 @@ namespace EksamensProjektS2015
 
                     for (int i = 0; i < 11; i++)
                     {
-                        menus[2][i].Position -= new Vector2(0, 600 * deltaTime);//Lerp(menus[2][i].Position.Y, 600, deltaTime);
+                        menus[2][i].Position -= new Vector2(0, 600 * deltaTime);
                         if (menus[2][i].Position.Y < -220)
                         {
                             menus[2][i].Position += new Vector2(0, 1440);
@@ -245,6 +268,17 @@ namespace EksamensProjektS2015
                 move = false;
                 vScroll = 0;
             }
+<<<<<<< HEAD
+=======
+            /*if (move)
+            {
+                float topPos = GetTopPosition();
+                if(topPos <= 0)
+                {
+
+                }
+            }*/
+>>>>>>> 164f5d683e747766290d8c22c0d0474508822fbc
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
