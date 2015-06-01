@@ -92,6 +92,9 @@
     <Content Include="Content\SidePanel_Right.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Silhouette.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Title.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -117,9 +120,15 @@
     <None Include="Content\CopperPlate Gothic Light 48.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="Content\dbProsa_27-5-15.db">
+    <None Include="Content\Eras Medium ITC.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
+    <None Include="Content\Players.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\TextContent.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Database\Database.csproj">
