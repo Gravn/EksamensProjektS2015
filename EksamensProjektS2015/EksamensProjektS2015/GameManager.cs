@@ -249,6 +249,15 @@ namespace EksamensProjektS2015
         {
             return (to - from) * time;
         }
+        private float GetTopPosition()
+        {
+            float[] topElements = new float[menus[2].Length];
+            for (int i = 0; i < menus[2].Length; i++)
+            {
+                topElements[i] = (menus[2][i] as TextBox).Position.Y + (menus[2][i] as TextBox).size.Y;
+            }
+            return topElements.Min();
+        }
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used tos draw textures.
@@ -302,7 +311,7 @@ namespace EksamensProjektS2015
 
                     for (int i = 0; i < 11; i++)
                     {
-                        menus[2][i].Position -= new Vector2(0, 600 * deltaTime);//Lerp(menus[2][i].Position.Y, 600, deltaTime);
+                        menus[2][i].Position -= new Vector2(0, 600 * deltaTime);
                         if (menus[2][i].Position.Y < -220)
                         {
                             menus[2][i].Position += new Vector2(0, 1440);
@@ -315,7 +324,15 @@ namespace EksamensProjektS2015
                 move = false;
                 vScroll = 0;
             }
-            
+            /*if (move)
+            {
+                float topPos = GetTopPosition();
+                if(topPos <= 0)
+                {
+
+                }
+            }*/
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
