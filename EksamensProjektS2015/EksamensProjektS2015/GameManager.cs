@@ -48,10 +48,6 @@ namespace EksamensProjektS2015
         public Texture2D Title;
         public Texture2D Rival_Silhouette;
 
-        public TextBox[] texts = new TextBox[10];
-        public Button[] buttons = new Button[10];
-
-
         private int row = 0;
         private string[] svarValg = new string[2];
         private string[] konTekst = new string[2];
@@ -126,10 +122,10 @@ namespace EksamensProjektS2015
 
             //Choice
             menus[2] = new GameObject[18];
-            menus[2][0] = texts[2] = new TextBox(new Vector2(180, 40), "" + text_situation, ErasMediumITC14, Color.White,valg_textbox, new Vector2(920, 220), false);
-            menus[2][1] = buttons[5] = new Button(new Vector2(180,40+220), "" + text_A, ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
-            menus[2][2] = buttons[6] = new Button(new Vector2(180,40+220+100), "" + text_B, ArialNarrow48, Color.Black, valg_button, new Vector2(920,100), false);
-            menus[2][3] = texts[3] = new TextBox(new Vector2(180, 40+220+100+100), "" + text_fakta, ErasMediumITC14, Color.White, valg_textbox, new Vector2(920, 220), false);
+            menus[2][0] =  new TextBox(new Vector2(180, 40), "" + text_situation, ErasMediumITC14, Color.White,valg_textbox, new Vector2(920, 220), false);
+            menus[2][1] = new Button(new Vector2(180,40+220), "" + text_A, ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
+            menus[2][2] = new Button(new Vector2(180,40+220+100), "" + text_B, ArialNarrow48, Color.Black, valg_button, new Vector2(920,100), false);
+            menus[2][3] = new TextBox(new Vector2(180, 40+220+100+100), "" + text_fakta, ErasMediumITC14, Color.White, valg_textbox, new Vector2(920, 220), false);
 
             //Consequence
             menus[2][4] = new TextBox(new Vector2(180, 720 + 220+40), "", ErasMediumITC14, Color.White, valg_divider, Vector2.Zero, false);
@@ -208,7 +204,7 @@ namespace EksamensProjektS2015
         {
             if (currentValg != 1)
             {
-                buttons[0].Content = "Fortsæt/Nyt Spil";
+                (menus[0][0] as Button).Content = "Fortsæt/Nyt Spil";
             }
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -267,7 +263,7 @@ namespace EksamensProjektS2015
             if (menuState == Menu.Main)
             {
                 //Start
-                if(buttons[0].Clicked)
+                if((menus[0][0] as Button).Clicked)
                 {
                     
                         MenuToggle();
@@ -284,7 +280,7 @@ namespace EksamensProjektS2015
                 }
 
                 //About
-                if(buttons[1].Clicked)
+                if ((menus[0][1] as Button).Clicked)
                 {
                     MenuToggle();
                     menuState = Menu.About;
@@ -292,7 +288,7 @@ namespace EksamensProjektS2015
                 }
 
                 //Highscore
-                if (buttons[2].Clicked)
+                if ((menus[0][2] as Button).Clicked)
                 {
                     MenuToggle();
                     menuState = Menu.Highscore;
@@ -300,7 +296,7 @@ namespace EksamensProjektS2015
                 }
 
                 //Exit
-                if (buttons[3].Clicked)
+                if ((menus[0][3] as Button).Clicked)
                 {
                     Exit();
                 }
@@ -330,14 +326,23 @@ namespace EksamensProjektS2015
             {
                 currentValg = 1;
                 textInput.HandleKeyUpdate(gameTime);
-                texts[1].Content = name;
+                (menus[1][1] as TextBox).Content = name;
 
-                if (buttons[4].Clicked)
+                if ((menus[1][2] as Button).Clicked)
                 {
                     MenuToggle();
                     menuState = Menu.Choice;
                     MenuToggle();
                 }
+
+                if ((menus[1][3] as Button).Clicked)
+                {
+                    MenuToggle();
+                    menuState = Menu.Main;
+                    MenuToggle();
+                }
+
+
             }
 
             if(menuState.Equals(Menu.Choice))
