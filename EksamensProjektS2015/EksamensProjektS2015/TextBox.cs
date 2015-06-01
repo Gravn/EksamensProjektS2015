@@ -76,7 +76,10 @@ namespace EksamensProjektS2015
                 }
                 else
                 {
-                    sb.Draw(texture, new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height), backGroundColor);
+                    if (texture != null)
+                    {
+                        sb.Draw(texture, new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height), backGroundColor);
+                    }
                 }
 
                 sb.DrawString(font, content, position + new Vector2((int)size.X / 2 - font.MeasureString(content).X / 2+1, (int)size.Y/2-font.MeasureString(content).Y/2+2), fontColor,0f,new Vector2(0,0),1.0f,SpriteEffects.None,0);
