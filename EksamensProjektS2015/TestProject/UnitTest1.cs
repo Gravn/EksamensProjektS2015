@@ -16,7 +16,7 @@ namespace TestProject
     [TestClass]
     public class UnitTest1
     {
-        /*[TestMethod]
+        [TestMethod]
         public void ButtonClick()
         {
             EksamensProjektS2015.Button b = new EksamensProjektS2015.Button();
@@ -26,7 +26,8 @@ namespace TestProject
             bool result = b.Clicked;
 
             Assert.AreEqual(false, result);
-        }*/
+        }
+
         [TestMethod]
         public void InputTest()
         {

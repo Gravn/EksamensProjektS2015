@@ -20,7 +20,7 @@ namespace EksamensProjektS2015
             Choice = 2,
             Highscore = 3,
             About = 4,
-            ContinuePromt =5
+            ContinuePromt = 5
         };
 
         #region variables
@@ -29,6 +29,9 @@ namespace EksamensProjektS2015
 
         private SQLiteCommand dbComm;
         private SQLiteConnection dbConn;
+
+        private SQLiteCommand dbCommHs;
+        private SQLiteConnection dbConnHs;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -42,11 +45,13 @@ namespace EksamensProjektS2015
         public Texture2D arrow;
         public Texture2D Start_Normal;
         public Texture2D Main_Medium_Normal;
+        public Texture2D InGameScreenshot640x353;
         public Texture2D bg_Noise;
         public Texture2D valg_button, valg_textbox, valg_divider;
-        public Texture2D SidePanel_left,SidePanel_Right;
+        public Texture2D SidePanel_left, SidePanel_Right;
         public Texture2D Title;
         public Texture2D Rival_Silhouette;
+        public Texture2D TLtest;
 
         private int row = 0;
         private string[] svarValg = new string[2];
@@ -56,11 +61,11 @@ namespace EksamensProjektS2015
         delegate void GetFunctions();
         private GetFunctions[] buttonFuctions;
 
-        private string text_situation = "", text_fakta = "",text_A= "",text_B = "",text_konFaktaTekst = "",text_konTekst;
+        private string text_situation = "", text_fakta = "", text_A = "", text_B = "", text_konFaktaTekst = "", text_konTekst;
         public int currentValg = 1;
 
-        //private TimeLine TL;
-        private int dayCounter = 40;
+        private TimeLine TL;
+        public static int dayCounter = 40;
 
         private static List<GameObject> gameObjects = new List<GameObject>();
 
@@ -91,6 +96,10 @@ namespace EksamensProjektS2015
             dbComm = new SQLiteCommand();
             dbConn.Open();
 
+            dbConnHs = new SQLiteConnection("Data Source=Content/Players.db;Version=3");
+            dbCommHs = new SQLiteCommand();
+            dbConnHs.Open();
+
             //Database.Functions.CreateDatabase("dbProsa");
             //Database.Functions.ManualFunction(dbConn, dbComm, "CREATE TABLE IF NOT EXISTS 'valg' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Fakta' TEXT,'Spoergsmaal' TEXT, 'Konsekvens_A' INTEGER,'Konsekvens_B' INTEGER)");
             //Database.Functions.ManualFunction(dbConn, dbComm, "INSERT INTO 'valg' ('Fakta', 'Spoergsmaal', 'Konsekvens_A', 'Konsekvens_B') VALUES ('Prosa vil hjælpe dig, hvis du udsættes for sexchikane på arbejdspladsen.', 'Din chef tager på dig. \nHvad vil du gøre?', 0, 1)");
@@ -109,61 +118,84 @@ namespace EksamensProjektS2015
             menus[0][1] = new Button(new Vector2(180, 320), "Om spillet", CopperPlateGothicLight36, Color.Black, valg_button, new Vector2(920, 100), false);
             menus[0][2] = new Button(new Vector2(180, 440), "Highscore", CopperPlateGothicLight36, Color.Black, valg_button, new Vector2(920, 100), false);
             menus[0][3] = new Button(new Vector2(180, 560), "Afslut", CopperPlateGothicLight36, Color.Black, valg_button, new Vector2(920, 100), false);
-            menus[0][4] = new TextBox(new Vector2(0,20), "", ArialNarrow48, Color.White, Title, new Vector2(150, 100), false);
+            menus[0][4] = new TextBox(new Vector2(0, 20), "", ArialNarrow48, Color.White, Title, new Vector2(150, 100), false);
 
             MenuToggle();
 
             //Name input
             menus[1] = new GameObject[4];
             menus[1][0] = new TextBox(new Vector2(100, 100), "Navn:", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(150, 100), false);
-            menus[1][1] = new TextBox(new Vector2(250, 100), name, ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(220, 100), false);
-            menus[1][2] = new Button(new Vector2(100, 240), "Videre", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(220, 100), false);
-            menus[1][3] = new Button(new Vector2(100, 540), "Tilbage", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(220, 100), false);
+            menus[1][1] = new TextBox(new Vector2(250, 100), name, ArialNarrow48, Color.White,0, Main_Medium_Normal, new Vector2(220, 100), false);
+            menus[1][2] = new Button(new Vector2(100, 240), "Videre", ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(220, 100), false);
+            menus[1][3] = new Button(new Vector2(100, 540), "Tilbage", ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(220, 100), false);
 
             //Choice
-            menus[2] = new GameObject[18];
-            menus[2][0] =  new TextBox(new Vector2(180, 40), "" + text_situation, ErasMediumITC14, Color.White,valg_textbox, new Vector2(920, 220), false);
-            menus[2][1] = new Button(new Vector2(180,40+220), "" + text_A, ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
-            menus[2][2] = new Button(new Vector2(180,40+220+100), "" + text_B, ArialNarrow48, Color.Black, valg_button, new Vector2(920,100), false);
-            menus[2][3] = new TextBox(new Vector2(180, 40+220+100+100), "" + text_fakta, ErasMediumITC14, Color.White, valg_textbox, new Vector2(920, 220), false);
+            menus[2] = new GameObject[19];
+            menus[2][0] = new TextBox(new Vector2(180, 40), "" + text_situation, ErasMediumITC14, Color.White, valg_textbox, new Vector2(920, 220), false);
+            menus[2][1] = new Button(new Vector2(180, 40 + 220), "" + text_A, ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
+            menus[2][2] = new Button(new Vector2(180, 40 + 220 + 100), "" + text_B, ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
+            menus[2][3] = new TextBox(new Vector2(180, 40 + 220 + 100 + 100), "" + text_fakta, ErasMediumITC14, Color.White, valg_textbox, new Vector2(920, 220), false);
 
             //Consequence
-            menus[2][4] = new TextBox(new Vector2(180, 720 + 220+40), "", ErasMediumITC14, Color.White, valg_divider, Vector2.Zero, false);
-            menus[2][5] = new TextBox(new Vector2(180, 720 + 220 +160), "", ErasMediumITC14, Color.White, valg_divider, Vector2.Zero, false);
+            menus[2][4] = new TextBox(new Vector2(180, 720 + 220 + 40), "", ErasMediumITC14, Color.White, valg_divider, Vector2.Zero, false);
+            menus[2][5] = new TextBox(new Vector2(180, 720 + 220 + 160), "", ErasMediumITC14, Color.White, valg_divider, Vector2.Zero, false);
 
-            menus[2][6] = new TextBox(new Vector2(180,40+720), "" + text_konTekst , ErasMediumITC14, Color.White, valg_textbox, new Vector2(920, 220), false);
-            menus[2][7] = new Button(new Vector2(180,40+720+220+50), "Videre", ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
-            menus[2][8] = new TextBox(new Vector2(180, 40+720+220+50+100+50), ""+text_konFaktaTekst, ErasMediumITC14, Color.White, valg_textbox, new Vector2(920, 220), false);
-            
+            menus[2][6] = new TextBox(new Vector2(180, 40 + 720), "" + text_konTekst, ErasMediumITC14, Color.White, valg_textbox, new Vector2(920, 220), false);
+            menus[2][7] = new Button(new Vector2(180, 40 + 720 + 220 + 50), "Videre", ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
+            menus[2][8] = new TextBox(new Vector2(180, 40 + 720 + 220 + 50 + 100 + 50), "" + text_konFaktaTekst, ErasMediumITC14, Color.White, valg_textbox, new Vector2(920, 220), false);
+
             menus[2][9] = new TextBox(new Vector2(180, -40), "", ErasMediumITC14, Color.White, valg_divider, Vector2.Zero, false);
             menus[2][10] = new TextBox(new Vector2(180, 720 - 40), "", ErasMediumITC14, Color.White, valg_divider, Vector2.Zero, false);
-            
-            menus[2][11] = new TextBox(new Vector2(0, 0), "" , ErasMediumITC14, Color.White, SidePanel_left, Vector2.Zero, false);
+
+            menus[2][11] = new TextBox(new Vector2(0, 0), "", ErasMediumITC14, Color.White, SidePanel_left, Vector2.Zero, false);
             menus[2][12] = new TextBox(new Vector2(1100, 0), "", ErasMediumITC14, Color.White, SidePanel_Right, Vector2.Zero, false);
             menus[2][13] = new TextBox(new Vector2(5, 150), "", ErasMediumITC14, Color.White, Rival_Silhouette, Vector2.Zero, false);
             menus[2][14] = new TextBox(new Vector2(5, 300), "Karl Åge\nLøn: 35.000kr\nErfaring: 2 år", ErasMediumITC14, Color.White, null, new Vector2(170, 70), false);
-            menus[2][15] = new TextBox(new Vector2(1100, dayCounter), "01/06/2015\n02/05/2015\n03/06/2015\n04/06/2015\n05/06/2015\n06/06/2015\n05/07/2015\n08/06/2015\n09/06/2015\n", ErasMediumITC14, Color.White, null, new Vector2(170, 300), false);
-            menus[2][16] = new TextBox(new Vector2(0,500),"Din Løn:",ErasMediumITC14,Color.White,null,new Vector2(170,0),false);
-            menus[2][17] = new Button(new Vector2(1100,650), "Menu" + text_B, ArialNarrow48, Color.Black,Main_Medium_Normal, new Vector2(180,180),false);
+            menus[2][15] = new TextBox(new Vector2(1100, 150), "01/06/2015\n\n02/05/2015\n\n03/06/2015\n\n04/06/2015\n\n05/06/2015\n\n06/06/2015\n\n07/06/2015\n\n08/06/2015\n\n09/06/2015\n", ErasMediumITC14, Color.White, null, new Vector2(170, 300), false);
+            menus[2][16] = new TextBox(new Vector2(0, 500), "" + name.ToString() + "Din Løn:", ErasMediumITC14, Color.White, null, new Vector2(170, 0), false);
+            menus[2][17] = new Button(new Vector2(1100, 650), "Menu" + text_B, ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(180, 180), false);
+            menus[2][18] = new TextBox(new Vector2(1100, 100), "", ErasMediumITC14, Color.White, TLtest, new Vector2(180, 25), false);
+
+
             //HighScore
             menus[3] = new GameObject[1];
-            menus[3][0] = new Button(new Vector2(180,360), "Nothing to see here, move along(back)", ArialNarrow48, Color.White,Main_Medium_Normal, new Vector2(920,100), true);
+            menus[3][0] = new Button(new Vector2(180, 360), "Nothing to see here, move along(back)", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(920, 100), true);
+
+            //About
+            menus[4] = new GameObject[3];
+            menus[4][0] = new Button(new Vector2(1050, 650), "Back", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(180, 100), true);
+            menus[4][1] = new TextBox(new Vector2(600, 200), "Om Spillet.\n\n Du er blevet ansat sammen med Karl Åge, i en lille IT virksomhed som arbejder med support og IT løsninger til andre IT firmaer. \n Virksomheden har eksisteret i 2 år, og salget går fremad.\n\n Du står nu med et arbejde men uden en fagforening og en a kasse, og bliver nu udsat for den hårdeste arbejdsmåned i dit liv.\n Med de mest mærkværdige udfordringer en person kunne tænkes at blive udsat for, i løbet af arbejdslivet. \n\n Det er nu din opgave at klare dig gennem arbejdet, UDEN hjælp fra en fagforening, \n for at se hvordan arbejdet kunne se ud, hvis du stod uden en. \n\nDu vil på samme tid skulle kæmpe mod din kollega, og se hvem der kan få sin løn højest, sammen med de mærkværdige udfordringer.", ErasMediumITC14, Color.White, null, new Vector2(170, 0), false);
+            menus[4][2] = new TextBox(new Vector2(350, 360), " ", ErasMediumITC14, Color.White, InGameScreenshot640x353, new Vector2(640, 353), false);
+
+            menus[3] = new GameObject[2];
+            menus[3][0] = new Button(new Vector2(180,460), "Tilbage", ArialNarrow48, Color.Black,valg_button, new Vector2(920,100), false);
+            menus[3][1] = new TextBox(new Vector2(180, 40), "|      ID      |      Navn      |         Score        |       Dato       |", ErasMediumITC14, Color.White, valg_divider, new Vector2(920, 80), false);
+
 
             //About
             menus[4] = new GameObject[1];
-            menus[4][0] = new Button(new Vector2(180, 360), "Really Nothing to see here, move along(back)", ArialNarrow48, Color.White,Main_Medium_Normal, new Vector2(920,100), true);
+            menus[4][0] = new Button(new Vector2(180, 360), "Tilbage", ArialNarrow48, Color.Black,Main_Medium_Normal, new Vector2(920,100),false);
 
             //ContinouePromt
             menus[5] = new GameObject[2];
-            menus[5][0] = new Button(new Vector2(180, 160), "Fortsæt", ArialNarrow48, Color.White, valg_button, new Vector2(920, 100), false);
+            menus[5][0] = new Button(new Vector2(180, 160), "Fortsæt", ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
 
-            menus[5][1] = new Button(new Vector2(180, 260), "Nyt Spil", ArialNarrow48, Color.White, valg_button, new Vector2(920, 100), false);
+            menus[5][1] = new Button(new Vector2(180, 260), "Nyt Spil", ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
 
 
-
-            ReadValgContent();   
+            ReadValgContent();
         }
-        
+
+        private float GetTopPosition()
+        {
+            float[] topElements = new float[menus[2].Length];
+            for (int i = 0; i < menus[2].Length; i++)
+            {
+                topElements[i] = (menus[2][i] as TextBox).Position.Y + (menus[2][i] as TextBox).size.Y;
+            }
+            return topElements.Min();
+        }
+
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used tos draw textures.
@@ -183,13 +215,15 @@ namespace EksamensProjektS2015
             bg_Noise = Content.Load<Texture2D>("bg_LightGreyNoise");
             Start_Normal = Content.Load<Texture2D>("Btn_Normal_Start");
             Main_Medium_Normal = Content.Load<Texture2D>("Btn_Normal_Main_Medium");
+            InGameScreenshot640x353 = Content.Load<Texture2D>("InGameScreenshot640x353");
+            TLtest = Content.Load<Texture2D>("TimeLineTest");
 
             valg_textbox = Content.Load<Texture2D>("Panel_Textbox");
             valg_button = Content.Load<Texture2D>("Panel_Button_normal");
             valg_divider = Content.Load<Texture2D>("Divider");
             Rival_Silhouette = Content.Load<Texture2D>("Silhouette");
-            
-            //TL = new TimeLine(new Vector2(10, 10), dayCounter);
+
+            TL = new TimeLine(new Vector2(1100, 50));
             // TODO: use this.Content to load your game content here
         }
 
@@ -223,7 +257,7 @@ namespace EksamensProjektS2015
 
                     for (int i = 0; i < 11; i++)
                     {
-                        menus[2][i].Position -= new Vector2(0, 600 * deltaTime);//Lerp(menus[2][i].Position.Y, 600, deltaTime);
+                        menus[2][i].Position -= new Vector2(0, 600 * deltaTime);
                         if (menus[2][i].Position.Y < -220)
                         {
                             menus[2][i].Position += new Vector2(0, 1440);
@@ -236,13 +270,21 @@ namespace EksamensProjektS2015
                 move = false;
                 vScroll = 0;
             }
-            
+            /*if (move)
+            {
+                float topPos = GetTopPosition();
+                if(topPos <= 0)
+                {
+
+                }
+            }*/
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
 
-            
+
             // Check all buttons' states in the menu
             /*for (int i = 0; i < menus.Length; i++)
             {
@@ -263,19 +305,19 @@ namespace EksamensProjektS2015
             if (menuState == Menu.Main)
             {
                 //Start
-                if((menus[0][0] as Button).Clicked)
+                if ((menus[0][0] as Button).Clicked)
                 {
-                    
-                        MenuToggle();
-                        if (currentValg == 1)
-                        {
-                            menuState = Menu.Name;
-                        }
-                        else
-                        {
-                            menuState = Menu.ContinuePromt;
-                        }
-                        MenuToggle();
+
+                    MenuToggle();
+                    if (currentValg == 1)
+                    {
+                        menuState = Menu.Name;
+                    }
+                    else
+                    {
+                        menuState = Menu.ContinuePromt;
+                    }
+                    MenuToggle();
 
                 }
 
@@ -302,8 +344,39 @@ namespace EksamensProjektS2015
                 }
             }
 
+            string[] highscore = new string[100];
+            highscore[0] = "|            ID                |         Navn             |           Løn              |";
+            TextBox[] highscoreTB = new TextBox[25];
+            bool loaded = false;
             if (menuState.Equals(Menu.Highscore))
             {
+                if (!loaded)
+                {
+                    SQLiteDataReader reader = Database.Functions.TableSelectAll(dbConnHs, dbCommHs, "spiller");
+
+                    while (reader.Read())
+                    {
+                        for (int i = 0; i < 3; i++)
+                        {
+                            highscore[row+1] += reader[i].ToString();
+                            for (int j = reader[i].ToString().Length; j < 40 ;j++)
+                            {
+                                highscore[row+1] += " ";
+                            }
+                        };
+                        row++;
+                    }
+                    row = 0;
+
+                    for (int i = 0; i < 20; i++)
+                    {
+                        highscoreTB[i] = new TextBox(new Vector2(180, 100 + i * 30), "" + highscore[i], ErasMediumITC14, Color.White,0, valg_divider, new Vector2(100, 30), false);
+                        gameObjects.Add(highscoreTB[i]);
+                    }
+                    loaded = true;
+                }
+
+
                 if ((menus[3][0] as Button).Clicked)
                 {
                     MenuToggle();
@@ -345,7 +418,7 @@ namespace EksamensProjektS2015
 
             }
 
-            if(menuState.Equals(Menu.Choice))
+            if (menuState.Equals(Menu.Choice))
             {
                 //JA
                 if ((menus[2][1] as Button).Clicked)
@@ -370,7 +443,7 @@ namespace EksamensProjektS2015
                 //videre
                 if ((menus[2][7] as Button).Clicked)
                 {
-                    menus[2][15].Position -= new Vector2(0,24);
+                    menus[2][15].Position -= new Vector2(0, 45);
                     currentValg++;
                     ReadValgContent();
                     //ReadValgContent(currentValg);
@@ -407,9 +480,9 @@ namespace EksamensProjektS2015
             {
                 gameObjects[i].Update(deltaTime);
             }
-                // TODO: Add your update logic here
+            // TODO: Add your update logic here
             //TL.Update(deltaTime);
-                base.Update(gameTime);
+            base.Update(gameTime);
         }
 
         /// <summary>
@@ -423,15 +496,16 @@ namespace EksamensProjektS2015
 
             spriteBatch.Draw(bg_Noise, new Rectangle(0, 0, bg_Noise.Width, bg_Noise.Height), Color.White);
 
+            TL.Draw(spriteBatch);
 
             for (int i = 0; i < gameObjects.Count; i++)
             {
                 gameObjects[i].Draw(spriteBatch);
             }
-            spriteBatch.Draw(arrow, new Rectangle(1110, 124, 16, 16), Color.White);
+           // spriteBatch.Draw(arrow, new Rectangle(1110, 124, 16, 16), Color.White);
 
 #if DEBUG
-            spriteBatch.DrawString(ErasMediumITC14,""+currentValg,Vector2.Zero,Color.White);
+            spriteBatch.DrawString(ErasMediumITC14, "" + currentValg, Vector2.Zero, Color.White);
 #endif
             spriteBatch.End();
 
@@ -451,7 +525,7 @@ namespace EksamensProjektS2015
                 name = name.Substring(0, name.Length - 1);
             }
         }
-        
+
         //loads the next choice content.
         public void ReadValgContent()
         {
