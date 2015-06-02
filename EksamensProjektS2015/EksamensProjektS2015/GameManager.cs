@@ -8,6 +8,7 @@ using System.Data.SQLite;
 using System.Diagnostics;
 using Input;
 using Database;
+using System;
 
 namespace EksamensProjektS2015
 {
@@ -41,6 +42,8 @@ namespace EksamensProjektS2015
         public static SpriteFont ErasMediumITC14;
         public static SpriteFont CopperPlateGothicLight48;
         public static SpriteFont CopperPlateGothicLight36;
+
+        private double KollegaLøn = 25000;
 
         public Texture2D arrow;
         public Texture2D Start_Normal;
@@ -465,6 +468,40 @@ namespace EksamensProjektS2015
                 {
                     menus[2][15].Position -= new Vector2(0, 45);
                     currentValg++;
+
+                    switch (currentValg)
+                    {
+                        case 5:
+                            double rnd = GetRandomNumber(0, 0.05);
+                            KollegaLøn = (KollegaLøn * rnd) + KollegaLøn;
+                            KollegaLøn = (double)Math.Round((decimal)KollegaLøn, 0);
+                            (menus[2][14] as TextBox).Content = "Karl Åge\nLøn: " + KollegaLøn.ToString() + " \nErfaring: 2 år";
+                            break;
+                        case 12:
+                            double rnd2 = GetRandomNumber(0, 0.05);
+                            KollegaLøn = (KollegaLøn * rnd2) + KollegaLøn;
+                            KollegaLøn = (double)Math.Round((decimal)KollegaLøn, 0);
+                            (menus[2][14] as TextBox).Content = "Karl Åge\nLøn: " + KollegaLøn.ToString() + " \nErfaring: 2 år";
+
+                            break;
+                        case 18:
+                            double rnd3 = GetRandomNumber(0, 0.05);
+                            KollegaLøn = (KollegaLøn * rnd3) + KollegaLøn;
+                            KollegaLøn = (double)Math.Round((decimal)KollegaLøn, 0);
+                            (menus[2][14] as TextBox).Content = "Karl Åge\nLøn: " + KollegaLøn.ToString() + " \nErfaring: 2 år";
+
+                            break;
+                        case 26:
+                            double rnd4 = GetRandomNumber(0, 0.05);
+                            KollegaLøn = (KollegaLøn * rnd4) + KollegaLøn;
+                            KollegaLøn = (double)Math.Round((decimal)KollegaLøn, 0);
+                            (menus[2][14] as TextBox).Content = "Karl Åge\nLøn: " + KollegaLøn.ToString() + " \nErfaring: 2 år";
+                            break;
+
+                        default:
+                            break;
+                    }
+
                     ReadValgContent();
                     //ReadValgContent(currentValg);
                     (menus[2][7] as Button).Clicked = false;
@@ -648,6 +685,12 @@ namespace EksamensProjektS2015
         public float Lerp(float from, float to, float time)
         {
             return (to - from) * time;
+        }
+
+        public double GetRandomNumber(double minimum, double maximum)
+        {
+            Random random = new Random();
+            return random.NextDouble() * (maximum - minimum) + minimum;
         }
     }
 }
