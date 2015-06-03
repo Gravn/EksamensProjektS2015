@@ -256,6 +256,13 @@ namespace Database
             return dbComm.ExecuteReader();
         }
 
+        public static SQLiteDataReader TableSelectAllDescending(SQLiteConnection dbConn, SQLiteCommand dbComm, string tName,string tIdName)
+        {
+            string sql = "select * from " + tName+" order by "+tIdName+" desc";
+            dbComm = new SQLiteCommand(sql, dbConn);
+            return dbComm.ExecuteReader();
+        }
+
        
     }
 }

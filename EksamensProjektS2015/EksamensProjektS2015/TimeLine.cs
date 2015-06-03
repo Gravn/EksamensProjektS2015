@@ -4,28 +4,22 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace EksamensProjektS2015
 {
     class TimeLine : GameObject
     {
-        private int day = 0;
 
-        public int Day
-        {
-            get { return day; }
-            set { day = value; }
-        }
-
-        public TimeLine(Vector2 position, int day)
+        public TimeLine(Vector2 position)
             : base(position)
         {
-            this.day = day;
+
         }
 
         public override void Update(float deltaTime)
         {
-            switch (Day)
+            switch (GameManager.dayCounter)
             {
                 case 0:
                     this.position.Y = 40;
@@ -57,6 +51,7 @@ namespace EksamensProjektS2015
 
         public override void Draw(SpriteBatch sb)
         {
+
             base.Draw(sb);
         }
 
