@@ -56,6 +56,9 @@ namespace EksamensProjektS2015
         public Texture2D Rival_Silhouette;
         public Texture2D TLtest;
 
+
+        private string highscore;
+        private bool loaded = false;
         private int row = 0;
         private string[] svarValg = new string[2];
         private string[] konTekst = new string[2];
@@ -160,11 +163,10 @@ namespace EksamensProjektS2015
             menus[2][18] = new TextBox(new Vector2(1100, 100), "", ErasMediumITC14, Color.White, TLtest, new Vector2(180, 25), false);
 
             //HighScore
-            menus[3] = new GameObject[1];
             menus[3] = new GameObject[2];
             menus[3][0] = new Button(new Vector2(180, 640), "Tilbage", ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
-            menus[3][1] = new TextBox(new Vector2(180, 40), "|                  ID                 |                   Navn                |                 Score                   |", ErasMediumITC14, Color.White,0, valg_divider, new Vector2(920, 80), false);
-
+            menus[3][1] = new TextBox(new Vector2(480, 50),"", ErasMediumITC14, Color.White, 0, null, new Vector2(920, 600), false);
+            
             //About
             menus[4] = new GameObject[3];
             menus[4][0] = new Button(new Vector2(1050, 650), "Back", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(180, 100),false);
@@ -338,10 +340,6 @@ namespace EksamensProjektS2015
                 }
             }
 
-            string[] highscore = new string[100];
-            //highscore[0] = "|            ID                |         Navn             |           Løn              |";
-            TextBox[] highscoreTB = new TextBox[25];
-            bool loaded = false;
             if (menuState.Equals(Menu.Highscore))
             {
                 if (!loaded)
@@ -350,54 +348,38 @@ namespace EksamensProjektS2015
 
                     while (reader.Read())
                     {
-                            //ID
-                        for (int j = 0; j < 10 - reader[0].ToString().Length; j++)
+                        //ID
+                        for (int j = 0; j < 2 - (row+1).ToString().Length; j++)
                         {
-                            highscore[row] += " ";
+                            highscore += "  ";
                         }
 
-                        highscore[row+1] += row.ToString();
+                        highscore += (row+1).ToString();
 
-                        for (int j = reader[0].ToString().Length-20; j < 20 ;j++)
+                        for (int j = 0; j < 10; j++)
                         {
-                            highscore[row] += " ";
+                            highscore += "  ";
                         }
                             
                         //Name
-                        //for (int j = 0; j < 20-reader[1].ToString().Length/2; j++)
-                        //{
-                        //    highscore[row] += " ";
-                        //}
+                        highscore += reader[1].ToString();
 
-                        highscore[row] += reader[1].ToString();
-
-                        for (int j = reader[1].ToString().Length/2 - 40; j < 40; j++)
+                        for (int j =0 ; j <(20-reader[1].ToString().Length); j++)
                         {
-                            highscore[row] += " ";
+                            highscore += "  ";
                         }
 
                         //Point
-                        //for (int j = 0; j < 12 - reader[2].ToString().Length; j++)
-                        //{
-                        //    highscore[row] += " ";
-                        //}
+                        highscore += (reader[1].ToString().Length);
+                        //highscore += reader[2].ToString();
 
-                        highscore[row] += reader[2].ToString();
-
-                        for (int j = reader[2].ToString().Length - 12; j < 12; j++)
-                        {
-                            highscore[row] += " ";
-                        }
-
-                    row++;
+                        highscore += "\n";
+                        row++;
                     }
                     row = 0;
 
-                    for (int i = 0; i < 16; i++)
-                    {
-                        highscoreTB[i] = new TextBox(new Vector2(180, 100 + i * 30), "" + highscore[i], ErasMediumITC14, Color.White,0, valg_divider, new Vector2(920, 30), false);
-                        gameObjects.Add(highscoreTB[i]);
-                    }
+                    (menus[3][1] as TextBox).Content = ""+highscore;
+
                     loaded = true;
                 }
 
