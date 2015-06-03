@@ -55,6 +55,9 @@ namespace EksamensProjektS2015
         public Texture2D Title;
         public Texture2D Rival_Silhouette;
         public Texture2D TLtest;
+        public Texture2D SpillerPic;
+        public Texture2D KollegaPic;
+        public Texture2D PlayerPic;
 
         public float LoenChance = 0;
         private string highscore;
@@ -69,6 +72,9 @@ namespace EksamensProjektS2015
 
         private string text_situation = "", text_fakta = "", text_A = "", text_B = "", text_konFaktaTekst = "", text_konTekst;
         public int currentValg = 1;
+
+        public int SpillerErfaring = 0;
+        public int KollegaErfaring = 2;
 
         private TimeLine TL;
         public static int dayCounter = 40;
@@ -129,14 +135,17 @@ namespace EksamensProjektS2015
             MenuToggle();
 
             //Name input
-            menus[1] = new GameObject[4];
-            menus[1][0] = new TextBox(new Vector2(100, 100), "Navn:", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(150, 100), false);
-            menus[1][1] = new TextBox(new Vector2(250, 100), name, ArialNarrow48, Color.White,0, Main_Medium_Normal, new Vector2(220, 100), false);
-            menus[1][2] = new Button(new Vector2(100, 240), "Videre", ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(220, 100), false);
+            menus[1] = new GameObject[7];
+            menus[1][0] = new TextBox(new Vector2(100, 180), "Navn:", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(150, 100), false);
+            menus[1][1] = new TextBox(new Vector2(250, 180), name, ArialNarrow48, Color.White,0, Main_Medium_Normal, new Vector2(220, 100), false);
+            menus[1][2] = new Button(new Vector2(800, 540), "Videre", ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(220, 100), false);
             menus[1][3] = new Button(new Vector2(100, 540), "Tilbage", ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(220, 100), false);
+            menus[1][4] = new TextBox(new Vector2(650, 100), "", ArialNarrow48, Color.White,0, SpillerPic, new Vector2(220, 100), false);
+            menus[1][5] = new TextBox(new Vector2(950, 100), "", ArialNarrow48, Color.White, 0, KollegaPic, new Vector2(220, 100), false);
+            menus[1][6] = new TextBox(new Vector2(100, 350), "Karl Åge er din kollega, og har forud for ansættelsen på denne arbejdsplads, haft noget erhvervserfaring inden for jobbet.\nKarl Åge er derfor med i en fagforening, da han ved dette kan blive nødvendigt.\n\nDu er dog ikke med i en, da du mener det er spild af penge, og sagtens kan klare det selv.", ErasMediumITC14, Color.White, 0, null, new Vector2(220, 100), false);
 
             //Choice
-            menus[2] = new GameObject[19];
+            menus[2] = new GameObject[20];
             menus[2][0] = new TextBox(new Vector2(180, 40), "" + text_situation, ErasMediumITC14, Color.White, valg_textbox, new Vector2(920, 220), false);
             menus[2][1] = new Button(new Vector2(180, 40 + 220), "" + text_A, ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
             menus[2][2] = new Button(new Vector2(180, 40 + 220 + 100), "" + text_B, ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
@@ -155,12 +164,14 @@ namespace EksamensProjektS2015
 
             menus[2][11] = new TextBox(new Vector2(0, 0), "", ErasMediumITC14, Color.White, SidePanel_left, Vector2.Zero, false);
             menus[2][12] = new TextBox(new Vector2(1100, 0), "", ErasMediumITC14, Color.White, SidePanel_Right, Vector2.Zero, false);
-            menus[2][13] = new TextBox(new Vector2(5, 150), "", ErasMediumITC14, Color.White, Rival_Silhouette, Vector2.Zero, false);
-            menus[2][14] = new TextBox(new Vector2(5, 300), "Karl Åge\nLøn: 35.000kr\nErfaring: 2 år", ErasMediumITC14, Color.White, null, new Vector2(170, 70), false);
-            menus[2][15] = new TextBox(new Vector2(1100, 150), "01/06/2015\n\n02/05/2015\n\n03/06/2015\n\n04/06/2015\n\n05/06/2015\n\n06/06/2015\n\n07/06/2015\n\n08/06/2015\n\n09/06/2015\n", ErasMediumITC14, Color.White, null, new Vector2(170, 300), false);
-            menus[2][16] = new TextBox(new Vector2(0, 500), "" + name.ToString() + "Din Løn:", ErasMediumITC14, Color.White, null, new Vector2(170, 0), false);
+            menus[2][13] = new TextBox(new Vector2(5, 400), "", ErasMediumITC14, Color.White, Rival_Silhouette, Vector2.Zero, false);
+            menus[2][14] = new TextBox(new Vector2(5, 550), "Karl Åge\nLøn: 25.000kr\nErfaring: 2 år", ErasMediumITC14, Color.White, null, new Vector2(170, 70), false);
+            menus[2][15] = new TextBox(new Vector2(1100, 150), "01/06/2015\n\n02/09/2015\n\n05/01/2016\n\n04/04/2016\n\n12/07/2016\n\n23/10/2016\n\n07/02/2017\n\n08/05/2017\n\n09/08/2017\n", ErasMediumITC14, Color.White, null, new Vector2(170, 300), false);
+            menus[2][16] = new TextBox(new Vector2(5, 280), "" + name.ToString() + "Din Løn:", ErasMediumITC14, Color.White, null, new Vector2(170, 0), false);
             menus[2][17] = new Button(new Vector2(1100, 650), "Menu" + text_B, ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(180, 180), false);
             menus[2][18] = new TextBox(new Vector2(1100, 100), "", ErasMediumITC14, Color.White, TLtest, new Vector2(180, 25), false);
+            menus[2][19] = new TextBox(new Vector2(5, 100), "",  ErasMediumITC14, Color.White, PlayerPic, new Vector2(170, 0), false);
+
 
             //HighScore
             menus[3] = new GameObject[2];
@@ -170,7 +181,7 @@ namespace EksamensProjektS2015
             //About
             menus[4] = new GameObject[3];
             menus[4][0] = new Button(new Vector2(1050, 650), "Back", ArialNarrow48, Color.White, Main_Medium_Normal, new Vector2(180, 100),false);
-            menus[4][1] = new TextBox(new Vector2(600, 200), "Om Spillet.\n\n Du er blevet ansat sammen med Karl Åge, i en lille IT virksomhed som arbejder med support og IT løsninger til andre IT firmaer. \n Virksomheden har eksisteret i 2 år, og salget går fremad.\n\n Du står nu med et arbejde men uden en fagforening og en a kasse, og bliver nu udsat for den hårdeste arbejdsmåned i dit liv.\n Med de mest mærkværdige udfordringer en person kunne tænkes at blive udsat for, i løbet af arbejdslivet. \n\n Det er nu din opgave at klare dig gennem arbejdet, UDEN hjælp fra en fagforening, \n for at se hvordan arbejdet kunne se ud, hvis du stod uden en. \n\nDu vil på samme tid skulle kæmpe mod din kollega, og se hvem der kan få sin løn højest, sammen med de mærkværdige udfordringer.", ErasMediumITC14, Color.White, null, new Vector2(170, 0), false);
+            menus[4][1] = new TextBox(new Vector2(600, 200), "Om Spillet.\n\n Du er blevet ansat i EDB i Skyen sammen med Karl Åge.\n EDB i Skyen er en lille IT-virksomhed som arbejder med support og IT-løsninger til andre IT-firmaer.\n Virksomheden har eksisteret i 2 år, og salget går fremad.\n\n Du står nu med et arbejde men uden en fagforening og en a kasse, og bliver nu udsat for den hårdeste arbejdsmåned i dit liv.\n Med de mest mærkværdige udfordringer en person kunne tænkes at blive udsat for, i løbet af arbejdslivet. \n\n Det er nu din opgave at klare dig gennem arbejdet, UDEN hjælp fra en fagforening, \n for at se hvordan arbejdet kunne se ud, hvis du stod uden en. \n\nDu vil på samme tid skulle kæmpe mod din kollega, og se hvem der kan få sin løn højest, sammen med de mærkværdige udfordringer.", ErasMediumITC14, Color.White, null, new Vector2(170, 0), false);
             menus[4][2] = new TextBox(new Vector2(350, 360), " ", ErasMediumITC14, Color.White, InGameScreenshot640x353, new Vector2(640, 353), false);
 
             
@@ -220,6 +231,10 @@ namespace EksamensProjektS2015
             Main_Medium_Normal = Content.Load<Texture2D>("Btn_Normal_Main_Medium");
             InGameScreenshot640x353 = Content.Load<Texture2D>("InGameScreenshot640x353");
             TLtest = Content.Load<Texture2D>("TimeLineTest");
+            SpillerPic = Content.Load<Texture2D>("Spiller");
+            KollegaPic = Content.Load<Texture2D>("Karl Åge");
+            PlayerPic = Content.Load<Texture2D>("PlayerPicture");
+
 
             valg_textbox = Content.Load<Texture2D>("Panel_Textbox");
             valg_button = Content.Load<Texture2D>("Panel_Button_normal");
@@ -420,6 +435,7 @@ namespace EksamensProjektS2015
                 {
                     MenuToggle();
                     menuState = Menu.Choice;
+                    (menus[2][16] as TextBox).Content =  name.ToString() + "\nDin Løn: 25.000 \nDin Erfaring: 0 år";
                     MenuToggle();
                 }
 
@@ -462,27 +478,29 @@ namespace EksamensProjektS2015
                     switch (currentValg)
                     {
                         case 5:
-                            double rnd = GetRandomNumber(0, 0.05);
+                            SpillerErfaring++;
+                            KollegaErfaring++;
+                            double rnd = GetRandomNumber(0, 0.1);
                             KollegaLøn = (KollegaLøn * rnd) + KollegaLøn;
                             KollegaLøn = (double)Math.Round((decimal)KollegaLøn, 0);
-                            (menus[2][14] as TextBox).Content = "Karl Åge\nLøn: " + KollegaLøn.ToString() + " \nErfaring: 2 år";
+                            (menus[2][14] as TextBox).Content = "Karl Åge\nLøn: " + KollegaLøn.ToString() + " \nErfaring: " + KollegaErfaring.ToString() + " år";
                             break;
                         case 12:
-                            double rnd2 = GetRandomNumber(0, 0.05);
+                            double rnd2 = GetRandomNumber(0, 0.1);
                             KollegaLøn = (KollegaLøn * rnd2) + KollegaLøn;
                             KollegaLøn = (double)Math.Round((decimal)KollegaLøn, 0);
                             (menus[2][14] as TextBox).Content = "Karl Åge\nLøn: " + KollegaLøn.ToString() + " \nErfaring: 2 år";
 
                             break;
                         case 18:
-                            double rnd3 = GetRandomNumber(0, 0.05);
+                            double rnd3 = GetRandomNumber(0, 0.1);
                             KollegaLøn = (KollegaLøn * rnd3) + KollegaLøn;
                             KollegaLøn = (double)Math.Round((decimal)KollegaLøn, 0);
                             (menus[2][14] as TextBox).Content = "Karl Åge\nLøn: " + KollegaLøn.ToString() + " \nErfaring: 2 år";
 
                             break;
                         case 26:
-                            double rnd4 = GetRandomNumber(0, 0.05);
+                            double rnd4 = GetRandomNumber(0, 0.1);
                             KollegaLøn = (KollegaLøn * rnd4) + KollegaLøn;
                             KollegaLøn = (double)Math.Round((decimal)KollegaLøn, 0);
                             (menus[2][14] as TextBox).Content = "Karl Åge\nLøn: " + KollegaLøn.ToString() + " \nErfaring: 2 år";
