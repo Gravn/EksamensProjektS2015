@@ -163,19 +163,22 @@ namespace EksamensProjektS2015
 
             ReadValgContent();   
         }
-<<<<<<< HEAD
-        private float GetTopPosition()
+        private void MoveElements(float deltaTime)
         {
-            float[] topElements = new float[menus[2].Length];
+            
+                
+            /*TextBox[] topElements = (TextBox[])menus[2];
+            Vector2[] positions = new Vector2[topElements.Length];
             for (int i = 0; i < menus[2].Length; i++)
             {
-                topElements[i] = (menus[2][i] as TextBox).Position.Y + (menus[2][i] as TextBox).size.Y;
-            }
-            return topElements.Min();
+                positions[i] = topElements[i].Position;
+                positions[i] -= new Vector2(1, 0);
+                if((positions[i].Y) > 0)
+                {
+
+                }
+            }*/
         }
-=======
-        
->>>>>>> f7073037e3441accc3bb62c07dc9a755a878b594
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used tos draw textures.
@@ -250,10 +253,15 @@ namespace EksamensProjektS2015
             }
             /*if (move)
             {
-                float topPos = GetTopPosition();
-                if(topPos <= 0)
+                float[] distances = new float[menus[2].Length - 6];
+                for (int i = 0; i < menus[2].Length - 6; i++)
                 {
-
+                    float yPos = (menus[2][i] as TextBox).Position.Y;
+                    if(distances[i] == 0)
+                    {
+                        distances[i] = yPos - 720 + (720 - yPos);
+                    }
+                    menus[2][i].Position = new Vector2(menus[2][i].Position.X, Lerp(yPos, distances[i], deltaTime));
                 }
             }*/
 
@@ -575,6 +583,10 @@ namespace EksamensProjektS2015
         }
         public float Lerp(float from, float to, float time)
         {
+            /*if(from < to + 0.2f || from > to - 0.2f)
+            {
+                return to;
+            }*/
             return (to - from) * time;
         }
     }
