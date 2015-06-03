@@ -56,7 +56,7 @@ namespace EksamensProjektS2015
         public Texture2D Rival_Silhouette;
         public Texture2D TLtest;
 
-
+        public float LoenChance = 0;
         private string highscore;
         private bool loaded = false;
         private int row = 0;
@@ -314,7 +314,6 @@ namespace EksamensProjektS2015
                 //Start
                 if ((menus[0][0] as Button).Clicked)
                 {
-
                     MenuToggle();
                     if (currentValg == 1)
                     {
@@ -393,7 +392,6 @@ namespace EksamensProjektS2015
                     loaded = true;
                 }
 
-
                 if ((menus[3][0] as Button).Clicked)
                 {
                     MenuToggle();
@@ -439,7 +437,7 @@ namespace EksamensProjektS2015
                 if ((menus[2][1] as Button).Clicked)
                 {
                     ReadSvarContent(0);
-
+                    GetSpillerLoen(currentValg);
                     move = true;
 
                     //MenuToggle();
@@ -554,7 +552,7 @@ namespace EksamensProjektS2015
            // spriteBatch.Draw(arrow, new Rectangle(1110, 124, 16, 16), Color.White);
 
 #if DEBUG
-            spriteBatch.DrawString(ErasMediumITC14, "" + currentValg, Vector2.Zero, Color.White);
+            spriteBatch.DrawString(ErasMediumITC14, "" +LoenChance , Vector2.Zero, Color.White);
 #endif
             spriteBatch.End();
 
@@ -668,12 +666,23 @@ namespace EksamensProjektS2015
                 }
             }
         }
+
+        public void GetSpillerLoen(int index)
+        {
+            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", index);
+            while (reader.Read())
+            {
+                LoenChance += int.Parse(reader["salary"].ToString());
+            }
+        }
+
         public void MenuNavigation(Menu menu)
         {
             MenuToggle();
             menuState = menu;
             MenuToggle();
         }
+
         public float Lerp(float from, float to, float time)
         {
             /*if(from < to + 0.2f || from > to - 0.2f)
