@@ -17,22 +17,11 @@ namespace TestProject
     public class UnitTest1
     {
         [TestMethod]
-        public void ButtonClick()
-        {
-            EksamensProjektS2015.Button b = new EksamensProjektS2015.Button();
-            
-            b.Clicked = false;
-
-            bool result = b.Clicked;
-
-            Assert.AreEqual(false, result);
-        }
-
-        [TestMethod]
         public void InputTest()
         {
-            bool shiftIsDown = Input.TypingKeyboard.ShiftDown(Input.Modifiers.Shift);
-            Assert.AreEqual(false, shiftIsDown);
+            GameManager g = new GameManager();
+            double sal = g.SalaryCalc(0.05, 5000);
+            Assert.Equals(sal, 6000);
         }
     }
 }

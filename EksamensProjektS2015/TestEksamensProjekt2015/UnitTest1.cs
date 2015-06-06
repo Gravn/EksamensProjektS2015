@@ -12,8 +12,9 @@ namespace TestEksamensProjekt2015
         [TestMethod]
         public void TestMethod1()
         {
-            bool shiftIsDown = Input.TypingKeyboard.ShiftDown(Input.Modifiers.Shift);
-            Assert.AreEqual(false, shiftIsDown);
+            
+            //bool shiftIsDown = Input.TypingKeyboard.ShiftDown(Input.Modifiers.Shift);
+            //Assert.AreEqual(false, shiftIsDown);
             //int i = 2 + 5;
             //Assert.Equals(7, i);
         }
