@@ -28,7 +28,7 @@ namespace EksamensProjektS2015
         public Vector2 size = Vector2.Zero;
         public Texture2D texture;
 
-        public TextBox(Vector2 position,string content,SpriteFont font,Color fontColor,Texture2D texture,Vector2 size,bool fill):base(position)
+        public TextBox(Vector2 position,string content, SpriteFont font, Color fontColor, Texture2D texture, Vector2 size, bool fill) : base(position)
         {
             this.content = content;
             this.font = font;
@@ -38,8 +38,7 @@ namespace EksamensProjektS2015
             this.fill = fill;
         }
 
-        public TextBox(Vector2 position, string content, SpriteFont font, Color fontColor,int allignment, Texture2D texture, Vector2 size, bool fill)
-            : base(position)
+        public TextBox(Vector2 position, string content, SpriteFont font, Color fontColor, int allignment, Texture2D texture, Vector2 size, bool fill) : base(position)
         {
             this.content = content;
             this.font = font;
@@ -95,7 +94,7 @@ namespace EksamensProjektS2015
 
                 if (allignment == 0)//Left
                 { 
-                   sb.DrawString(font, content, position + new Vector2(0,(int)size.Y / 2 - font.MeasureString(content).Y / 2 + 2), fontColor, 0f, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0); 
+                    sb.DrawString(font, content, position + new Vector2(0,(int)size.Y / 2 - font.MeasureString(content).Y / 2 + 2), fontColor, 0f, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0); 
                 }
 
                 if (allignment == 1)//Center

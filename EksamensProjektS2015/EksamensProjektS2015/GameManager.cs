@@ -27,10 +27,10 @@ namespace EksamensProjektS2015
         #region variables
         public Menu menuState = Menu.Main;
         public GameObject[][] menus = new GameObject[10][];
-
+        // SQLite command og connection til databasen
         private SQLiteCommand dbComm;
         private SQLiteConnection dbConn;
-
+        // Separat SQLite command og connection til highscore databasen
         private SQLiteCommand dbCommHs;
         private SQLiteConnection dbConnHs;
 
@@ -43,7 +43,7 @@ namespace EksamensProjektS2015
         public static SpriteFont CopperPlateGothicLight48;
         public static SpriteFont CopperPlateGothicLight36;
 
-        private double KollegaLøn = 25000;
+        private double colleagueSalary = 25000;
 
         public Texture2D arrow;
         public Texture2D Start_Normal;
@@ -55,7 +55,10 @@ namespace EksamensProjektS2015
         public Texture2D Title;
         public Texture2D Rival_Silhouette;
         public Texture2D TLtest;
+        public Texture2D Tutorial;
 
+        private Vector2[] tutorialPos = new Vector2[10];
+        private bool[] tutActive = new bool[5]{true, true, true, true, true};
 
         private string highscore;
         private bool loaded = false;
@@ -70,7 +73,7 @@ namespace EksamensProjektS2015
         private string text_situation = "", text_fakta = "", text_A = "", text_B = "", text_konFaktaTekst = "", text_konTekst;
         public int currentValg = 1;
 
-        private TimeLine TL;
+        private TimeLine timeLine;
         public static int dayCounter = 40;
 
         private static List<GameObject> gameObjects = new List<GameObject>();
@@ -136,7 +139,7 @@ namespace EksamensProjektS2015
             menus[1][3] = new Button(new Vector2(100, 540), "Tilbage", ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(220, 100), false);
 
             //Choice
-            menus[2] = new GameObject[19];
+            menus[2] = new GameObject[21];
             menus[2][0] = new TextBox(new Vector2(180, 40), "" + text_situation, ErasMediumITC14, Color.White, valg_textbox, new Vector2(920, 220), false);
             menus[2][1] = new Button(new Vector2(180, 40 + 220), "" + text_A, ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
             menus[2][2] = new Button(new Vector2(180, 40 + 220 + 100), "" + text_B, ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
@@ -161,6 +164,9 @@ namespace EksamensProjektS2015
             menus[2][16] = new TextBox(new Vector2(0, 500), "" + name.ToString() + "Din Løn:", ErasMediumITC14, Color.White, null, new Vector2(170, 0), false);
             menus[2][17] = new Button(new Vector2(1100, 650), "Menu" + text_B, ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(180, 180), false);
             menus[2][18] = new TextBox(new Vector2(1100, 100), "", ErasMediumITC14, Color.White, TLtest, new Vector2(180, 25), false);
+            // Tutorial & Info
+            menus[2][19] = new TextBox(new Vector2(0, 0), "3434", ErasMediumITC14, Color.White, Tutorial, new Vector2(500, 300), false);
+            menus[2][20] = new Button(new Vector2(25, 100), "Got It", ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(300, 100), false);
 
             //HighScore
             menus[3] = new GameObject[2];
@@ -183,27 +189,12 @@ namespace EksamensProjektS2015
 
             ReadValgContent();
         }
-        private void MoveElements(float deltaTime)
-        {
-            
-                
-            /*TextBox[] topElements = (TextBox[])menus[2];
-            Vector2[] positions = new Vector2[topElements.Length];
-            for (int i = 0; i < menus[2].Length; i++)
-            {
-                positions[i] = topElements[i].Position;
-                positions[i] -= new Vector2(1, 0);
-                if((positions[i].Y) > 0)
-                {
-
-                }
-            }*/
-        }
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used tos draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // Henter alle teksturer og fonte til spillet
             CopperPlateGothicLight48 = Content.Load<SpriteFont>("CopperPlate Gothic Light 48");
             CopperPlateGothicLight36 = Content.Load<SpriteFont>("CopperPlate Gothic Light 36");
             ArialNarrow48 = Content.Load<SpriteFont>("ArialNarrow48");
@@ -226,7 +217,9 @@ namespace EksamensProjektS2015
             valg_divider = Content.Load<Texture2D>("Divider");
             Rival_Silhouette = Content.Load<Texture2D>("Silhouette");
 
-            TL = new TimeLine(new Vector2(1100, 50));
+            Tutorial = Content.Load<Texture2D>("bck_Tutorial");
+
+            timeLine = new TimeLine(new Vector2(1100, 50));
             // TODO: use this.Content to load your game content here
         }
 
@@ -309,6 +302,7 @@ namespace EksamensProjektS2015
                     }
                 }
             }*/
+            #region Main:
             if (menuState == Menu.Main)
             {
                 //Start
@@ -349,7 +343,8 @@ namespace EksamensProjektS2015
                     Exit();
                 }
             }
-
+            #endregion
+            #region Highscore:
             if (menuState.Equals(Menu.Highscore))
             {
                 if (!loaded)
@@ -401,7 +396,8 @@ namespace EksamensProjektS2015
                     MenuToggle();
                 }
             }
-
+            #endregion
+            #region About:
             if (menuState.Equals(Menu.About))
             {
                 if ((menus[4][0] as Button).Clicked)
@@ -432,9 +428,11 @@ namespace EksamensProjektS2015
                     MenuToggle();
                 }
             }
-
+            #endregion
+            #region Choise:
             if (menuState.Equals(Menu.Choice))
             {
+                changeTutorial(0, new Vector2(500, 500), "Læs situationen igennem.\nTryk derefter på en af\nvalgmulighederne nedenfor");
                 //JA
                 if ((menus[2][1] as Button).Clicked)
                 {
@@ -464,36 +462,22 @@ namespace EksamensProjektS2015
                     switch (currentValg)
                     {
                         case 5:
-                            double rnd = GetRandomNumber(0, 0.05);
-                            KollegaLøn = (KollegaLøn * rnd) + KollegaLøn;
-                            KollegaLøn = (double)Math.Round((decimal)KollegaLøn, 0);
-                            (menus[2][14] as TextBox).Content = "Karl Åge\nLøn: " + KollegaLøn.ToString() + " \nErfaring: 2 år";
+                            colleagueSalary = SalaryCalc(0.05, colleagueSalary);
                             break;
                         case 12:
-                            double rnd2 = GetRandomNumber(0, 0.05);
-                            KollegaLøn = (KollegaLøn * rnd2) + KollegaLøn;
-                            KollegaLøn = (double)Math.Round((decimal)KollegaLøn, 0);
-                            (menus[2][14] as TextBox).Content = "Karl Åge\nLøn: " + KollegaLøn.ToString() + " \nErfaring: 2 år";
-
+                            colleagueSalary = SalaryCalc(0.05, colleagueSalary);
                             break;
                         case 18:
-                            double rnd3 = GetRandomNumber(0, 0.05);
-                            KollegaLøn = (KollegaLøn * rnd3) + KollegaLøn;
-                            KollegaLøn = (double)Math.Round((decimal)KollegaLøn, 0);
-                            (menus[2][14] as TextBox).Content = "Karl Åge\nLøn: " + KollegaLøn.ToString() + " \nErfaring: 2 år";
-
+                            colleagueSalary = SalaryCalc(0.05, colleagueSalary);
                             break;
                         case 26:
-                            double rnd4 = GetRandomNumber(0, 0.05);
-                            KollegaLøn = (KollegaLøn * rnd4) + KollegaLøn;
-                            KollegaLøn = (double)Math.Round((decimal)KollegaLøn, 0);
-                            (menus[2][14] as TextBox).Content = "Karl Åge\nLøn: " + KollegaLøn.ToString() + " \nErfaring: 2 år";
+                            colleagueSalary = SalaryCalc(0.05, colleagueSalary);
                             break;
 
                         default:
                             break;
                     }
-
+                    (menus[2][14] as TextBox).Content = "Karl Åge\nLøn: " + colleagueSalary.ToString() + " \nErfaring: 2 år";
                     ReadValgContent();
                     //ReadValgContent(currentValg);
                     (menus[2][7] as Button).Clicked = false;
@@ -507,7 +491,8 @@ namespace EksamensProjektS2015
                     MenuToggle();
                 }
             }
-
+            #endregion
+            #region ContinuePromt:
             if (menuState.Equals(Menu.ContinuePromt))
             {
                 if ((menus[5][0] as Button).Clicked)
@@ -524,7 +509,7 @@ namespace EksamensProjektS2015
                     MenuToggle();
                 }
             }
-
+            #endregion
             for (int i = 0; i < gameObjects.Count; i++)
             {
                 gameObjects[i].Update(deltaTime);
@@ -545,7 +530,7 @@ namespace EksamensProjektS2015
 
             spriteBatch.Draw(bg_Noise, new Rectangle(0, 0, bg_Noise.Width, bg_Noise.Height), Color.White);
 
-            TL.Draw(spriteBatch);
+            timeLine.Draw(spriteBatch);
 
             for (int i = 0; i < gameObjects.Count; i++)
             {
@@ -674,11 +659,22 @@ namespace EksamensProjektS2015
             menuState = menu;
             MenuToggle();
         }
+        private void changeTutorial(int tutNumber, Vector2 position, string text)
+        {
+            TextBox tut = (TextBox)menus[2][19];
+            Button butt = (Button)menus[2][20]; // 'Butt' HYDR HYDR HYDR :P:P:P:P
+            if (tutActive[tutNumber])
+            {
+                tut.Position = position;
+                tut.Content = text;
+                butt.Position = position + new Vector2(0, 150);
+            }
+        }
         public float Lerp(float from, float to, float time)
         {
             /*if(from < to + 0.2f || from > to - 0.2f)
             {
-                return to;
+                return (to - from);
             }*/
             return (to - from) * time;
         }
@@ -687,6 +683,13 @@ namespace EksamensProjektS2015
         {
             Random random = new Random();
             return random.NextDouble() * (maximum - minimum) + minimum;
+        }
+        public double SalaryCalc(double koefficient, double salary)
+        {
+            double rnd = GetRandomNumber(0, koefficient);
+            return (double)Math.Round((salary * rnd) + salary);
+            //ColleagueSalary = (ColleagueSalary * rnd) + ColleagueSalary;
+            //ColleagueSalary = (double)Math.Round((decimal)ColleagueSalary, 0);
         }
     }
 }

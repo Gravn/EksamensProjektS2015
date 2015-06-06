@@ -65,6 +65,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bck_Tutorial.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\bck_Dark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Arrow.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
