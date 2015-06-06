@@ -104,6 +104,12 @@
     <Content Include="Content\Silhouette.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\SliderBar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\SliderBlock.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Spiller.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
