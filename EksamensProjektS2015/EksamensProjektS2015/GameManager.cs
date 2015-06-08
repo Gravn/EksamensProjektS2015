@@ -56,9 +56,12 @@ namespace EksamensProjektS2015
         public Texture2D Rival_Silhouette;
         public Texture2D TLtest;
         public Texture2D Tutorial;
+        public Texture2D GotIt;
 
+        // Tutorial
         private Vector2[] tutorialPos = new Vector2[10];
-        private bool[] tutActive = new bool[5]{true, true, true, true, true};
+        private bool[] tutActive = new bool[5] { true, true, true, true, true};
+        private int currentTutorial = 0;
 
         public Texture2D SpillerPic;
         public Texture2D KollegaPic;
@@ -187,8 +190,9 @@ namespace EksamensProjektS2015
             menus[2][19] = new Button(new Vector2(1100, 650), "Menu" + text_B, ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(180, 180), false);
             menus[2][20] = new TextBox(new Vector2(1100, 100), "", ErasMediumITC14, Color.White, TLtest, new Vector2(180, 25), false);
             // Tutorial & Info
-            menus[2][21] = new TextBox(new Vector2(0, 0), "3434", ErasMediumITC14, Color.White, Tutorial, new Vector2(500, 300), false);
-            menus[2][22] = new Button(new Vector2(25, 100), "Got It", ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(300, 100), false);
+            menus[2][21] = new TextBox(new Vector2(0, 0), "<Tutorial>", ErasMediumITC14, Color.White, Tutorial, new Vector2(500, 300), false);
+            menus[2][22] = new Button(new Vector2(0, 0), "Got It", ArialNarrow48, Color.Black, GotIt, new Vector2(200, 75), false);
+
             menus[2][23] = new TextBox(new Vector2(5, 100), "",  ErasMediumITC14, Color.White, PlayerPic, new Vector2(170, 0), false);
 
             //HighScore
@@ -210,6 +214,7 @@ namespace EksamensProjektS2015
 
 
             ReadValgContent();
+            changeTutorial(0, new Vector2(500, 200), "Læs situationen igennem.\nTryk derefter på en af\nvalgmulighederne nedenfor");
         }
         protected override void LoadContent()
         {
@@ -246,6 +251,7 @@ namespace EksamensProjektS2015
             SliderBar = Content.Load<Texture2D>("SliderBar");
 
             Tutorial = Content.Load<Texture2D>("bck_Tutorial");
+            GotIt = Content.Load<Texture2D>("bck_GotIt");
 
             timeLine = new TimeLine(new Vector2(1100, 50));
             // TODO: use this.Content to load your game content here
@@ -330,6 +336,30 @@ namespace EksamensProjektS2015
                     }
                 }
             }*/
+            // If the tutoral button is pressed
+            if((menus[2][22] as Button).Clicked)
+            {
+                /*for (int i = 0; i < tutActive.Length; i++)
+                {
+                    if (tutActive[i])
+                    {
+                        tutActive[i] = false;
+                        currentTutorial++;
+                        changeTutorial(4, new Vector2(-500, -500), "");
+                        Illumination();
+                        break;
+                    }
+                }*/
+                if(tutActive[currentTutorial])
+                {
+                    tutActive[currentTutorial] = false;
+                    currentTutorial++;
+                    (menus[2][21] as TextBox).visible = false;
+                    (menus[2][22] as Button).visible = false;
+                    Illumination();
+                }
+                (menus[2][22] as Button).Clicked = false;
+            }
             #region Main:
             if (menuState == Menu.Main)
             {
@@ -459,28 +489,23 @@ namespace EksamensProjektS2015
             #region Choice:
             if (menuState.Equals(Menu.Choice))
             {
-                changeTutorial(0, new Vector2(500, 500), "Læs situationen igennem.\nTryk derefter på en af\nvalgmulighederne nedenfor");
+                changeTutorial(0, new Vector2(500, 200), "Læs situationen igennem.\nTryk derefter på en af\nvalgmulighederne nedenfor");
                 //JA
-                if ((menus[2][1] as Button).Clicked)
+                if ((menus[2][1] as Button).Clicked && !(menus[2][21] as TextBox).visible)
                 {
                     ReadSvarContent(0);
                     GetSpillerLoen(currentValg);
                     move = true;
                     (menus[2][1] as Button).Clicked = false;
-                    //MenuToggle();
-                    //menuState = Menu.Consequence;
-                    //MenuToggle();
                 }
-
                 //Nej
-                if ((menus[2][2] as Button).Clicked)
+                if ((menus[2][2] as Button).Clicked && !(menus[2][21] as TextBox).visible)
                 {
                     ReadSvarContent(1);
                     move = true;
                     (menus[2][2] as Button).Clicked = false;
 
                 }
-
                 //videre
                 if ((menus[2][7] as Button).Clicked)
                 {
@@ -521,9 +546,13 @@ namespace EksamensProjektS2015
 
                 if (currentValg == 5)
                 {
+                    if (!move)
+                    {
+                        changeTutorial(1, new Vector2(300, 300), "Du kan nu bruge justere din\nønskede lønforhøjelse.\nChefen afgøre om det er i orden.");
+                    }
                     (menus[2][11] as Button).visible = true;
                     (menus[2][12] as Button).visible = true;
-                    if ((menus[2][12] as Button).Pressed)
+                    if ((menus[2][12] as Button).Pressed && !(menus[2][21] as TextBox).visible && !move)
                     {
 
                         mouseDelta = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - new Vector2(mouseLastPos.X, mouseLastPos.Y);
@@ -729,9 +758,15 @@ namespace EksamensProjektS2015
             Button butt = (Button)menus[2][22]; // 'Butt' HYDR HYDR HYDR :P:P:P:P
             if (tutActive[tutNumber])
             {
+                if(!tut.visible)
+                {
+                    tut.visible = true;
+                    butt.visible = true;    // HYDR HYDR HYDR :P:P:P:P:P
+                }
+                Darkness(new GameObject[2] { menus[2][21], menus[2][22] });
                 tut.Position = position;
                 tut.Content = text;
-                butt.Position = position + new Vector2(0, 150);
+                butt.Position = position + new Vector2(150, 250);
             }
         }
         public float Lerp(float from, float to, float time)
@@ -754,6 +789,65 @@ namespace EksamensProjektS2015
             return (double)Math.Round((salary * rnd) + salary);
             //ColleagueSalary = (ColleagueSalary * rnd) + ColleagueSalary;
             //ColleagueSalary = (double)Math.Round((decimal)ColleagueSalary, 0);
+        }
+        /// <summary>
+        /// DEN BEDSTE FUNKTION TIL AT REGNE UD HVOR MANGE DAGE DER ER I ÅRET. I ØVRIGT SKRIVER DEN OGSÅ DATOERNE UD.
+        /// </summary>
+        /// <returns></returns>
+        private string WriteDate()
+        {
+            int[] dates = new int[12];
+            dates[0] = 31;  // Januar
+            dates[1] = 28;  // Februar
+            dates[2] = 30;  // Marts
+            dates[3] = 31;  // April
+            dates[4] = 30;  // Maj
+            dates[5] = 30;  // Juni
+            dates[6] = 30;  // Juli
+            dates[7] = 30;  // August
+            dates[8] = 30;  // September
+            dates[9] = 30;  // Oktober
+            dates[10] = 30; // November
+            dates[11] = 31; // Decembers
+            string completeDate = "";
+            for (int i = 0; i < dates.Length; i++)
+            {
+                for(int j = 0; j < dates[i]; j++)
+                {
+                    //days = (j )
+                    completeDate += (j + 1) + "/" + (i + 1) + "/2015\n";
+                }
+            }
+            return completeDate;
+        }
+        private void Darkness(GameObject[] objects)
+        {
+            foreach(GameObject obj in menus[2])
+            {
+                if(!objects.Contains<GameObject>(obj))
+                {
+                    if(obj is TextBox)
+                    {
+                        (obj as TextBox).backGroundColor = Color.DarkGray;
+                        (obj as TextBox).fontColor = Color.DarkGray;
+                    }
+                }
+            }
+        }
+        private void Illumination()
+        {
+            foreach(TextBox obj in menus[2])
+            {
+                obj.backGroundColor = Color.White;
+                if (obj is Button)
+                {
+                    obj.fontColor = Color.Black;
+                }
+                else
+                {
+                    obj.fontColor = Color.White;
+                }
+            }
         }
     }
 }
