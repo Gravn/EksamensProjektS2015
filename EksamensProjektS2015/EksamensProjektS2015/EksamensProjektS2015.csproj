@@ -92,6 +92,9 @@
     <Content Include="Content\InGameScreenshot640x353.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\input_box.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Karl Åge.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
