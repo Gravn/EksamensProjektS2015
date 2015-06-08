@@ -535,7 +535,6 @@ namespace EksamensProjektS2015
                 //videre
                 if ((menus[2][7] as Button).Clicked)
                 {
-                    menus[2][19].Position -= new Vector2(0, 45);
                     currentValg++;
                     (menus[2][24] as TimeLine).NewEvent();
                     switch (currentValg)
@@ -614,6 +613,7 @@ namespace EksamensProjektS2015
                 if ((menus[5][1] as Button).Clicked)
                 {
                     MenuToggle();
+                    ResetTutorials();
                     menuState = Menu.Name;
                     MenuToggle();
                 }
@@ -862,16 +862,19 @@ namespace EksamensProjektS2015
         }
         private void Illumination()
         {
-            foreach(TextBox obj in menus[2])
+            foreach(GameObject obj in menus[2])
             {
-                obj.backGroundColor = Color.White;
-                if (obj is Button)
+                if(obj is TextBox)
                 {
-                    obj.fontColor = Color.Black;
-                }
-                else
-                {
-                    obj.fontColor = Color.White;
+                    (obj as TextBox).backGroundColor = Color.White;
+                    if (obj is Button)
+                    {
+                        (obj as TextBox).fontColor = Color.Black;
+                    }
+                    else
+                    {
+                        (obj as TextBox).fontColor = Color.White;
+                    }
                 }
             }
         }
