@@ -158,7 +158,7 @@ namespace EksamensProjektS2015
 
             //Name input
             menus[1] = new GameObject[8];
-            menus[1][0] = new TextBox(new Vector2(365, 242), " Name:\n Erfaring: 0 år\n Løn: 25.000Kr.\n Fagforening: Nej", ErasMediumITC14, Color.White,0, inputBox, new Vector2(180, 100), false);
+            menus[1][0] = new TextBox(new Vector2(365, 242), " Navn:\n Erfaring: 0 år\n Løn: 25.000Kr.\n Fagforening: Nej", ErasMediumITC14, Color.White,0, inputBox, new Vector2(180, 100), false);
             menus[1][1] = new TextBox(new Vector2(735, 242), " Navn: Karl Åge\n Erfaring: 2 år\n Løn: 25.000Kr.\n Fagforening: Ja ", ErasMediumITC14, Color.White,0, inputBox, new Vector2(180, 100), false);
             menus[1][2] = new Button(new Vector2(640, 562), "Videre", ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(480, 100), false);
             menus[1][3] = new Button(new Vector2(180, 562), "Tilbage", ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(480, 100), false);
@@ -171,7 +171,7 @@ namespace EksamensProjektS2015
             menus[1][7] = new TextBox(new Vector2(418, 250), name, ErasMediumITC14, Color.White, 0, valg_divider, new Vector2(125, 20), true);
 
             //Choice
-            menus[2] = new GameObject[24];
+            menus[2] = new GameObject[25];
 
             menus[2][0] = new TextBox(new Vector2(180, 40), "" + text_situation, ErasMediumITC14, Color.White, valg_textbox, new Vector2(920, 220), false);
             menus[2][1] = new Button(new Vector2(180, 40 + 220), "" + text_A, ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
@@ -195,7 +195,7 @@ namespace EksamensProjektS2015
             menus[2][14] = new TextBox(new Vector2(1100, 0), "", ErasMediumITC14, Color.White, SidePanel_Right, Vector2.Zero, false);
             menus[2][15] = new TextBox(new Vector2(5, 400), "", ErasMediumITC14, Color.White, Rival_Silhouette, Vector2.Zero, false);
             menus[2][16] = new TextBox(new Vector2(5, 550), "Karl Åge\nErfaring: 2 år\nLøn: 25.000kr\nFagforening: Ja", ErasMediumITC14, Color.White, 0, null, new Vector2(170, 70), false);
-            menus[2][17] = new TextBox(new Vector2(1100, 150), "01/06/2015\n\n02/09/2015\n\n05/01/2016\n\n04/04/2016\n\n12/07/2016\n\n23/10/2016\n\n07/02/2017\n\n08/05/2017\n\n09/08/2017\n", ErasMediumITC14, Color.White, null, new Vector2(170, 300), false);
+            menus[2][17] = new TextBox(new Vector2(1100, 150), "", ErasMediumITC14, Color.White, null, new Vector2(170, 300), false);
             menus[2][18] = new TextBox(new Vector2(5, 280), "" + name.ToString() + "Din Løn:", ErasMediumITC14, Color.White,0, null, new Vector2(170, 0), false);
             menus[2][19] = new Button(new Vector2(1100, 650), "Menu" + text_B, ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(180, 180), false);
             menus[2][20] = new TextBox(new Vector2(1100, 100), "", ErasMediumITC14, Color.White, TLtest, new Vector2(180, 25), false);
@@ -204,6 +204,7 @@ namespace EksamensProjektS2015
             menus[2][22] = new Button(new Vector2(0, 0), "Got It", ArialNarrow48, Color.Black, GotIt, new Vector2(200, 75), false);
 
             menus[2][23] = new TextBox(new Vector2(5, 100), "",  ErasMediumITC14, Color.White, PlayerPic, new Vector2(170, 0), false);
+            menus[2][24] = new TimeLine(Vector2.Zero);
 
             //HighScore
             menus[3] = new GameObject[2];
@@ -536,7 +537,7 @@ namespace EksamensProjektS2015
                 {
                     menus[2][19].Position -= new Vector2(0, 45);
                     currentValg++;
-
+                    (menus[2][24] as TimeLine).NewEvent();
                     switch (currentValg)
                     {
                         case 5:
