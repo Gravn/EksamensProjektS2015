@@ -175,7 +175,7 @@ namespace EksamensProjektS2015
 
             menus[2][0] = new TextBox(new Vector2(180, 40), "" + text_situation, ErasMediumITC14, Color.White, valg_textbox, new Vector2(920, 220), false);
             menus[2][1] = new Button(new Vector2(180, 40 + 220), "" + text_A, ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
-            menus[2][2] = new Button(new Vector2(180, 40 + 220 + 100), "" + text_B, ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
+            menus[2][2] = new Button(new Vector2(180, 40 + 220 + 100), ""+text_B, ArialNarrow48, Color.Black, valg_button, new Vector2(920, 100), false);
             menus[2][3] = new TextBox(new Vector2(180, 40 + 220 + 100 + 100), "" + text_fakta, ErasMediumITC14, Color.White, valg_textbox, new Vector2(920, 220), false);
 
             //Consequence
@@ -694,8 +694,8 @@ namespace EksamensProjektS2015
             row = 0;
 
             //rassign from array when done reading.
-            (menus[2][1] as Button).Content = svarValg[0];
-            (menus[2][2] as Button).Content = svarValg[1];
+            (menus[2][1] as Button).Content = ""+svarValg[0];
+            (menus[2][2] as Button).Content = ""+svarValg[1];
         }
 
         public void ReadSvarContent(int index)
