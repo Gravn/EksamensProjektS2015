@@ -43,7 +43,7 @@ namespace EksamensProjektS2015
         public static SpriteFont CopperPlateGothicLight48;
         public static SpriteFont CopperPlateGothicLight36;
 
-
+        private Vector2[] posistions;
 
         public Texture2D arrow;
         public Texture2D inputBox;
@@ -286,11 +286,6 @@ namespace EksamensProjektS2015
             }
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //dayCounter++;
-            if (dayCounter >= 680)
-            {
-                dayCounter = 100;
-            }
 
             if (vScroll < 720)
             {
@@ -515,7 +510,7 @@ namespace EksamensProjektS2015
                     (menus[2][0] as TextBox).backGroundColor = Color.White;
                 }*/
 
-                changeTutorial(0, new Vector2(500, 200), "Læs situationen igennem.\nTryk derefter på en af\nvalgmulighederne nedenfor");
+                changeTutorial(0, new Vector2(640 - 250, 200), "Læs situationen igennem.\nTryk derefter på en af\nvalgmulighederne nedenfor");
                 //JA
                 if ((menus[2][1] as Button).Clicked && !(menus[2][21] as TextBox).visible)
                 {
@@ -530,7 +525,6 @@ namespace EksamensProjektS2015
                     ReadSvarContent(1);
                     move = true;
                     (menus[2][2] as Button).Clicked = false;
-
                 }
                 //videre
                 if ((menus[2][7] as Button).Clicked)
@@ -816,36 +810,7 @@ namespace EksamensProjektS2015
             //ColleagueSalary = (ColleagueSalary * rnd) + ColleagueSalary;
             //ColleagueSalary = (double)Math.Round((decimal)ColleagueSalary, 0);
         }
-        /// <summary>
-        /// DEN BEDSTE FUNKTION TIL AT REGNE UD HVOR MANGE DAGE DER ER I ÅRET. I ØVRIGT SKRIVER DEN OGSÅ DATOERNE UD.
-        /// </summary>
-        /// <returns></returns>
-        private string WriteDate()
-        {
-            int[] dates = new int[12];
-            dates[0] = 31;  // Januar
-            dates[1] = 28;  // Februar
-            dates[2] = 30;  // Marts
-            dates[3] = 31;  // April
-            dates[4] = 30;  // Maj
-            dates[5] = 30;  // Juni
-            dates[6] = 30;  // Juli
-            dates[7] = 30;  // August
-            dates[8] = 30;  // September
-            dates[9] = 30;  // Oktober
-            dates[10] = 30; // November
-            dates[11] = 31; // Decembers
-            string completeDate = "";
-            for (int i = 0; i < dates.Length; i++)
-            {
-                for(int j = 0; j < dates[i]; j++)
-                {
-                    //days = (j )
-                    completeDate += (j + 1) + "/" + (i + 1) + "/2015\n";
-                }
-            }
-            return completeDate;
-        }
+       
         private void Darkness(GameObject[] objects)
         {
             foreach(GameObject obj in menus[2])
@@ -884,6 +849,14 @@ namespace EksamensProjektS2015
             for(int i = 0; i < tutActive.Length; i++)
             {
                 tutActive[i] = true;
+            }
+        }
+        private void MoveElements()
+        {
+            posistions = new Vector2[menus[2].Length - 8];
+            for(int i = 0; i < posistions.Length - 1; i++)
+            {
+                posistions[i] = menus[2][i].Position - new Vector2(0, 720);
             }
         }
     }
