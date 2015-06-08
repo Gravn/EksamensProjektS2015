@@ -224,7 +224,7 @@ namespace EksamensProjektS2015
 
 
             ReadValgContent();
-            changeTutorial(0, new Vector2(500, 200), "Læs situationen igennem.\nTryk derefter på en af\nvalgmulighederne nedenfor");
+            //changeTutorial(0, new Vector2(500, 200), "Læs situationen igennem.\nTryk derefter på en af\nvalgmulighederne nedenfor");
         }
         protected override void LoadContent()
         {
@@ -504,7 +504,7 @@ namespace EksamensProjektS2015
             #region Choice:
             if (menuState.Equals(Menu.Choice))
             {
-                changeTutorial(0, new Vector2(500, 200), "Læs situationen igennem.\nTryk derefter på en af\nvalgmulighederne nedenfor");
+                /*changeTutorial(0, new Vector2(200, 200), "Læs situationen igennem.\nTryk derefter på en af\nvalgmulighederne nedenfor");
                 if ((menus[2][1] as Button).Pressed)
                 {
                     (menus[2][0] as TextBox).backGroundColor = Color.LightGray;
@@ -512,9 +512,9 @@ namespace EksamensProjektS2015
                 else
                 {
                     (menus[2][0] as TextBox).backGroundColor = Color.White;
-                }
+                }*/
 
-                changeTutorial(0, new Vector2(500, 500), "Læs situationen igennem.\nTryk derefter på en af\nvalgmulighederne nedenfor");
+                changeTutorial(0, new Vector2(500, 200), "Læs situationen igennem.\nTryk derefter på en af\nvalgmulighederne nedenfor");
                 //JA
                 if ((menus[2][1] as Button).Clicked && !(menus[2][21] as TextBox).visible)
                 {
@@ -575,7 +575,6 @@ namespace EksamensProjektS2015
                     {
                         changeTutorial(1, new Vector2(300, 300), "Du kan nu bruge justere din\nønskede lønforhøjelse.\nChefen afgøre om det er i orden.");
                     }
-                    (menus[2][11] as Button).visible = true;
                     (menus[2][11] as TextBox).visible = true;
                     (menus[2][12] as Button).visible = true;
                     if ((menus[2][12] as Button).Pressed && !(menus[2][21] as TextBox).visible && !move)
@@ -873,6 +872,14 @@ namespace EksamensProjektS2015
                 {
                     obj.fontColor = Color.White;
                 }
+            }
+        }
+        private void ResetTutorials()
+        {
+            currentTutorial = 0;
+            for(int i = 0; i < tutActive.Length; i++)
+            {
+                tutActive[i] = true;
             }
         }
     }
