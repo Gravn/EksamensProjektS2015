@@ -588,7 +588,7 @@ namespace EksamensProjektS2015
                 {
                     if (!move)
                     {
-                        changeTutorial(1, new Vector2(300, 300), "Du kan nu bruge justere din\nønskede lønforhøjelse.\nChefen afgøre om det er i orden.");
+                        changeTutorial(1, new Vector2(300, 300), "Du kan nu justere din\nønskede lønforhøjelse.\nChefen afgøre om det er i orden.");
                     }
                     (menus[2][11] as TextBox).visible = true;
                     (menus[2][12] as Button).visible = true;
