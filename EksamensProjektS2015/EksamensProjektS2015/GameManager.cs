@@ -192,11 +192,11 @@ namespace EksamensProjektS2015
             menus[2][11] = new TextBox(new Vector2(240, 500), "", ErasMediumITC14, Color.White, SliderBar, new Vector2(40, 40), false);
             menus[2][12] = new Button(new Vector2(400, 480), "", ErasMediumITC14, Color.White, SliderBlock, new Vector2(40, 40), false);
 
-            menus[2][13] = new TextBox(new Vector2(0, 0), "", ErasMediumITC14, Color.White, SidePanel_left, Vector2.Zero, false);
+            menus[2][13] = new TextBox(new Vector2(640, 630), SliderPercent + "%", ArialNarrow48, Color.White, null, new Vector2(0, 0), false); //TODO: move to under [2][13], wait for merge 
             menus[2][14] = new TextBox(new Vector2(1100, 0), "", ErasMediumITC14, Color.White, SidePanel_Right, Vector2.Zero, false);
             menus[2][15] = new TextBox(new Vector2(5, 400), "", ErasMediumITC14, Color.White, Rival_Silhouette, Vector2.Zero, false);
             menus[2][16] = new TextBox(new Vector2(5, 550), "Karl Åge\nErfaring: 2 år\nLøn: 25.000kr\nFagforening: Ja", ErasMediumITC14, Color.White, 0, null, new Vector2(170, 70), false);
-            menus[2][17] = new TextBox(new Vector2(640, 630), SliderPercent+"%", ArialNarrow48, Color.White, null, new Vector2(0,0), false); //TODO: move to under [2][13], wait for merge 
+            menus[2][17] = new TextBox(new Vector2(0, 0), "", ErasMediumITC14, Color.White, SidePanel_left, Vector2.Zero, false);
             menus[2][18] = new TextBox(new Vector2(5, 280), "" + name.ToString() + "Din Løn: "+playersalary, ErasMediumITC14, Color.White,0, null, new Vector2(170, 0), false);
             menus[2][19] = new Button(new Vector2(-30,10), "Menu" + text_B, ArialNarrow48, Color.Black, GotIt, new Vector2(216, 60), false);
             menus[2][20] = new TextBox(new Vector2(1100, 100), "", ErasMediumITC14, Color.White, TLtest, new Vector2(180, 25), false);
@@ -294,7 +294,7 @@ namespace EksamensProjektS2015
                     //menus[2][i].Position -= new Vector2(0, 400 * deltaTime);
                     vScroll += 600 * deltaTime;
 
-                    for (int i = 0; i < 13; i++)
+                    for (int i = 0; i < 14; i++)
                     {
                         menus[2][i].Position -= new Vector2(0, 600 * deltaTime);
                         if (menus[2][i].Position.Y < -220)
@@ -566,9 +566,8 @@ namespace EksamensProjektS2015
                     //ReadValgContent(currentValg);
                     (menus[2][7] as Button).Clicked = false;
                     move = true;
-<<<<<<< HEAD
+
                     MoveElements();
-=======
 
                     if (currentValg == 10)
                     {
@@ -579,13 +578,12 @@ namespace EksamensProjektS2015
                         MenuToggle();
                     }
 
-                    if (LoenChance >= SliderPercent && currentValg == 4 || currentValg == 9)
+                    if (salaryChance >= SliderPercent && currentValg == 4 || currentValg == 9)
                     {
                         playersalary += playersalary * SliderPercent;
-                        LoenChance = 0;
+                        salaryChance = 0;
                         (menus[2][18] as TextBox).Content = "Navn:" + name + "\nErfaring: 0 år\nLøn: " + playersalary + "Kr.\nFagforening: Nej";
                     }
->>>>>>> 696c4f470671e2deea3b9d3fdfc8c9162134c3e2
                 }
 
                 if ((menus[2][19] as Button).Clicked)
@@ -807,8 +805,7 @@ namespace EksamensProjektS2015
                 Darkness(new GameObject[2] { menus[2][21], menus[2][22] });
                 tut.Position = position;
                 tut.Content = text;
-                butt.Position = position + new Vector2(105, 150);
-                but.Position = position + new Vector2(150, 250);
+                but.Position = position + new Vector2(105, 150);
             }
         }
         public float Lerp(float from, float to, float time)
