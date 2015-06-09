@@ -13,7 +13,7 @@ namespace EksamensProjektS2015
         public string[] dates = new string[35];
         public float posY;
         
-        public float speed=400;
+        public float speed = 0;
 
         public DateTime startDate = DateTime.Parse("10/05/2015");
         public DateTime currentDate;
@@ -49,9 +49,9 @@ namespace EksamensProjektS2015
 
         public void NewEvent(int i)
         {
-            if (i-1 < events.Length)
+            if (i < events.Length)
             {
-                targetDate = events[i];
+                targetDate = events[i-1];
             }
         }
 
@@ -113,6 +113,7 @@ namespace EksamensProjektS2015
             {
                 sb.DrawString(GameManager.ErasMediumITC14, ""+dates[i], new Vector2(1140,3+ 23* i+posY), Color.White);
             }
+
             //Current Day
             //sb.DrawString(GameManager.ErasMediumITC14, "CurrentDay: " + currentDay+"|"+targetDay, new Vector2(0,23*1), Color.White);
             //sb.DrawString(GameManager.ErasMediumITC14, string.Format("Target: {0:dd}/{0:MM}/{0:yyyy}", targetDate), new Vector2(0, 23 * 2), Color.White);
