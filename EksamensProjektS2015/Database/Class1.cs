@@ -93,12 +93,19 @@ namespace Database
         /// <param name="tName"></param>
         /// <param name="tId"></param>
         /// <param name="tValues"></param>
-        public static void InsertValues(SQLiteConnection dbConn, SQLiteCommand dbComm, string tName, string[] tValues)
+        public static void InsertValues(SQLiteConnection dbConn, SQLiteCommand dbComm, string tName,string[] cName, string[] tValues)
         {
-            string sql = "Insert into " + tName + " values (";
-            for (int i = 0; i < tValues.Length; i++)
+            string sql = "Insert into " + tName + " (";
+            for (int i = 0; i < cName.Length; i++)
             {
-                sql += i == 0 ? tValues[i] : ", " + tValues[i];
+                sql += i == 0 ? cName[i] : ", " + cName[i];
+            }
+
+            sql += " ) values ( ";
+
+            for (int i = 0; i < cName.Length; i++)
+            {
+                sql += i == 0 ? "\'" + tValues[i] + "\' " : ", " + "\'"+tValues[i] + "\' ";
             }
             sql += ")";
             dbComm = new SQLiteCommand(sql, dbConn);
