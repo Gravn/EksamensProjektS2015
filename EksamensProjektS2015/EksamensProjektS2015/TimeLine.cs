@@ -17,7 +17,18 @@ namespace EksamensProjektS2015
 
         public DateTime startDate = DateTime.Parse("10/05/2015");
         public DateTime currentDate;
-        public DateTime targetDate = DateTime.Parse("22/08/2015");
+        public DateTime targetDate;
+        public DateTime[] events = new DateTime[8]
+        {
+          DateTime.Parse("25/06/2015"),//KopiMaskinen
+          DateTime.Parse("17/07/2015"),//Stolen
+          DateTime.Parse("05/08/2015"),//Museskader
+          DateTime.Parse("28/08/2015"),//LønForhandling
+          DateTime.Parse("12/09/2015"),//Temperatur
+          DateTime.Parse("17/10/2015"),//Skadedyr
+          DateTime.Parse("20/11/2015"),//Skadedyr
+          DateTime.Parse("18/12/2015") //LønForhandling
+        };
 
         public int currentDay = 0;
         public int targetDay;
@@ -33,11 +44,15 @@ namespace EksamensProjektS2015
         {
             currentDate = startDate;
             currentDay = startDate.DayOfYear;
+            targetDate = startDate;
         }
 
-        public void NewEvent()
+        public void NewEvent(int i)
         {
-            targetDate = targetDate.AddDays(r.Next(5, 50));
+            if (i-1 < events.Length)
+            {
+                targetDate = events[i];
+            }
         }
 
         public override void Update(float deltaTime)
@@ -78,11 +93,13 @@ namespace EksamensProjektS2015
             for (int i = 0; i < 35; i++)
             {
                 dates[i] = string.Format("{0:dd}/{0:MM}/{0:yyyy}",  currentDate.AddDays(i)); //DateTime.Today.AddDays(i).ToString();
-                
-                //TODO: Check eventArray for events
-                if (targetDate.Equals(DateTime.Parse(dates[i])))
+
+                for (int j = 0; j < events.Length; j++)
                 {
-                    dates[i] = "Event: "+dates[i];
+                    if (events[j].ToString().Equals(dates[i]))
+                    {
+                        dates[i] = "Event: " + dates[i];
+                    }
                 }
             }
 

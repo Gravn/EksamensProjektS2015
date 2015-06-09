@@ -72,7 +72,7 @@ namespace EksamensProjektS2015
 
         public override void Draw(SpriteBatch sb)
         {
-            if (visible)
+            if (visible && content != null)
             {
                 if (fill)
                 {
