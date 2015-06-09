@@ -69,6 +69,7 @@ namespace EksamensProjektS2015
         public Texture2D SliderBlock;
         public Texture2D SliderBar;
 
+        public float SliderPercent = 0;
         public float LoenChance = 0;
         private string highscore;
         private bool loaded = false;
@@ -89,7 +90,7 @@ namespace EksamensProjektS2015
         private string text_situation = "", text_fakta = "", text_A = "", text_B = "", text_konFaktaTekst = "", text_konTekst;
         public int currentValg = 1;
         private float colleagueSalary = 25000;
-        private float playersalary;
+        private float playersalary = 25000;
 
         private TimeLine timeLine;
         private int playerExperience = 0;
@@ -130,13 +131,14 @@ namespace EksamensProjektS2015
             dbComm = new SQLiteCommand();
             dbConn.Open();
 
-            dbConnHs = new SQLiteConnection("Data Source=Content/Players.db;Version=3");
+            dbConnHs = new SQLiteConnection("Data Source=Content/HighScore.db;Version=3");
             dbCommHs = new SQLiteCommand();
             dbConnHs.Open();
 
-            //Database.Functions.CreateDatabase("dbProsa");
-            //Database.Functions.ManualFunction(dbConn, dbComm, "CREATE TABLE IF NOT EXISTS 'valg' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Fakta' TEXT,'Spoergsmaal' TEXT, 'Konsekvens_A' INTEGER,'Konsekvens_B' INTEGER)");
-            //Database.Functions.ManualFunction(dbConn, dbComm, "INSERT INTO 'valg' ('Fakta', 'Spoergsmaal', 'Konsekvens_A', 'Konsekvens_B') VALUES ('Prosa vil hjælpe dig, hvis du udsættes for sexchikane på arbejdspladsen.', 'Din chef tager på dig. \nHvad vil du gøre?', 0, 1)");
+            //Database.Functions.CreateDatabase("HighScore");
+            //Database.Functions.ManualFunction(dbConn, dbComm, "CREATE TABLE IF NOT EXISTS 'Player' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Name' TEXT,'Point' INTEGER'");
+            //Database.Functions.ManualFunction(dbConn, dbComm, "CREATE TABLE IF NOT EXISTS 'Player' (ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Name TEXT,Point INTEGER)");
+            //Database.Functions.ManualFunction(dbConn, dbComm, "INSERT INTO 'Player' ('Name', 'Point'') VALUES ('Prosa vil hjælpe dig, hvis du udsættes for sexchikane på arbejdspladsen.', 'Din chef tager på dig. \nHvad vil du gøre?', 0, 1)");
 
             KeyboardEvents.KeyTyped += KeyTyped;
             IsMouseVisible = true;
@@ -195,8 +197,8 @@ namespace EksamensProjektS2015
             menus[2][14] = new TextBox(new Vector2(1100, 0), "", ErasMediumITC14, Color.White, SidePanel_Right, Vector2.Zero, false);
             menus[2][15] = new TextBox(new Vector2(5, 400), "", ErasMediumITC14, Color.White, Rival_Silhouette, Vector2.Zero, false);
             menus[2][16] = new TextBox(new Vector2(5, 550), "Karl Åge\nErfaring: 2 år\nLøn: 25.000kr\nFagforening: Ja", ErasMediumITC14, Color.White, 0, null, new Vector2(170, 70), false);
-            menus[2][17] = new TextBox(new Vector2(1100, 150), "", ErasMediumITC14, Color.White, null, new Vector2(170, 300), false);
-            menus[2][18] = new TextBox(new Vector2(5, 280), "" + name.ToString() + "Din Løn:", ErasMediumITC14, Color.White,0, null, new Vector2(170, 0), false);
+            menus[2][17] = new TextBox(new Vector2(640, 630), SliderPercent+"%", ArialNarrow48, Color.White, null, new Vector2(0,0), false); //TODO: move to under [2][13], wait for merge 
+            menus[2][18] = new TextBox(new Vector2(5, 280), "" + name.ToString() + "Din Løn: "+playersalary, ErasMediumITC14, Color.White,0, null, new Vector2(170, 0), false);
             menus[2][19] = new Button(new Vector2(1100, 650), "Menu" + text_B, ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(180, 180), false);
             menus[2][20] = new TextBox(new Vector2(1100, 100), "", ErasMediumITC14, Color.White, TLtest, new Vector2(180, 25), false);
             // Tutorial & Info
@@ -415,7 +417,7 @@ namespace EksamensProjektS2015
             {
                 if (!loaded)
                 {
-                    SQLiteDataReader reader = Database.Functions.TableSelectAllDescending(dbConnHs, dbCommHs, "spiller","point");
+                    SQLiteDataReader reader = Database.Functions.TableSelectAllDescending(dbConnHs, dbCommHs, "Player","Point");
 
                     while (reader.Read())
                     {
@@ -441,7 +443,7 @@ namespace EksamensProjektS2015
                         }
 
                         //Point
-                        highscore += (reader[1].ToString().Length);
+                        highscore += (reader[2].ToString());
                         //highscore += reader[2].ToString();
 
                         highscore += "\n";
@@ -484,7 +486,7 @@ namespace EksamensProjektS2015
                 {
                     MenuToggle();
                     menuState = Menu.Choice;
-                    (menus[2][18] as TextBox).Content = "Navn:" + name + "\nErfaring: 0 år\nLøn: 25.000Kr.\nFagforening: Nej";
+                    (menus[2][18] as TextBox).Content = "Navn:" + name + "\nErfaring: 0 år\nLøn: "+playersalary+"Kr.\nFagforening: Nej";
                     MenuToggle();
 
                 }
@@ -511,6 +513,7 @@ namespace EksamensProjektS2015
                 }*/
 
                 changeTutorial(0, new Vector2(640 - 250, 200), "Læs situationen igennem.\nTryk derefter på en af\nvalgmulighederne nedenfor");
+                
                 //JA
                 if ((menus[2][1] as Button).Clicked && !(menus[2][21] as TextBox).visible)
                 {
@@ -518,6 +521,7 @@ namespace EksamensProjektS2015
                     GetSpillerLoen(currentValg);
                     move = true;
                     (menus[2][1] as Button).Clicked = false;
+    
                 }
                 //Nej
                 if ((menus[2][2] as Button).Clicked && !(menus[2][21] as TextBox).visible)
@@ -526,11 +530,12 @@ namespace EksamensProjektS2015
                     move = true;
                     (menus[2][2] as Button).Clicked = false;
                 }
+                
                 //videre
                 if ((menus[2][7] as Button).Clicked)
                 {
                     currentValg++;
-                    (menus[2][24] as TimeLine).NewEvent();
+                    (menus[2][24] as TimeLine).NewEvent(currentValg);
                     switch (currentValg)
                     {
                         case 5:
@@ -554,6 +559,22 @@ namespace EksamensProjektS2015
                     //ReadValgContent(currentValg);
                     (menus[2][7] as Button).Clicked = false;
                     move = true;
+
+                    if (currentValg == 10)
+                    {
+                        //Database.Functions.InsertValues(dbConnHs,dbCommHs,"Player",new string[]{"Name","Point"},new string[]{name,playersalary.ToString()});
+                        Database.Functions.ManualFunction(dbConnHs, dbCommHs, "Insert into Player (Name,Point) values ('"+name+"','"+playersalary+"')");
+                        MenuToggle();
+                        menuState = Menu.Highscore;
+                        MenuToggle();
+                    }
+
+                    if (LoenChance >= SliderPercent && currentValg == 4 || currentValg == 9)
+                    {
+                        playersalary += playersalary * SliderPercent;
+                        LoenChance = 0;
+                        (menus[2][18] as TextBox).Content = "Navn:" + name + "\nErfaring: 0 år\nLøn: " + playersalary + "Kr.\nFagforening: Nej";
+                    }
                 }
 
                 if ((menus[2][19] as Button).Clicked)
@@ -563,7 +584,7 @@ namespace EksamensProjektS2015
                     MenuToggle();
                 }
 
-                if (currentValg == 5)
+                if (currentValg == 4 || currentValg == 9)
                 {
                     if (!move)
                     {
@@ -571,6 +592,7 @@ namespace EksamensProjektS2015
                     }
                     (menus[2][11] as TextBox).visible = true;
                     (menus[2][12] as Button).visible = true;
+                    (menus[2][17] as TextBox).visible = true;
                     if ((menus[2][12] as Button).Pressed && !(menus[2][21] as TextBox).visible && !move)
                     {
 
@@ -581,17 +603,19 @@ namespace EksamensProjektS2015
                             menus[2][12].Position += new Vector2(mouseDelta.X, 0);
                         }
 
-                        (menus[2][12] as Button).Content = "" + Math.Round((menus[2][12].Position.X+(menus[2][12] as Button).size.X/2 - 240) / (795)*5,1);
+                        //(menus[2][12] as Button).Content = "" + Math.Round((menus[2][12].Position.X+(menus[2][12] as Button).size.X/2 - 240) / (795)*5,1);
+                        
                     }
+                    SliderPercent = (float)Math.Round((menus[2][12].Position.X + (menus[2][12] as Button).size.X / 2 - 240) / (795) * 5, 1);
+                    (menus[2][17] as TextBox).Content = SliderPercent + "%";
                     mouseLastPos = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y);
                 }
                 else
                 {
+                    (menus[2][17] as TextBox).visible = false;
                     (menus[2][11] as TextBox).visible = false;
                     (menus[2][12] as Button).visible = false;
-                }
-
-               
+                }     
             }
             #endregion
             #region ContinuePromt:
@@ -732,6 +756,7 @@ namespace EksamensProjektS2015
                 }
             }
         }
+
         public void MenuToggle()
         {
             // Get all objects in menus
@@ -775,18 +800,18 @@ namespace EksamensProjektS2015
         private void changeTutorial(int tutNumber, Vector2 position, string text)
         {
             TextBox tut = (TextBox)menus[2][21];
-            Button butt = (Button)menus[2][22]; // 'Butt' HYDR HYDR HYDR :P:P:P:P
+            Button but = (Button)menus[2][22];
             if (tutActive[tutNumber])
             {
                 if(!tut.visible)
                 {
                     tut.visible = true;
-                    butt.visible = true;    // HYDR HYDR HYDR :P:P:P:P:P
+                    but.visible = true;
                 }
                 Darkness(new GameObject[2] { menus[2][21], menus[2][22] });
                 tut.Position = position;
                 tut.Content = text;
-                butt.Position = position + new Vector2(150, 250);
+                but.Position = position + new Vector2(150, 250);
             }
         }
         public float Lerp(float from, float to, float time)
