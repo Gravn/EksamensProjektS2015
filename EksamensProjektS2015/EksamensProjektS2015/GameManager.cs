@@ -199,7 +199,7 @@ namespace EksamensProjektS2015
             menus[2][16] = new TextBox(new Vector2(5, 550), "Karl Åge\nErfaring: 2 år\nLøn: 25.000kr\nFagforening: Ja", ErasMediumITC14, Color.White, 0, null, new Vector2(170, 70), false);
             menus[2][17] = new TextBox(new Vector2(640, 630), SliderPercent+"%", ArialNarrow48, Color.White, null, new Vector2(0,0), false); //TODO: move to under [2][13], wait for merge 
             menus[2][18] = new TextBox(new Vector2(5, 280), "" + name.ToString() + "Din Løn: "+playersalary, ErasMediumITC14, Color.White,0, null, new Vector2(170, 0), false);
-            menus[2][19] = new Button(new Vector2(1100, 650), "Menu" + text_B, ArialNarrow48, Color.Black, Main_Medium_Normal, new Vector2(180, 180), false);
+            menus[2][19] = new Button(new Vector2(-30,10), "Menu" + text_B, ArialNarrow48, Color.Black, GotIt, new Vector2(216, 60), false);
             menus[2][20] = new TextBox(new Vector2(1100, 100), "", ErasMediumITC14, Color.White, TLtest, new Vector2(180, 25), false);
             // Tutorial & Info
             menus[2][21] = new TextBox(new Vector2(0, 0), "<Tutorial>", ErasMediumITC14, Color.White, Tutorial, new Vector2(500, 300), false);
