@@ -91,7 +91,7 @@ namespace EksamensProjektS2015
         private float colleagueSalary = 25000;
         private float playersalary;
 
-        private TimeLine timeLine;
+        private TimeLine timeLine;  
         private int playerExperience = 0;
         private int colleagueErfaring = 2;
 
