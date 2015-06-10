@@ -361,17 +361,6 @@ namespace EksamensProjektS2015
             // If the tutoral button is pressed
             if ((menus[2][22] as Button).Clicked)
             {
-                /*for (int i = 0; i < tutActive.Length; i++)
-                {
-                    if (tutActive[i])
-                    {
-                        tutActive[i] = false;
-                        currentTutorial++;
-                        changeTutorial(4, new Vector2(-500, -500), "");
-                        Illumination();
-                        break;
-                    }
-                }*/
                 if (tutActive[currentTutorial])
                 {
                     tutActive[currentTutorial] = false;
