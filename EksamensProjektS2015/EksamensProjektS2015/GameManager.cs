@@ -14,6 +14,7 @@ namespace EksamensProjektS2015
 {
     public class GameManager : Game
     {
+        //Enum to control the menu system
         public enum Menu
         {
             Main = 0,
@@ -38,6 +39,7 @@ namespace EksamensProjektS2015
         SpriteBatch spriteBatch;
         KeyboardEvents textInput = new KeyboardEvents();
 
+        //Spritefonts for the text in the game
         public static SpriteFont ArialNarrow48;
         public static SpriteFont ErasMediumITC14;
         public static SpriteFont CopperPlateGothicLight48;
@@ -45,6 +47,7 @@ namespace EksamensProjektS2015
 
         private Vector2[] posistions;
 
+        //textures used in the game
         public Texture2D arrow;
         public Texture2D inputBox;
         public Texture2D Main_Medium_Normal;
@@ -57,16 +60,15 @@ namespace EksamensProjektS2015
         public Texture2D TLtest;
         public Texture2D Tutorial;
         public Texture2D GotIt;
+        public Texture2D ColleaguePic;
+        public Texture2D PlayerPic;
+        public Texture2D SliderBlock;
+        public Texture2D SliderBar;
 
         // Tutorial
         private Vector2[] tutorialPos = new Vector2[10];
         private bool[] tutActive = new bool[5] { true, true, true, true, true };
         private int currentTutorial = 0;
-
-        public Texture2D ColleaguePic;
-        public Texture2D PlayerPic;
-        public Texture2D SliderBlock;
-        public Texture2D SliderBar;
 
         private float salaryChance = 0;
         public float SliderPercent = 0;
@@ -78,9 +80,6 @@ namespace EksamensProjektS2015
 
         private Vector2 mouseDelta = Vector2.Zero;
         private Vector2 mouseLastPos = Vector2.Zero;
-
-
-
 
         // Delegates to simplify menu code later in the script
         delegate void GetFunctions();
@@ -124,8 +123,7 @@ namespace EksamensProjektS2015
             base.Initialize();
 
 
-
-
+            //Opens connection to the databases
             dbConn = new SQLiteConnection("Data Source=Content/TextContent.db;Version=3");
             dbComm = new SQLiteCommand();
             dbConn.Open();
@@ -284,7 +282,7 @@ namespace EksamensProjektS2015
 
         protected override void Update(GameTime gameTime)
         {
-
+            //Checks if it is the first time playing
             if (currentValg != 1)
             {
                 (menus[0][0] as Button).Content = "Fortsæt/Nyt Spil";
@@ -695,6 +693,7 @@ namespace EksamensProjektS2015
             base.Draw(gameTime);
         }
 
+        //Checks what key is typed, to fill in the name string
         void KeyTyped(object sender, KeyboardEventArgs e)
         {
             if (e.character.HasValue && ErasMediumITC14.MeasureString("Navn:" + name).X < 165)
@@ -803,6 +802,8 @@ namespace EksamensProjektS2015
             menuState = menu;
             MenuToggle();
         }
+
+        //Makes the tutorial box
         private void changeTutorial(int tutNumber, Vector2 position, string text)
         {
             TextBox tut = (TextBox)menus[2][21];
@@ -829,11 +830,14 @@ namespace EksamensProjektS2015
             return (to - from) * time;
         }
 
+        //Method to get a random number, using a minimum and a maximum value
         public double GetRandomNumber(double minimum, double maximum)
         {
             Random random = new Random();
             return random.NextDouble() * (maximum - minimum) + minimum;
         }
+
+        //Calculates the salary
         public double SalaryCalc(double koefficient, double salary)
         {
             double rnd = GetRandomNumber(0.02, koefficient);
@@ -842,6 +846,7 @@ namespace EksamensProjektS2015
             //ColleagueSalary = (double)Math.Round((decimal)ColleagueSalary, 0);
         }
 
+        //Makes everything behind the tutorial prompt dimm 
         private void Darkness(GameObject[] objects)
         {
             foreach (GameObject obj in menus[2])
@@ -856,6 +861,8 @@ namespace EksamensProjektS2015
                 }
             }
         }
+
+        //Adds more effect to the darkness method
         private void Illumination()
         {
             foreach (GameObject obj in menus[2])
@@ -874,6 +881,8 @@ namespace EksamensProjektS2015
                 }
             }
         }
+
+        //Resets the tutorials
         private void ResetTutorials()
         {
             currentTutorial = 0;
@@ -882,6 +891,8 @@ namespace EksamensProjektS2015
                 tutActive[i] = true;
             }
         }
+
+        //used to move elements on the screen
         private void MoveElements()
         {
             posistions = new Vector2[menus[2].Length - 8];
