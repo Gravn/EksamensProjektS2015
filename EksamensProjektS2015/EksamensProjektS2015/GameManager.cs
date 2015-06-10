@@ -584,9 +584,9 @@ namespace EksamensProjektS2015
                         MenuToggle();
                     }
 
-                    if (salaryChance >= SliderPercent && currentValg == 4 || currentValg == 9)
+                    if (salaryChance >= SliderPercent && currentValg == 5 || currentValg == 9)
                     {
-                        playersalary += playersalary * SliderPercent;
+                        playersalary += playersalary * (SliderPercent / 100);
                         (menus[2][18] as TextBox).Content = "Navn:" + name + "\nErfaring: 0 år\nLøn: " + playersalary + "Kr.\nFagforening: Nej";
                         salaryChance = 0;
                     }
@@ -837,7 +837,7 @@ namespace EksamensProjektS2015
         }
         public double SalaryCalc(double koefficient, double salary)
         {
-            double rnd = GetRandomNumber(0, koefficient);
+            double rnd = GetRandomNumber(0.02, koefficient);
             return (double)Math.Round((salary * rnd) + salary);
             //ColleagueSalary = (ColleagueSalary * rnd) + ColleagueSalary;
             //ColleagueSalary = (double)Math.Round((decimal)ColleagueSalary, 0);
