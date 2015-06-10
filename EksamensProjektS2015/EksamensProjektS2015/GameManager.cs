@@ -564,21 +564,31 @@ namespace EksamensProjektS2015
 
                     MoveElements();
 
-                    if (currentValg == 10)
-                    {
-                        //Database.Functions.InsertValues(dbConnHs,dbCommHs,"Player",new string[]{"Name","Point"},new string[]{name,playersalary.ToString()});
-                        Database.Functions.ManualFunction(dbConnHs, dbCommHs, "Insert into Player (Name,Point) values ('" + name + "','" + playersalary + "')");
-                        MenuToggle();
-                        menuState = Menu.Highscore;
-                        MenuToggle();
-                    }
-
                     if (salaryChance >= SliderPercent && currentValg == 5 || currentValg == 9)
                     {
                         playersalary += playersalary * (SliderPercent / 100);
                         (menus[2][18] as TextBox).Content = "Navn:" + name + "\nErfaring: 0 år\nLøn: " + playersalary + "Kr.\nFagforening: Nej";
                         salaryChance = 0;
                     }
+
+                    if (currentValg == 9)
+                    {
+                        //Database.Functions.InsertValues(dbConnHs,dbCommHs,"Player",new string[]{"Name","Point"},new string[]{name,playersalary.ToString()});
+                        Database.Functions.ManualFunction(dbConnHs, dbCommHs, "Insert into Player (Name,Point) values ('" + name + "','" + playersalary + "')");
+                        MenuToggle();
+
+                        changeTutorial(2, new Vector2(640, 380), "Dette var fagforeningsspillet. Vi håber oplevelsen var lærerig, og du måske vil prøve det igen?\n\n" +
+                                                                 "Din slutløn endte på :" + playersalary.ToString() +
+
+                                                                    "\n\nKarl Åge endte med :" + colleagueSalary.ToString() +
+
+                                                                    "\n\nLønnen betyder dog ikke alt, og i burde have fået samme løn gennem en overenskomst. " +
+                                                                 "\nSå i burde være gode kollegaer, i stedet for rivaler.");
+                        menuState = Menu.Highscore;
+                        MenuToggle();
+
+                    }
+
                 }
 
                 if ((menus[2][19] as Button).Clicked)
@@ -588,7 +598,7 @@ namespace EksamensProjektS2015
                     MenuToggle();
                 }
 
-                if (currentValg == 4 || currentValg == 9)
+                if (currentValg == 4 || currentValg == 8)
                 {
                     if (!move)
                     {
