@@ -93,7 +93,7 @@ namespace EksamensProjektS2015
 
         private TimeLine timeLine;  
         private int playerExperience = 0;
-        private int colleagueErfaring = 2;
+        private int colleagueExperience = 2;
 
         private TimeLine TL;
         public static int dayCounter = 40;
@@ -287,7 +287,7 @@ namespace EksamensProjektS2015
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (vScroll < 720)
+            /*if (vScroll < 720)
             {
                 if (move == true)
                 {
@@ -308,13 +308,13 @@ namespace EksamensProjektS2015
             {
                 move = false;
                 vScroll = 0;
-            }
-            /*if (move)
+            }*/
+            if (move)
             {
-                for (int i = 0; i < menus[2].Length - 13; i++ )
+                for (int i = 0; i < 14; i++ )
                 {
                     menus[2][i].Position += new Vector2(0, Lerp(menus[2][i].Position.Y, posistions[i].Y, deltaTime * 2));
-                    if (i == menus[2].Length - 14)
+                    if (i == 13)
                     {
                         if (menus[2][i].Position.Y == posistions[i].Y)
                         {
@@ -329,7 +329,7 @@ namespace EksamensProjektS2015
                         }
                     }
                 }
-            }*/
+            }
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
@@ -877,6 +877,18 @@ namespace EksamensProjektS2015
             {
                 posistions[i] = menus[2][i].Position - new Vector2(0, 720);
             }
+        }
+        private void Choise()
+        {
+
+        }
+        private void Main()
+        {
+
+        }
+        private void Highscore()
+        {
+
         }
     }
 }
