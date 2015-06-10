@@ -15,13 +15,13 @@ namespace EksamensProjektS2015
         
         public float speed = 0;
 
-        public DateTime startDate = DateTime.Parse("10/05/2015");
+        public DateTime startDate = DateTime.Parse("25/05/2015");
         public DateTime currentDate;
         public DateTime targetDate;
         public DateTime[] events = new DateTime[8]
         {
-          DateTime.Parse("25/06/2015"),//KopiMaskinen
-          DateTime.Parse("17/07/2015"),//Stolen
+          DateTime.Parse("25/05/2015"),//KopiMaskinen
+          DateTime.Parse("14/07/2015"),//Stolen
           DateTime.Parse("05/08/2015"),//Museskader
           DateTime.Parse("28/08/2015"),//LønForhandling
           DateTime.Parse("12/09/2015"),//Temperatur
@@ -37,21 +37,19 @@ namespace EksamensProjektS2015
 
         public float waitTimer = 0;
 
-        Random r = new Random();
-
         public TimeLine(Vector2 position)
             : base(position)
         {
             currentDate = startDate;
-            currentDay = startDate.DayOfYear;
-            targetDate = startDate;
+            //currentDay = startDate.DayOfYear;
+            targetDate = events[0];
         }
 
         public void NewEvent(int i)
         {
             if (i < events.Length)
             {
-                targetDate = events[i-1];
+                targetDate = events[i - 1];
             }
         }
 
@@ -81,7 +79,6 @@ namespace EksamensProjektS2015
                 speed = 0;
             }
 
-
             posY -= speed * deltaTime;
 
             if (posY <= -25)
@@ -92,18 +89,16 @@ namespace EksamensProjektS2015
             }
             for (int i = 0; i < 35; i++)
             {
-                dates[i] = string.Format("{0:dd}/{0:MM}/{0:yyyy}",  currentDate.AddDays(i)); //DateTime.Today.AddDays(i).ToString();
+                dates[i] = string.Format("{0:dd}/{0:MM}/{0:yyyy}",  currentDate.AddDays(i-7)); //DateTime.Today.AddDays(i).ToString();
 
-                for (int j = 0; j < events.Length; j++)
+                for (int j = 0; j < events.Length ; j++)
                 {
                     if (events[j].ToString().Equals(dates[i]))
                     {
-                        dates[i] = "Event: " + dates[i];
+                        dates[i] = "(+) " + dates[i];
                     }
                 }
             }
-
-
                 base.Update(deltaTime);
         }
 
@@ -115,17 +110,15 @@ namespace EksamensProjektS2015
             }
 
             //Current Day
-            //sb.DrawString(GameManager.ErasMediumITC14, "CurrentDay: " + currentDay+"|"+targetDay, new Vector2(0,23*1), Color.White);
+            //sb.DrawString(GameManager.ErasMediumITC14, "CurrentDay: " + currentDay + "|" + targetDay, new Vector2(0, 23 * 1), Color.White);
             //sb.DrawString(GameManager.ErasMediumITC14, string.Format("Target: {0:dd}/{0:MM}/{0:yyyy}", targetDate), new Vector2(0, 23 * 2), Color.White);
             //sb.DrawString(GameManager.ErasMediumITC14, string.Format("CurrentDate: {0:dd}/{0:MM}/{0:yyyy}", currentDate), new Vector2(0, 23 * 3), Color.White);
-            //sb.DrawString(GameManager.ErasMediumITC14, "Difference: "+difference, new Vector2(0, 23 * 4), Color.White);
+            //sb.DrawString(GameManager.ErasMediumITC14, "Difference: " + difference, new Vector2(0, 23 * 4), Color.White);
             //sb.DrawString(GameManager.ErasMediumITC14, "Distance: " + distance, new Vector2(0, 23 * 5), Color.White);
             //sb.DrawString(GameManager.ErasMediumITC14, "Speed: " + speed, new Vector2(0, 23 * 6), Color.White);
             //sb.DrawString(GameManager.ErasMediumITC14, "Year?: " + (targetDate.Year.Equals(currentDate.Year)), new Vector2(0, 23 * 7), Color.White);
-            //sb.DrawString(GameManager.ErasMediumITC14, "Left: " + (int.Parse(DateTime.Parse(string.Format("31/12/{0:yyyy}", currentDate)).DayOfYear.ToString()) - int.Parse(currentDate.DayOfYear.ToString())), new Vector2(0, 23 * 8), Color.White);
-            
+            //sb.DrawString(GameManager.ErasMediumITC14, "Left: " + (int.Parse(DateTime.Parse(string.Format("31/12/{0:yyyy}", currentDate)).DayOfYear.ToString()) - int.Parse(currentDate.DayOfYear.ToString())), new Vector2(0, 23 * 8), Color.White);   
             base.Draw(sb);
         }
-
     }
 }
