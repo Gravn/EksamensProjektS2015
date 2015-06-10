@@ -187,8 +187,8 @@ namespace EksamensProjektS2015
             menus[2][7] = new Button(new Vector2(180, 40 + 720 + 220 + 50), "Videre", ArialNarrow48, Color.Black, choice_button, new Vector2(920, 100), false);
             menus[2][8] = new TextBox(new Vector2(180, 40 + 720 + 220 + 50 + 100 + 50), "" + text_konFaktaTekst, ErasMediumITC14, Color.White, choice_textbox, new Vector2(920, 220), false);
 
-            menus[2][9] = new TextBox(new Vector2(180, -40), "", ErasMediumITC14, Color.White, choice_divider, Vector2.Zero, false);
-            menus[2][10] = new TextBox(new Vector2(180, 720 - 40), "", ErasMediumITC14, Color.White, choice_divider, Vector2.Zero, false);
+            menus[2][9] = new TextBox(new Vector2(180, -40), "", ErasMediumITC14, Color.White, choice_divider, new Vector2(920, 80), false);
+            menus[2][10] = new TextBox(new Vector2(180, 720 - 40), "", ErasMediumITC14, Color.White, choice_divider, new Vector2(920, 80), false);
             menus[2][11] = new TextBox(new Vector2(240, 500), "", ErasMediumITC14, Color.White, SliderBar, new Vector2(50, 80), false);
             menus[2][12] = new Button(new Vector2(400, 480), "", ErasMediumITC14, Color.White, SliderBlock, new Vector2(50, 80), false);
 
@@ -319,11 +319,11 @@ namespace EksamensProjektS2015
                     {
                         if (menus[2][i].Position.Y == posistions[i].Y)
                         {
-                            foreach(GameObject obj in menus[2])
+                            for (int j = 0; j < 14; j++)
                             {
-                                if(obj is TextBox && ((obj as TextBox).Position.Y + (obj as TextBox).size.Y) <= 0)
+                                if (menus[2][j].Position.Y + (menus[2][j] as TextBox).size.Y <= 0)
                                 {
-                                    (obj as TextBox).Position += new Vector2(0, 1440);
+                                    menus[2][j].Position += new Vector2(0, 1440);
                                 }
                             }
                             move = false;
@@ -526,7 +526,7 @@ namespace EksamensProjektS2015
                     ReadAnswerContent(0);
                     GetPlayerSalary(currentValg);
                     move = true;
-                    //MoveElements();
+                    MoveElements();
                     (menus[2][1] as Button).Clicked = false;
     
                 }
@@ -535,7 +535,7 @@ namespace EksamensProjektS2015
                 {
                     ReadAnswerContent(1);
                     move = true;
-                    //MoveElements();
+                    MoveElements();
                     (menus[2][2] as Button).Clicked = false;
                 }
                 
@@ -569,7 +569,7 @@ namespace EksamensProjektS2015
 
                     move = true;
 
-                    //MoveElements();
+                    MoveElements();
 
                     if (currentValg == 10)
                     {
@@ -598,7 +598,7 @@ namespace EksamensProjektS2015
                 {
                     if (!move)
                     {
-                        changeTutorial(1, new Vector2(300, 300), "Du kan nu justere din\nønskede lønforhøjelse.\nChefen afgøre om det er i orden.");
+                        changeTutorial(1, new Vector2(640 - 175, 330), "Du kan nu justere din\nønskede lønforhøjelse.\nChefen afgøre om det er i orden.");
                     }
                     (menus[2][11] as TextBox).visible = true;
                     (menus[2][12] as Button).visible = true;
