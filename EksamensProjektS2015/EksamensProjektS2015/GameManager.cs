@@ -247,7 +247,6 @@ namespace EksamensProjektS2015
             ColleaguePic = Content.Load<Texture2D>("Silhouette");
             PlayerPic = Content.Load<Texture2D>("PlayerPicture");
 
-
             choice_textbox = Content.Load<Texture2D>("Panel_Textbox");
             choice_button = Content.Load<Texture2D>("Panel_Button_normal");
             choice_divider = Content.Load<Texture2D>("Divider");
@@ -331,7 +330,7 @@ namespace EksamensProjektS2015
                 }
             }*/
             // If the tutoral button is pressed
-            if ((menus[2][22] as Button).Clicked)
+            if ((menus[2][22] as Button).Clicked && (menus[2][22] as Button).visible)
             {
                 if (tutActive[currentTutorial])
                 {
@@ -490,7 +489,7 @@ namespace EksamensProjektS2015
                 {
                     if (currentChoice == 9)
                     {
-                        (menus[2][6] as TextBox).Content = "Dette var fagforeningsspillet. Vi håber oplevelsen var lærerig, og du måske vil prøve det igen?\n\n" +
+                        (menus[2][8] as TextBox).Content = "Dette var fagforeningsspillet. Vi håber oplevelsen var lærerig, og du måske vil prøve det igen?\n\n" +
                                                                 "Din slutløn endte på :" + playersalary.ToString() +
 
                                                                    "\n\nKarl Åge endte med :" + colleagueSalary.ToString() +
@@ -513,7 +512,7 @@ namespace EksamensProjektS2015
                 {
                     if (currentChoice == 9)
                     {
-                        (menus[2][6] as TextBox).Content = "Dette var fagforeningsspillet. Vi håber oplevelsen var lærerig, og du måske vil prøve det igen?\n\n" +
+                        (menus[2][8] as TextBox).Content = "Dette var fagforeningsspillet. Vi håber oplevelsen var lærerig, og du måske vil prøve det igen?\n\n" +
                                                                 "Din slutløn endte på :" + playersalary.ToString() +
 
                                                                    "\n\nKarl Åge endte med :" + colleagueSalary.ToString() +
