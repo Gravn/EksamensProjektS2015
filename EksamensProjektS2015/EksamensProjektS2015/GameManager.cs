@@ -457,6 +457,9 @@ namespace EksamensProjektS2015
                 {
                     MenuToggle();
                     menuState = Menu.Choice;
+                    playersalary = 25000;
+                    colleagueSalary = 25000;
+                    (menus[2][16] as TextBox).Content = "Navn: Karl Åge\nErfaring: 2 år\nLøn: " + colleagueSalary + "kr.\nFagforening: Ja";
                     (menus[2][18] as TextBox).Content = "Navn:" + name + "\nErfaring: 0 år\nLøn: " + playersalary + "Kr.\nFagforening: Nej";
                     MenuToggle();
 
@@ -633,6 +636,8 @@ namespace EksamensProjektS2015
                 if ((menus[5][1] as Button).Clicked)
                 {
                     MenuToggle();
+                    playersalary = 25000;
+                    colleagueSalary = 25000;
                     ResetTutorials();
                     currentChoice = 1;
                     ReadchoiceContent();
