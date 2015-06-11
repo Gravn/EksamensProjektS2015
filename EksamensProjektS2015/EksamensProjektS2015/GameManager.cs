@@ -87,7 +87,7 @@ namespace EksamensProjektS2015
         private GetFunctions[] buttonFuctions;
 
         private string text_situation = "", text_fakta = "", text_A = "", text_B = "", text_konFaktaTekst = "", text_konTekst;
-        public int currentValg = 1;
+        public int currentChoice = 1;
         private float colleagueSalary = 25000;
         private float playersalary = 25000;
 
@@ -285,7 +285,7 @@ namespace EksamensProjektS2015
         protected override void Update(GameTime gameTime)
         {
 
-            if (currentValg != 1)
+            if (currentChoice != 1)
             {
                 (menus[0][0] as Button).Content = "Fortsæt/Nyt Spil";
             }
@@ -378,7 +378,7 @@ namespace EksamensProjektS2015
                 if ((menus[0][0] as Button).Clicked)
                 {
                     MenuToggle();
-                    if (currentValg == 1)
+                    if (currentChoice == 1)
                     {
                         menuState = Menu.Name;
                     }
@@ -478,7 +478,7 @@ namespace EksamensProjektS2015
             #region Name
             if (menuState.Equals(Menu.Name))
             {
-                currentValg = 1;
+                currentChoice = 1;
                 textInput.HandleKeyUpdate(gameTime);
                 (menus[1][7] as TextBox).Content = name;
 
@@ -516,8 +516,28 @@ namespace EksamensProjektS2015
                 //JA
                 if ((menus[2][1] as Button).Clicked && !(menus[2][21] as TextBox).visible && !move)
                 {
-                    ReadAnswerContent(0);
-                    GetPlayerSalary(currentValg);
+                    if (currentChoice == 9)
+                    {
+                        /*changeTutorial(2, new Vector2(640, 380), "Dette var fagforeningsspillet. Vi håber oplevelsen var lærerig, og du måske vil prøve det igen?\n\n" +
+                                                                "Din slutløn endte på :" + playersalary.ToString() +
+
+                                                                   "\n\nKarl Åge endte med :" + colleagueSalary.ToString() +
+
+                                                                   "\n\nLønnen betyder dog ikke alt, og i burde have fået samme løn gennem en overenskomst. " +
+                                                                "\nSå i burde være gode kollegaer, i stedet for rivaler.");*/
+                        (menus[2][6] as TextBox).Content = "Dette var fagforeningsspillet. Vi håber oplevelsen var lærerig, og du måske vil prøve det igen?\n\n" +
+                                                                "Din slutløn endte på :" + playersalary.ToString() +
+
+                                                                   "\n\nKarl Åge endte med :" + colleagueSalary.ToString() +
+
+                                                                   "\n\nLønnen betyder dog ikke alt, og i burde have fået samme løn gennem en overenskomst. " +
+                                                                "\nSå i burde være gode kollegaer, i stedet for rivaler.";
+                    }
+                    else
+                    {
+                        ReadAnswerContent(0);
+                    }
+                    GetPlayerSalary(currentChoice);
                     move = true;
                     MoveElements();
                     (menus[2][1] as Button).Clicked = false;
@@ -526,7 +546,27 @@ namespace EksamensProjektS2015
                 //Nej
                 if ((menus[2][2] as Button).Clicked && !(menus[2][21] as TextBox).visible && !move)
                 {
-                    ReadAnswerContent(1);
+                    if (currentChoice == 9)
+                    {
+                        /*changeTutorial(2, new Vector2(640, 380), "Dette var fagforeningsspillet. Vi håber oplevelsen var lærerig, og du måske vil prøve det igen?\n\n" +
+                                                                "Din slutløn endte på :" + playersalary.ToString() +
+
+                                                                   "\n\nKarl Åge endte med :" + colleagueSalary.ToString() +
+
+                                                                   "\n\nLønnen betyder dog ikke alt, og i burde have fået samme løn gennem en overenskomst. " +
+                                                                "\nSå i burde være gode kollegaer, i stedet for rivaler.");*/
+                        (menus[2][6] as TextBox).Content = "Dette var fagforeningsspillet. Vi håber oplevelsen var lærerig, og du måske vil prøve det igen?\n\n" +
+                                                                "Din slutløn endte på :" + playersalary.ToString() +
+
+                                                                   "\n\nKarl Åge endte med :" + colleagueSalary.ToString() +
+
+                                                                   "\n\nLønnen betyder dog ikke alt, og i burde have fået samme løn gennem en overenskomst. " +
+                                                                "\nSå i burde være gode kollegaer, i stedet for rivaler.";
+                    }
+                    else
+                    {
+                        ReadAnswerContent(1);
+                    }
                     move = true;
                     MoveElements();
                     (menus[2][2] as Button).Clicked = false;
@@ -535,10 +575,10 @@ namespace EksamensProjektS2015
                 //videre
                 if ((menus[2][7] as Button).Clicked && !move)
                 {
-                    currentValg++;
-                    (menus[2][24] as TimeLine).NewEvent(currentValg);
+                    currentChoice++;
+                    (menus[2][24] as TimeLine).NewEvent(currentChoice);
                     (menus[2][7] as Button).Clicked = false;
-                    switch (currentValg)
+                    switch (currentChoice)
                     {
                         case 5:
                             colleagueSalary = (float)SalaryCalc(0.05, colleagueSalary);
@@ -558,39 +598,30 @@ namespace EksamensProjektS2015
                     }
                     (menus[2][16] as TextBox).Content = "Navn: Karl Åge\nErfaring: 2 år\nLøn: " + colleagueSalary.ToString() + " Kr. \nFagforening: Ja";
                     ReadchoiceContent();
-                    //ReadValgContent(currentValg);
+                    //ReadValgContent(currentChoice);
 
                     move = true;
 
                     MoveElements();
 
-                    if (salaryChance >= SliderPercent && currentValg == 5 || currentValg == 9)
+                    if (salaryChance >= SliderPercent && currentChoice == 5 || currentChoice == 9)
                     {
                         playersalary += playersalary * (SliderPercent / 100);
                         (menus[2][18] as TextBox).Content = "Navn:" + name + "\nErfaring: 0 år\nLøn: " + playersalary + "Kr.\nFagforening: Nej";
                         salaryChance = 0;
                     }
-
-                    if (currentValg == 9)
+                    if(currentChoice == 10)
                     {
-                        //Database.Functions.InsertValues(dbConnHs,dbCommHs,"Player",new string[]{"Name","Point"},new string[]{name,playersalary.ToString()});
                         Database.Functions.ManualFunction(dbConnHs, dbCommHs, "Insert into Player (Name,Point) values ('" + name + "','" + playersalary + "')");
                         MenuToggle();
-
-                        changeTutorial(2, new Vector2(640, 380), "Dette var fagforeningsspillet. Vi håber oplevelsen var lærerig, og du måske vil prøve det igen?\n\n" +
-                                                                 "Din slutløn endte på :" + playersalary.ToString() +
-
-                                                                    "\n\nKarl Åge endte med :" + colleagueSalary.ToString() +
-
-                                                                    "\n\nLønnen betyder dog ikke alt, og i burde have fået samme løn gennem en overenskomst. " +
-                                                                 "\nSå i burde være gode kollegaer, i stedet for rivaler.");
                         menuState = Menu.Highscore;
                         MenuToggle();
-
                     }
-
                 }
-
+                if (!tutActive[2])
+                {
+                    
+                }
                 if ((menus[2][19] as Button).Clicked)
                 {
                     MenuToggle();
@@ -598,7 +629,7 @@ namespace EksamensProjektS2015
                     MenuToggle();
                 }
 
-                if (currentValg == 4 || currentValg == 8)
+                if (currentChoice == 4 || currentChoice == 8)
                 {
                     if (!move)
                     {
@@ -646,7 +677,7 @@ namespace EksamensProjektS2015
                 {
                     MenuToggle();
                     ResetTutorials();
-                    currentValg = 1;
+                    currentChoice = 1;
                     ReadchoiceContent();
                     menuState = Menu.Name;
                     MenuToggle();
@@ -687,7 +718,7 @@ namespace EksamensProjektS2015
 
             }
 #if DEBUG
-            spriteBatch.DrawString(ErasMediumITC14, "Valg: " + currentValg, Vector2.Zero, Color.White);
+            spriteBatch.DrawString(ErasMediumITC14, "Valg: " + currentChoice, Vector2.Zero, Color.White);
 #endif
             spriteBatch.End();
 
@@ -711,7 +742,7 @@ namespace EksamensProjektS2015
         //loads the next choice content.
         public void ReadchoiceContent()
         {
-            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "valg", "ID", currentValg);
+            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "valg", "ID", currentChoice);
 
             while (reader.Read())
             {
@@ -728,7 +759,7 @@ namespace EksamensProjektS2015
             }
 
             //button content.
-            reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", currentValg);
+            reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", currentChoice);
 
             //read and put into array.
             while (reader.Read())
@@ -746,7 +777,7 @@ namespace EksamensProjektS2015
         public void ReadAnswerContent(int index)
         {
             //This reads the consequences
-            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", currentValg);
+            SQLiteDataReader reader = Database.Functions.TableSelectRow(dbConn, dbComm, "konsekvens", "valgID", currentChoice);
             while (reader.Read())
             {
                 conText[row] = reader["konTekst"].ToString();
@@ -822,11 +853,11 @@ namespace EksamensProjektS2015
         }
         public float Lerp(float from, float to, float time)
         {
-            if ((to - from) > -2.5f)
+            if ((to - from) > -5.5f)
             {
                 return (to - from);
             }
-            return (to - from) * time;
+            return (to - from);// *time;
         }
 
         public double GetRandomNumber(double minimum, double maximum)
