@@ -81,10 +81,6 @@ namespace EksamensProjektS2015
         private Vector2 mouseDelta = Vector2.Zero;
         private Vector2 mouseLastPos = Vector2.Zero;
 
-        // Delegates to simplify menu code later in the script
-        delegate void GetFunctions();
-        private GetFunctions[] buttonFuctions;
-
         private string text_situation = "", text_fakta = "", text_A = "", text_B = "", text_konFaktaTekst = "", text_konTekst;
         public int currentChoice = 1;
         private float colleagueSalary = 25000;
@@ -139,11 +135,6 @@ namespace EksamensProjektS2015
 
             KeyboardEvents.KeyTyped += KeyTyped;
             IsMouseVisible = true;
-
-            buttonFuctions = new GetFunctions[]
-            {
-                MenuToggle
-            };
 
             //Main Menu
             menus[0] = new GameObject[5];
@@ -282,10 +273,8 @@ namespace EksamensProjektS2015
 
         protected override void Update(GameTime gameTime)
         {
-
-            if (currentChoice != 1)
             //Checks if it is the first time playing
-            if (currentValg != 1)
+            if (currentChoice != 1)
             {
                 (menus[0][0] as Button).Content = "Fortsæt/Nyt Spil";
             }
@@ -318,15 +307,16 @@ namespace EksamensProjektS2015
             {
                 for (int i = 0; i < 14; i++)
                 {
-                    menus[2][i].Position += new Vector2(0, Lerp(menus[2][i].Position.Y, posistions[i].Y, deltaTime * 2));
+                    menus[2][i].Position += new Vector2(0, Lerp(menus[2][i].Position.Y, posistions[i].Y, deltaTime * 2) - 5);
                     if (i == 13)
                     {
-                        if (menus[2][i].Position.Y == posistions[i].Y)
+                        if (menus[2][i].Position.Y <= posistions[i].Y)
                         {
                             for (int j = 0; j < 14; j++)
                             {
                                 if (menus[2][j].Position.Y + (menus[2][j] as TextBox).size.Y <= 0)
                                 {
+                                    menus[2][j].Position = posistions[j];   // Snap to position
                                     menus[2][j].Position += new Vector2(0, 1440);
                                 }
                             }
@@ -856,11 +846,11 @@ namespace EksamensProjektS2015
         }
         public float Lerp(float from, float to, float time)
         {
-            if ((to - from) > -5.5f)
+            /*if ((to - from) > -5.5f)
             {
                 return (to - from);
-            }
-            return (to - from);// *time;
+            }*/
+            return (to - from) * time;
         }
 
         //Method to get a random number, using a minimum and a maximum value
@@ -933,18 +923,6 @@ namespace EksamensProjektS2015
             {
                 posistions[i] = menus[2][i].Position - new Vector2(0, 720);
             }
-        }
-        private void Choise()
-        {
-
-        }
-        private void Main()
-        {
-
-        }
-        private void Highscore()
-        {
-
         }
     }
 }
