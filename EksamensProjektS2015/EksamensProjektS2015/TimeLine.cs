@@ -36,6 +36,7 @@ namespace EksamensProjektS2015
         public float difference;
         public float distance;
 
+        public bool active = true;
         public float waitTimer = 0;
         #endregion
 
@@ -110,7 +111,7 @@ namespace EksamensProjektS2015
         {
             for (int i = 0; i < 35; i++)
             {
-                sb.DrawString(GameManager.ErasMediumITC14, ""+dates[i], new Vector2(1140,3+ 23* i+posY), Color.White);
+                sb.DrawString(GameManager.ErasMediumITC14, ""+dates[i], new Vector2(1140,3+ 23* i+posY)+position, Color.White);
             }
 
             //Current Day
