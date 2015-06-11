@@ -625,7 +625,6 @@ namespace EksamensProjektS2015
 
                 if ((menus[5][1] as Button).Clicked)
                 {
-
                     MenuToggle();
                     playersalary = 25000;
                     colleagueSalary = 25000;
@@ -916,7 +915,7 @@ namespace EksamensProjektS2015
 
             //Player picture and information
             menus[2][23] = new TextBox(new Vector2(5, 160), "", ErasMediumITC14, Color.White, PlayerPic, new Vector2(170, 0), false);
-            menus[2][18] = new TextBox(new Vector2(5, 345), "" + name.ToString() + "Din Løn: " + playersalary, ErasMediumITC14, Color.White, 0, null, new Vector2(170, 0), false);
+            menus[2][18] = new TextBox(new Vector2(5, 345), "Navn:" + name + "\nErfaring: 0 år\nLøn: " + playersalary + "Kr.\nFagforening: Nej", ErasMediumITC14, Color.White, 0, null, new Vector2(170, 0), false);
 
             menus[2][24] = new Button(new Vector2(-920 + 175, 0), "Menu" + text_B, ArialNarrow48, Color.Black, choice_button, new Vector2(1650, 100), false);
             menus[2][19] = new TextBox(new Vector2(1100, 100), "", ErasMediumITC14, Color.White, TLtest, new Vector2(180, 25), false);
@@ -929,7 +928,7 @@ namespace EksamensProjektS2015
 
             (menus[2][21] as TextBox).visible = false;
             (menus[2][22] as Button).visible = false;
-            (menus[0][0] as Button).Content = "Spil igen";
+            (menus[0][0] as Button).Content = "Nyt Spil";
         }
     }
 }
