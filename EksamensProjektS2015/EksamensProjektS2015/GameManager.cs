@@ -459,20 +459,7 @@ namespace EksamensProjektS2015
                 //JA
                 if ((menus[2][1] as Button).Clicked && !(menus[2][21] as TextBox).visible && !move)
                 {
-                    if (currentChoice == 9)
-                    {
-                        (menus[2][8] as TextBox).Content = "Dette var fagforeningsspillet. Vi håber oplevelsen var lærerig, og du måske vil prøve det igen?\n\n" +
-                                                                "Din slutløn endte på :" + playersalary.ToString() +
-
-                                                                   "\n\nKarl Åge endte med :" + colleagueSalary.ToString() +
-
-                                                                   "\n\nLønnen betyder dog ikke alt, og i burde have fået samme løn gennem en overenskomst. " +
-                                                                "\nSå i burde være gode kollegaer, i stedet for rivaler.";
-                    }
-                    else
-                    {
                         ReadAnswerContent(0);
-                    }
                     GetPlayerSalary(currentChoice);
                     move = true;
                     MoveElements();
@@ -482,20 +469,7 @@ namespace EksamensProjektS2015
                 //Nej
                 if ((menus[2][2] as Button).Clicked && !(menus[2][21] as TextBox).visible && !move)
                 {
-                    if (currentChoice == 9)
-                    {
-                        (menus[2][8] as TextBox).Content = "Dette var fagforeningsspillet. Vi håber oplevelsen var lærerig, og du måske vil prøve det igen?\n\n" +
-                                                                "Din slutløn endte på :" + playersalary.ToString() +
-
-                                                                   "\n\nKarl Åge endte med :" + colleagueSalary.ToString() +
-
-                                                                   "\n\nLønnen betyder dog ikke alt, og i burde have fået samme løn gennem en overenskomst. " +
-                                                                "\nSå i burde være gode kollegaer, i stedet for rivaler.";
-                    }
-                    else
-                    {
-                        ReadAnswerContent(1);
-                    }
+                    ReadAnswerContent(1);
                     move = true;
                     MoveElements();
                     (menus[2][2] as Button).Clicked = false;
@@ -510,16 +484,16 @@ namespace EksamensProjektS2015
                     switch (currentChoice)
                     {
                         case 5:
-                            colleagueSalary = (float)SalaryCalc(0.1, colleagueSalary);
+                            colleagueSalary = (float)SalaryCalc(0.3, colleagueSalary);
                             break;
                         case 12:
-                            colleagueSalary = (float)SalaryCalc(0.1, colleagueSalary);
+                            colleagueSalary = (float)SalaryCalc(0.3, colleagueSalary);
                             break;
                         case 18:
-                            colleagueSalary = (float)SalaryCalc(0.1, colleagueSalary);
+                            colleagueSalary = (float)SalaryCalc(0.3, colleagueSalary);
                             break;
                         case 26:
-                            colleagueSalary = (float)SalaryCalc(0.1, colleagueSalary);
+                            colleagueSalary = (float)SalaryCalc(0.3, colleagueSalary);
                             break;
 
                         default:
@@ -543,16 +517,11 @@ namespace EksamensProjektS2015
                         (menus[2][18] as TextBox).Content = "Navn:" + name + "\nErfaring: 0 år\nLøn: " + playersalary + "Kr.\nFagforening: Nej";
                         salaryChance = 0;
                     }
-
-                    if (currentChoice >= 9)
-                    {
-                        Database.Functions.ManualFunction(dbConnHs, dbCommHs, "Insert into Player (Name,Point) values ('" + name + "','" + playersalary + "')");
-                    }
                 }
 
                 if(currentChoice >= 9)
                 {
-
+                    
                     if (menus[2][0].Position.Y > -1000)
                     {
                         for (int i = 0; i < menus[2].Length-1; i++)
@@ -568,6 +537,7 @@ namespace EksamensProjektS2015
                 {
                     if (currentChoice >= 9)
                     {
+                        Database.Functions.ManualFunction(dbConnHs, dbCommHs, "Insert into Player (Name,Point) values ('" + name + "','" + playersalary + "')");
                         currentChoice = 1;
                     }
 
@@ -660,7 +630,7 @@ namespace EksamensProjektS2015
                 gameObjects[i].Draw(spriteBatch);
             }
             // spriteBatch.Draw(arrow, new Rectangle(1110, 124, 16, 16), Color.White);
-            if (menuState.Equals(Menu.Choice) && currentChoice != 9)
+            if (menuState.Equals(Menu.Choice) && currentChoice < 9)
             {
                 spriteBatch.DrawString(ErasMediumITC14, "Din Kollega", new Vector2(40, 430), Color.DarkRed);
                 spriteBatch.DrawString(ErasMediumITC14, "Dig", new Vector2(75, 140), Color.DarkRed);
