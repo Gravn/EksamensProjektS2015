@@ -10,18 +10,8 @@ namespace EksamensProjektS2015
 {
     public class Button : TextBox
     {
+        #region variables
         public Rectangle bounds;
-
-        public Button(Vector2 position,string content,SpriteFont font,Color fontColor,Texture2D texture,Vector2 size,bool fill):base(position,content,font,fontColor,texture,size,fill)
-        {
-            
-        }
-
-        public Button()
-        {
-        
-        }
-
 
         private bool clicked = false;
 
@@ -36,6 +26,18 @@ namespace EksamensProjektS2015
         {
             get { return pressed; }
             set { pressed = value; }
+        }
+        #endregion
+
+        //Constructor for the button
+        public Button(Vector2 position,string content,SpriteFont font,Color fontColor,Texture2D texture,Vector2 size,bool fill):base(position,content,font,fontColor,texture,size,fill)
+        {
+            
+        }
+
+        public Button()
+        {
+        
         }
 
         public override void Update(float deltaTime)
@@ -65,18 +67,21 @@ namespace EksamensProjektS2015
             base.Update(deltaTime);
         }
 
+        //Adds an effect when you hover over a button
         public void Hover()
         {
             backGroundColor = Color.LightGray;
             //content = "Hover: P:" + pressed + " c:" + clicked;
         }
 
+        //Normal effect for the button
         public void Normal()
         {
             backGroundColor = Color.White;
             //content = "Normal: P:"+pressed+" c:"+clicked;
         }
 
+        //adds an effect when you press a button
         public void MouseDown()
         {
             backGroundColor = Color.Gray;

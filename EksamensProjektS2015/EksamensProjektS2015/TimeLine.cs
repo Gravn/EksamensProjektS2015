@@ -10,6 +10,7 @@ namespace EksamensProjektS2015
 {
     class TimeLine : GameObject
     {
+        #region variables
         public string[] dates = new string[35];
         public float posY;
         
@@ -36,7 +37,9 @@ namespace EksamensProjektS2015
         public float distance;
 
         public float waitTimer = 0;
+        #endregion
 
+        //Timeline contructor
         public TimeLine(Vector2 position)
             : base(position)
         {
@@ -45,6 +48,7 @@ namespace EksamensProjektS2015
             targetDate = events[0];
         }
 
+        //Jumps to a new event on the timeline
         public void NewEvent(int i)
         {
             if (i < events.Length)

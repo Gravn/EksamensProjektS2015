@@ -9,6 +9,8 @@ namespace EksamensProjektS2015
 {
     public class TextBox : GameObject
     {
+
+        #region variables
         private string content = "Default";
 
         public string Content
@@ -27,7 +29,9 @@ namespace EksamensProjektS2015
         public bool fill = true;
         public Vector2 size = Vector2.Zero;
         public Texture2D texture;
+        #endregion
 
+        //Constructor for the textbox
         public TextBox(Vector2 position,string content, SpriteFont font, Color fontColor, Texture2D texture, Vector2 size, bool fill) : base(position)
         {
             this.content = content;
@@ -38,6 +42,7 @@ namespace EksamensProjektS2015
             this.fill = fill;
         }
 
+        //Constructor for the textbox, with text alignment
         public TextBox(Vector2 position, string content, SpriteFont font, Color fontColor, int allignment, Texture2D texture, Vector2 size, bool fill) : base(position)
         {
             this.content = content;
