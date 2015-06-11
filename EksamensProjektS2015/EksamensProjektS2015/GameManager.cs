@@ -45,8 +45,6 @@ namespace EksamensProjektS2015
         public static SpriteFont CopperPlateGothicLight48;
         public static SpriteFont CopperPlateGothicLight36;
 
-        private Vector2[] posistions;
-
         //textures used in the game
         public Texture2D arrow;
         public Texture2D inputBox;
@@ -69,6 +67,8 @@ namespace EksamensProjektS2015
         private Vector2[] tutorialPos = new Vector2[10];
         private bool[] tutActive = new bool[5] { true, true, true, true, true };
         private int currentTutorial = 0;
+
+        private Vector2[] posistions;
 
         private float salaryChance = 0;
         public float SliderPercent = 0;
@@ -267,9 +267,7 @@ namespace EksamensProjektS2015
             // TODO: Unload any non ContentManager content here
         }
 
-        public float vScroll = 0;
         public bool move = false;
-
 
         protected override void Update(GameTime gameTime)
         {
@@ -280,47 +278,31 @@ namespace EksamensProjektS2015
             }
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            /*if (vScroll < 720)
-            {
-                if (move == true)
-                {
-                    //menus[2][i].Position -= new Vector2(0, 400 * deltaTime);
-                    vScroll += 600 * deltaTime;
-
-                    for (int i = 0; i < 14; i++)
-                    {
-                        menus[2][i].Position -= new Vector2(0, 600 * deltaTime);
-                        if (menus[2][i].Position.Y < -220)
-                        {
-                            menus[2][i].Position += new Vector2(0, 1440);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                move = false;
-                vScroll = 0;
-            }*/
+            // Scrolling
             if (move)
             {
+                // Get all moveable items
                 for (int i = 0; i < 14; i++)
                 {
+                    // Move the items upwards
                     menus[2][i].Position += new Vector2(0, Lerp(menus[2][i].Position.Y, posistions[i].Y, deltaTime * 2) - 5);
+                    // Check if the last item is being checked
                     if (i == 13)
                     {
+                        // Check if the last item has reached its destination
                         if (menus[2][i].Position.Y <= posistions[i].Y)
                         {
+                            // Get all the items again
                             for (int j = 0; j < 14; j++)
                             {
+                                // All items that has past the top boundry, get returned to bottom
                                 if (menus[2][j].Position.Y + (menus[2][j] as TextBox).size.Y <= 0)
                                 {
                                     menus[2][j].Position = posistions[j];   // Snap to position
                                     menus[2][j].Position += new Vector2(0, 1440);
                                 }
                             }
-                            move = false;
+                            move = false;   // Disable move
                         }
                     }
                 }
@@ -508,13 +490,6 @@ namespace EksamensProjektS2015
                 {
                     if (currentChoice == 9)
                     {
-                        /*changeTutorial(2, new Vector2(640, 380), "Dette var fagforeningsspillet. Vi håber oplevelsen var lærerig, og du måske vil prøve det igen?\n\n" +
-                                                                "Din slutløn endte på :" + playersalary.ToString() +
-
-                                                                   "\n\nKarl Åge endte med :" + colleagueSalary.ToString() +
-
-                                                                   "\n\nLønnen betyder dog ikke alt, og i burde have fået samme løn gennem en overenskomst. " +
-                                                                "\nSå i burde være gode kollegaer, i stedet for rivaler.");*/
                         (menus[2][6] as TextBox).Content = "Dette var fagforeningsspillet. Vi håber oplevelsen var lærerig, og du måske vil prøve det igen?\n\n" +
                                                                 "Din slutløn endte på :" + playersalary.ToString() +
 
@@ -538,13 +513,6 @@ namespace EksamensProjektS2015
                 {
                     if (currentChoice == 9)
                     {
-                        /*changeTutorial(2, new Vector2(640, 380), "Dette var fagforeningsspillet. Vi håber oplevelsen var lærerig, og du måske vil prøve det igen?\n\n" +
-                                                                "Din slutløn endte på :" + playersalary.ToString() +
-
-                                                                   "\n\nKarl Åge endte med :" + colleagueSalary.ToString() +
-
-                                                                   "\n\nLønnen betyder dog ikke alt, og i burde have fået samme løn gennem en overenskomst. " +
-                                                                "\nSå i burde være gode kollegaer, i stedet for rivaler.");*/
                         (menus[2][6] as TextBox).Content = "Dette var fagforeningsspillet. Vi håber oplevelsen var lærerig, og du måske vil prøve det igen?\n\n" +
                                                                 "Din slutløn endte på :" + playersalary.ToString() +
 
@@ -819,13 +787,6 @@ namespace EksamensProjektS2015
             }
         }
 
-        public void MenuNavigation(Menu menu)
-        {
-            MenuToggle();
-            menuState = menu;
-            MenuToggle();
-        }
-
         //Makes the tutorial box
         private void changeTutorial(int tutNumber, Vector2 position, string text)
         {
@@ -846,10 +807,6 @@ namespace EksamensProjektS2015
         }
         public float Lerp(float from, float to, float time)
         {
-            /*if ((to - from) > -5.5f)
-            {
-                return (to - from);
-            }*/
             return (to - from) * time;
         }
 
